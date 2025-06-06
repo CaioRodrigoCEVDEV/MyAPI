@@ -396,7 +396,47 @@ GRANT ALL ON TABLE public.vw_saldo TO postgres;
 ```
 
 ---
+# 💰 View Receita VS Despesas | ANUAL
 
+```sql
+CREATE OR REPLACE VIEW public.vw_receita_vs_despesa_anual
+AS SELECT doc.docusucod,
+    doc.docnatcod,
+    to_char(date_trunc('month'::text, doc.docdtpag::timestamp with time zone), 'YYYY-MM'::text) AS mes,
+    sum(doc.docv) AS total
+   FROM doc
+  WHERE date_part('year'::text, doc.docdtpag) = date_part('year'::text, CURRENT_DATE)
+  GROUP BY doc.docusucod, doc.docnatcod, (date_trunc('month'::text, doc.docdtpag::timestamp with time zone))
+  ORDER BY doc.docusucod, doc.docnatcod, (to_char(date_trunc('month'::text, doc.docdtpag::timestamp with time zone), 'YYYY-MM'::text));
+
+-- Permissions
+
+ALTER TABLE public.vw_receita_vs_despesa_anual OWNER TO postgres;
+GRANT ALL ON TABLE public.vw_receita_vs_despesa_anual TO postgres;
+```
+
+---
+
+# 💰 View Orçado VS Realizado | ANUAL
+
+```sql
+CREATE OR REPLACE VIEW public.vw_orcado_vs_realizado_anual
+AS SELECT doc.docusucod,
+    doc.docsta,
+    to_char(date_trunc('month'::text, doc.docdtpag::timestamp with time zone), 'YYYY-MM'::text) AS mes,
+    sum(doc.docv) AS total
+   FROM doc
+  WHERE date_part('year'::text, doc.docdtpag) = date_part('year'::text, CURRENT_DATE) AND doc.docnatcod = 1
+  GROUP BY doc.docusucod, doc.docsta, (date_trunc('month'::text, doc.docdtpag::timestamp with time zone))
+  ORDER BY doc.docusucod, doc.docsta, (to_char(date_trunc('month'::text, doc.docdtpag::timestamp with time zone), 'YYYY-MM'::text));
+
+-- Permissions
+
+ALTER TABLE public.vw_orcado_vs_realizado_anual OWNER TO postgres;
+GRANT ALL ON TABLE public.vw_orcado_vs_realizado_anual TO postgres;
+```
+
+---
 ## 🔐 Variáveis de Ambiente
 
 Exemplo `.env`:
