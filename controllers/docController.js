@@ -43,6 +43,18 @@ exports.listarDocsAnual = async (req, res) => {
     }
 };
 
+
+exports.listarDocsPvsRAnual = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const result = await pool.query('select * from vw_orcado_vs_realizado_anual where docusucod = $1', [id]);
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro ao listar documentos' });
+    }
+};
+
 exports.listarDocsReceitas = async (req, res) => {
     try {
         const natureza = "Receita"
