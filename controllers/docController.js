@@ -120,7 +120,7 @@ exports.listarDocsDespesasUser = async (req, res) => {
             'join tc on tccod = doctccod ' +
             'join conta on contacod = doccontacod ' +
             'left join categoria on catcod = doccatcod ' +
-            'where natdes = $1 and docusucod = $2 and docsta <> $3', [natureza, id,ex]);
+            'where natdes = $1 and docusucod = $2 and docsta <> $3 order by doccod desc', [natureza, id,ex]);
         res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);
@@ -139,7 +139,7 @@ exports.listarDocsReceitasUser = async (req, res) => {
             'join tc on tccod = doctccod ' +
             'join conta on contacod = doccontacod ' +
             'left join categoria on catcod = doccatcod ' +
-            'where natdes = $1 and docusucod = $2 and docsta <> $3', [natureza, id,ex]);
+            'where natdes = $1 and docusucod = $2 and docsta <> $3 order by doccod desc', [natureza, id,ex]);
         res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);
