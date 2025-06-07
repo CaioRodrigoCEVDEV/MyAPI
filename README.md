@@ -373,26 +373,18 @@ As permissões foram definidas para garantir o controle de acesso:
 # 💰 View Saldo
 
 ```sql
-CREATE OR REPLACE VIEW public.vw_saldo
-AS SELECT usu,
-    conta_saldo + credito - debito AS saldo_final
-   FROM ( SELECT c.contausucod AS usu,
-            COALESCE(sum(c.contavltotal), 0::numeric) AS conta_saldo,
-            ( SELECT COALESCE(sum(d.docv), 0::numeric) AS "coalesce"
-                   FROM doc d
-                     JOIN conta c2 ON d.doccontacod = c2.contacod
-                  WHERE d.docusucod = c.contausucod AND COALESCE(d.docnatcod, 0) = 2  AND d.docsta = 'BA') AS credito,
-            ( SELECT COALESCE(sum(d.docv), 0::numeric) AS "coalesce"
-                   FROM doc d
-                     JOIN conta c2 ON d.doccontacod = c2.contacod
-                  WHERE d.docusucod = c.contausucod AND COALESCE(d.docnatcod, 0) = 1  AND d.docsta = 'BA') AS debito
-           FROM conta c
-          GROUP BY c.contausucod) saldo_geral;
+-- public.vw_saldo_contas fonte
+
+CREATE OR REPLACE VIEW public.vw_saldo_contas
+AS SELECT c.contausucod AS usu,
+    COALESCE(sum(c.contavltotal), 0::numeric) AS contas_saldo
+   FROM conta c
+  GROUP BY c.contausucod;
 
 -- Permissions
 
-ALTER TABLE public.vw_saldo OWNER TO postgres;
-GRANT ALL ON TABLE public.vw_saldo TO postgres;
+ALTER TABLE public.vw_saldo_contas OWNER TO postgres;
+GRANT ALL ON TABLE public.vw_saldo_contas TO postgres;
 ```
 
 ---
