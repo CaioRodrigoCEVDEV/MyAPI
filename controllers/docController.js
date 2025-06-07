@@ -17,27 +17,23 @@ exports.criarDoc = async (req, res) => {
     }
 
     try{
-        if (docnatcod === 2 ){
-        const atualizarContaReceita = await pool.query(
-            'update conta set contavltotal = contavltotal + $1 where contacod = $2 and contausucod = $3',[valor,doccontacod,docusucod]
-        );
+        if (docnatcod === 2 && docsta === 'BA') {
+            const atualizarContaReceita = await pool.query(
+                'update conta set contavltotal = contavltotal + $1 where contacod = $2 and contausucod = $3', [valor, doccontacod, docusucod]
+            );
 
-        res.status(201).json(atualizarContaReceita.rows[0]);
-        }else{
+            res.status(201).json(atualizarContaReceita.rows[0]);
+        } else if (docnatcod === 1 && docsta === 'BA') {
             const atualizarContaDespesa = await pool.query(
-            'update conta set contavltotal = contavltotal - $1 where contacod = $2 and contausucod = $3',[valor,doccontacod,docusucod]
-        );
-        res.status(201).json(atualizarContaDespesa.rows[0]);
+                'update conta set contavltotal = contavltotal - $1 where contacod = $2 and contausucod = $3', [valor, doccontacod, docusucod]
+            );
+            res.status(201).json(atualizarContaDespesa.rows[0]);
         }
 
     } catch (error){
         console.error(error);
         res.status(500).json({error: 'Erro ao atualizar saldo da conta'})
     }
-
-
-
-
 };
 
 exports.listarDocs = async (req, res) => {
@@ -156,23 +152,27 @@ exports.deletarDoc = async (req, res) => {
     const { id } = req.params;
     const ex = 'EX';
     try {
+        const staAnteriorResult = await pool.query('select docsta from doc where doccod = $1', [id]);
+        const staAnterior = staAnteriorResult.rows[0];
+        console.log(staAnterior);
         const result = await pool.query('update doc set docsta = $1 WHERE doccod = $2 RETURNING *', [ex, id]);
         if (result.rows.length === 0) return res.status(404).json({ error: 'Documento não encontrado' });
 
-        const lancamentoexResult = await pool.query('select docv,doccontacod,docnatcod,docusucod from doc where doccod = $1', [id]);
+        const lancamentoexResult = await pool.query('select docv,doccontacod,docnatcod,docusucod,docsta from doc where doccod = $1', [id]);
         const lancamentoex = lancamentoexResult.rows[0];
+
 
         if (!lancamentoex) {
             return res.status(404).json({ error: 'Lançamento não encontrado' });
         }
 
         try {
-            if (lancamentoex.docnatcod === 2) {
+            if (lancamentoex.docnatcod === 2 && staAnterior.docsta === 'BA') {
                 await pool.query(
                     'update conta set contavltotal = contavltotal - $1 where contacod = $2 and contausucod = $3',
                     [lancamentoex.docv, lancamentoex.doccontacod, lancamentoex.docusucod]
                 );
-            } else {
+            } else if (lancamentoex.docnatcod === 1 && staAnterior.docsta === 'BA'){
                 await pool.query(
                     'update conta set contavltotal = contavltotal + $1 where contacod = $2 and contausucod = $3',
                     [lancamentoex.docv, lancamentoex.doccontacod, lancamentoex.docusucod]
