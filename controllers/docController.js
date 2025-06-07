@@ -15,6 +15,29 @@ exports.criarDoc = async (req, res) => {
         console.error(error);
         res.status(500).json({ error: 'Erro ao inserir documento' });
     }
+
+    try{
+        if (docnatcod === 2 ){
+        const atualizarContaReceita = await pool.query(
+            'update conta set contavltotal = contavltotal + $1 where contacod = $2 and contausucod = $3',[valor,doccontacod,docusucod]
+        );
+
+        res.status(201).json(atualizarContaReceita.rows[0]);
+        }else{
+            const atualizarContaDespesa = await pool.query(
+            'update conta set contavltotal = contavltotal - $1 where contacod = $2 and contausucod = $3',[valor,doccontacod,docusucod]
+        );
+        res.status(201).json(atualizarContaDespesa.rows[0]);
+        }
+
+    } catch (error){
+        console.error(error);
+        res.status(500).json({error: 'Erro ao atualizar saldo da conta'})
+    }
+
+
+
+
 };
 
 exports.listarDocs = async (req, res) => {
