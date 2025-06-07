@@ -39,10 +39,10 @@ exports.criarDoc = async (req, res) => {
 exports.listarDocs = async (req, res) => {
     const { id } = req.params;
     try {
-        const result = await pool.query('select doccod, docsta, tcdes, natdes, docv, docobs,contades,catdes from doc join natureza on natcod = docnatcod ' +
-            'join tc on tccod = doctccod ' +
-            'join conta on contacod = doccontacod ' +
-            'left join categoria on catcod = doccatcod where docusucod = $1', [id]);
+        const result = await pool.query("select doccod, docsta, case when tcdes is null then '' else tcdes end as tcdes,  natdes, docv, docobs,contades,case when catdes is null then '' else catdes end as catdes from doc join natureza on natcod = docnatcod " +
+            "left join tc on tccod = doctccod " +
+            "left join conta on contacod = doccontacod " +
+            "left join categoria on catcod = doccatcod where docusucod = $1 order by doccod desc", [id]);
         res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);
