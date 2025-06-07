@@ -16,6 +16,7 @@ const contaRoutes = require('./routes/contaRoutes');
 const contaTipoRoutes = require('./routes/contaTipoRoutes');
 const categoriaController = require('./routes/categoriaRoutes');
 const naturezaController = require('./routes/naturezaRoutes');
+const transfController = require('./routes/transfRoutes');
 const app = express();
 
 
@@ -67,6 +68,7 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(transfController);
 app.use(naturezaController);
 app.use(categoriaController);
 app.use(contaTipoRoutes);

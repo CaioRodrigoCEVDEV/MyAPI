@@ -40,8 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 document
-  .getElementById("meuFormulario")
-  .addEventListener("submit", async function (e) {
+  .getElementById("meuFormulario").addEventListener("submit", async function (e) {
     e.preventDefault();
 
     const form = e.target;
@@ -49,45 +48,30 @@ document
     const data = Object.fromEntries(formData.entries());
     const alerta = document.getElementById("alerta-sucess");
 
-    // Se docsta estiver vazio, define como "LA"
-    if (!data.docsta || data.docsta.trim() === "") {
-      data.docsta = "LA";
-    }
-
-    // Buscar o código da natureza específica para 'Despesa'
     try {
-      const natRes = await fetch(`${BASE_URL}/natureza/receita`);
-      if (!natRes.ok) throw new Error("Erro ao buscar natureza");
-      const natData = await natRes.json();
-      if (Array.isArray(natData) && natData.length > 0) {
-        data.docnatcod = natData[0].natcod;
-      } else {
-        console.error("Nenhuma natureza encontrada com natdes = 'D'");
-        return;
+      const userRes = await fetch('/api/dadosUserLogado');
+      const dados = await userRes.json();
+      const docusucodElem = document.getElementById("docusucod");
+      if (docusucodElem) {
+        docusucodElem.value = dados.usucod;
       }
-    } catch (err) {
-      console.error(err);
-      return;
-    }
+      console.log(data);
 
-    fetch(`${BASE_URL}/doc`, {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((resposta) => {
-        form.reset();
-      })
-      .catch((erro) => {
-        alert("Erro ao salvar os dados.");
-        console.error(erro);
+      await fetch(`${BASE_URL}/transferencia/${dados.usucod}`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       });
 
-    alerta.style.display = "block";
-    alerta.innerHTML = "Lançado com sucesso!";
-    setTimeout(() => {
-      alerta.style.display = "none";
-    }, 2000);
+      form.reset();
+      alerta.style.display = "block";
+      alerta.innerHTML = "Lançado com sucesso!";
+      setTimeout(() => {
+        alerta.style.display = "none";
+      }, 2000);
+    } catch (erro) {
+      alert("Erro ao salvar os dados.");
+      console.error(erro);
+    }
   });
