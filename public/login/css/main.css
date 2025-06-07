@@ -474,3 +474,36 @@ iframe {
     padding-right: 15px;
   }
 } 
+.google-login-button {
+    display: block; /* Mudei de 'flex' para 'block' para que 'margin: auto' funcione para o elemento inteiro */
+    margin: 20px auto; /* Adicionado margem superior/inferior e centralização horizontal */
+    align-items: center; /* Ainda necessário para alinhar o conteúdo interno quando se usa 'display: flex' */
+    justify-content: center; /* Ainda necessário para alinhar o conteúdo interno */
+    width: 250px;
+    padding: 10px 15px;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #3c4043;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.google-login-button:hover {
+    background-color: #f8f9fa;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.google-login-button:active {
+    background-color: #e8eaed;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
+}
+
+.google-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
