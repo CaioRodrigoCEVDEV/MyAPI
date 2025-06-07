@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Ulife UCtrl</title>
+    <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon">
+    <link href="../css/styles-bootstrap.css" rel="stylesheet" />
+    <!--Fonte de icones \v/-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="sb-nav-fixed">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-medium-blue-rgb">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" href="dash">
+            <img src="../img/logo-tamanho-normal.png" width="30" height="30" alt="">
+            Ulife UCtrl
+        </a>
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
+            <i class="fas fa-bars"></i>
+        </button>
+        <!-- Navbar Search-->
+        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            <div class="input-group">
+                <label style="color: aliceblue;" id="cronometro"></label>
+            </div>
+        </form>
+        <!-- Navbar esquerda usuario configs-->
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="perfil">Configurações</a></li>
+                    <li>
+                        <hr class="dropdown-divider" />
+                    </li>
+                    <li><a  class="dropdown-item" id="buttonSair">sair</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <div id="layoutSidenav">
+        <!-- Sidebar  >>>>>  html/sidebar.hmtl-->
+        <div id="sidebar-container"></div>
+         <!-- Sidebar  >>>>>  html/sidebar.hmtl-->
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="row">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h3> <i class="fa-solid fa-list-ul"></i></i><!--Aqui o nome da pagina--> Transferência entre contas
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <!--Aqui o conteudo da Pagina-->
+                         <form id="meuFormulario">
+                                        <input id="usucod" type="hidden" name="docusucod" value="">
+                                        <input id="docdtlan" type="hidden" name="docdtlan" value="">
+
+
+                                        <div class="form-group">
+                                            <label>Valor:</label>
+                                            <input id="docv" type="text" name="docv" class="form-control" required
+                                                placeholder="R$ 0,00">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Data</label>
+                                            
+                                            <div class="form-group">
+
+                                                <input id="docdtpag" type="date" name="docdtpag" class="form-control"
+                                                    required>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Conta origem:</label>
+                                            <select id="contacod" name="doccontacod" class="form-control" required>
+                                                <option value="" hidden>Selecione</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Conta destino:</label>
+                                            <select id="contacod" name="doccontacod" class="form-control" required>
+                                                <option value="" hidden>Selecione</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label>Observações (opcional):</label>
+                                            <textarea name="docobs" rows="2" class="form-control"
+                                                placeholder="Informações complementares"></textarea>
+                                        </div>
+
+                                        
+
+                                        <div class="form-group">
+                                            <button class="btn btn-success" type="submit">Salvar</button>
+                                        </div>
+
+                                        <br>
+                                        <div class="alert alert-success" id="alerta-sucess" style="display: none;">
+                                        </div>
+                                    </form>
+                    </div>
+                </div>
+
+
+
+        </div>
+    </div>
+    </main>
+
+    </div>
+    </div>
+    <!--Nossos Scripts-->
+
+    <script src="/config.js"></script>
+    <script src="../js/cronometro.js"></script>
+    <script src="../js/sidebar.js" ></script>  
+    <script src="../js/logout.js"></script>  
+    <!--Bootstrap Scripts-->
+    <script src="../js/scripts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+        crossorigin="anonymous"></script>
+    <!--Fim Bootstrap-->
+
+    <!--Demo dos graficos começo-->
+    <!-- <script src="../../dist/assets/demo/chart-area-demo.js"></script>
+    <script src="../../dist/assets/demo/chart-pie-demo.js"></script>
+    Fim-->
+    <!-- <script src="../../src/js/datatables-simple-demo.js"></script>Organiza a tabela --> -->
+
+
+
+</body>
+
+</html>

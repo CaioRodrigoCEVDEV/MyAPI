@@ -99,6 +99,9 @@ app.get('/lancamento_receita', autenticarToken, (req, res) => {
 app.get('/lancamento_despesa', autenticarToken, (req, res) => {
   res.sendFile(__dirname + '/public/html/lancamento_despesa.html')
 });
+app.get('/transf', (req, res) => {
+  res.sendFile(__dirname + '/public/html/transf.html')
+});
 
 app.get('/page', autenticarToken, (req, res) => {
   res.sendFile(__dirname + '/public/html/page.html')
