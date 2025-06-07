@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(dados => {
             const saldo = document.getElementById("saldo");
 
-            if (dados.length > 0 && dados[0].saldo_final) {
-                const valor = parseFloat(dados[0].saldo_final);
+            if (dados.length > 0 && dados[0].contas_saldo) {
+                const valor = parseFloat(dados[0].contas_saldo);
                 saldo.innerText = valor.toLocaleString('pt-BR', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
