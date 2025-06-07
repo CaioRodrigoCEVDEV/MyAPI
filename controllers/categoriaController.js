@@ -38,9 +38,8 @@ exports.listarcatTodosReceita = async (req, res) => {
 exports.listarcatTodosDespesa = async (req, res) => {
     const { id } = req.params;
     const D = "D";
-    const ex = "EX"
     try {
-        const result = await pool.query('select catcod,catdes,cattipo from categoria where cattipo = $1 and catusucod = $2 and docsta <> $3 order by catcod', [D,id,ex]);
+        const result = await pool.query('select catcod,catdes,cattipo from categoria where cattipo = $1 and catusucod = $2 order by catcod', [D,id]);
         res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);
