@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // Deletar
 window.deletar = function (id) {
   fetch(`${BASE_URL}/doc/${id}`, {
-    method: "DELETE",
+    method: "PUT",
     credentials: "include", // Inclui cookies na requisição, se necessário
     headers: { "Content-Type": "application/json" },
   })

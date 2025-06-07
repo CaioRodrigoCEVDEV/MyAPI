@@ -11,7 +11,7 @@ router.get('/doc/receitas',autenticarToken, docController.listarDocsReceitas);
 router.get('/doc/despesas',autenticarToken, docController.listarDocsDespesas);
 router.get('/doc/despesas/:id',autenticarToken, docController.listarDocsDespesasUser);
 router.get('/doc/receitas/:id',autenticarToken, docController.listarDocsReceitasUser);
-router.delete('/doc/:id',autenticarToken, docController.deletarDoc);
+router.put('/doc/:id',autenticarToken, docController.deletarDoc);
 router.delete('/doc',autenticarToken, docController.deletarTodos);
 
 module.exports = router;

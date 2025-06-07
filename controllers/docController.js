@@ -80,13 +80,14 @@ exports.listarDocsPvsRAnual = async (req, res) => {
 
 exports.listarDocsReceitas = async (req, res) => {
     try {
-        const natureza = "Receita"
+        const natureza = "Receita";
+        const ex = "EX";
         const result = await pool.query('select doccod, docsta, tcdes, natdes, docv, docobs,contades,catdes from doc ' +
             'join natureza on natcod = docnatcod ' +
             'join tc on tccod = doctccod ' +
             'join conta on contacod = doccontacod ' +
             'left join categoria on catcod = doccatcod ' +
-            'where natdes = $1', [natureza]);
+            'where natdes = $1 and docsta <> $2', [natureza,ex]);
         res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);
@@ -96,13 +97,14 @@ exports.listarDocsReceitas = async (req, res) => {
 
 exports.listarDocsDespesas = async (req, res) => {
     try {
-        const natureza = "Despesa"
+        const natureza = "Despesa";
+        const ex = "EX";
         const result = await pool.query('select docusucod,doccod, docsta, tcdes, natdes, docv, docobs,contades,catdes from doc ' +
             'join natureza on natcod = docnatcod ' +
             'join tc on tccod = doctccod ' +
             'join conta on contacod = doccontacod ' +
             'left join categoria on catcod = doccatcod ' +
-            'where natdes = $1', [natureza]);
+            'where natdes = $1 and docsta <> $2', [natureza,ex]);
         res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);
@@ -116,12 +118,13 @@ exports.listarDocsDespesasUser = async (req, res) => {
     const { id } = req.params;
     try {
         const natureza = "Despesa"
+        const ex = "EX";
         const result = await pool.query('select docusucod,doccod, docsta, tcdes,docdtlan,docdtpag ::date, natdes, docv, docobs,contades,catdes from doc ' +
             'join natureza on natcod = docnatcod ' +
             'join tc on tccod = doctccod ' +
             'join conta on contacod = doccontacod ' +
             'left join categoria on catcod = doccatcod ' +
-            'where natdes = $1 and docusucod = $2', [natureza, id]);
+            'where natdes = $1 and docusucod = $2 and docsta <> $3', [natureza, id,ex]);
         res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);
@@ -134,12 +137,13 @@ exports.listarDocsReceitasUser = async (req, res) => {
     const { id } = req.params;
     try {
         const natureza = "Receita"
+        const ex = "EX";
         const result = await pool.query('select docusucod,doccod, docsta, tcdes,docdtlan,docdtpag ::date, natdes, docv, docobs,contades,catdes from doc ' +
             'join natureza on natcod = docnatcod ' +
             'join tc on tccod = doctccod ' +
             'join conta on contacod = doccontacod ' +
             'left join categoria on catcod = doccatcod ' +
-            'where natdes = $1 and docusucod = $2', [natureza, id]);
+            'where natdes = $1 and docusucod = $2 and docsta <> $3', [natureza, id,ex]);
         res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);
@@ -150,9 +154,35 @@ exports.listarDocsReceitasUser = async (req, res) => {
 
 exports.deletarDoc = async (req, res) => {
     const { id } = req.params;
+    const ex = 'EX';
     try {
-        const result = await pool.query('DELETE FROM doc WHERE doccod = $1 RETURNING *', [id]);
+        const result = await pool.query('update doc set docsta = $1 WHERE doccod = $2 RETURNING *', [ex, id]);
         if (result.rows.length === 0) return res.status(404).json({ error: 'Documento não encontrado' });
+
+        const lancamentoexResult = await pool.query('select docv,doccontacod,docnatcod,docusucod from doc where doccod = $1', [id]);
+        const lancamentoex = lancamentoexResult.rows[0];
+
+        if (!lancamentoex) {
+            return res.status(404).json({ error: 'Lançamento não encontrado' });
+        }
+
+        try {
+            if (lancamentoex.docnatcod === 2) {
+                await pool.query(
+                    'update conta set contavltotal = contavltotal - $1 where contacod = $2 and contausucod = $3',
+                    [lancamentoex.docv, lancamentoex.doccontacod, lancamentoex.docusucod]
+                );
+            } else {
+                await pool.query(
+                    'update conta set contavltotal = contavltotal + $1 where contacod = $2 and contausucod = $3',
+                    [lancamentoex.docv, lancamentoex.doccontacod, lancamentoex.docusucod]
+                );
+            }
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ error: 'erro ao atualizar saldo' });
+        }
+
         res.status(200).json(result.rows[0]);
     } catch (error) {
         console.error(error);
