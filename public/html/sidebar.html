@@ -1,91 +1,105 @@
 <div id="sidebar">
 
-<div id="layoutSidenav_nav">
-            <nav class="sb-sidenav accordion sb-sidenav-dark-blue text-light" id="sidenavAccordion">
-                <div class="sb-sidenav-menu">
-                    <div class="nav">
-                        <div class="sb-sidenav-menu-heading">Navegação</div>
-                        <a class="nav-link" href="dash">
-                            <div class="sb-nav-link-icon ">
-                                <i class="fa-sharp-duotone fa-solid fa-chart-line"></i>
-                            </div>
-                            Visão Geral
-                        </a>
-
-                        <a class="nav-link collapsed" href="page" data-bs-toggle="collapse"
-                            data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                            <div class="sb-nav-link-icon">
-                                <i class="fas fa-edit"></i>
-                            </div>
-                            Novo Registro
-                            <div class="sb-sidenav-collapse-arrow">
-                                <i class="fas fa-angle-down"></i>
-                            </div>
-                        </a>
-                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
-                            data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-
-                                <a class="nav-link" href="lancamento_receita">Receitas</a>
-                                <!-- <a class="nav-link" href="cobranca"> Lançamentos</a> -->
-                            </nav>
-                            <nav class="sb-sidenav-menu-nested nav">
-
-                                <a class="nav-link" href="lancamento_despesa">Despesas</a>
-                                <!-- <a class="nav-link" href="cobranca"> Lançamentos</a> -->
-                            </nav>
+    <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark-blue text-light" id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="sb-sidenav-menu-heading">Navegação</div>
+                    <a class="nav-link" href="dash">
+                        <div class="sb-nav-link-icon ">
+                            <i class="fa-sharp-duotone fa-solid fa-chart-line"></i>
                         </div>
-                        <a class="nav-link collapsed" href="page" data-bs-toggle="collapse"
-                            data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                            <div class="sb-nav-link-icon">
-                                <i class="fa-solid fa-eye"></i>
-                            </div>
-                            Acompanhamento
-                            <div class="sb-sidenav-collapse-arrow">
-                                <i class="fas fa-angle-down"></i>
-                            </div>
-                        </a>
-                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
-                            data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="listar_registros">Extrato de movimentação</a>
-                                <a class="nav-link" href="pagina_em_branco">Pagina em pagina-branco</a>
-                            </nav>
+                        Visão Geral
+                    </a>
+
+                    <a class="nav-link collapsed" href="page" data-bs-toggle="collapse"
+                        data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon">
+                            <i class="fas fa-edit"></i>
                         </div>
-                        <a class="nav-link" href="contas">
-                            <div class="sb-nav-link-icon ">
-                                <i class="fas fa-landmark"></i>
-                            </div>
-                            Contas
-                        </a>
-                        <a class="nav-link" href="categoria">
-                            <div class="sb-nav-link-icon ">
-                                <i class="fas fa-tasks"></i>
-                            </div>
-                            Categorias
-                        </a>
-                        <a class="nav-link" href="cobranca">
-                            <div class="sb-nav-link-icon ">
-                                <i class="far fa-window-restore"></i>
-                            </div>
-                            Tipos de Cobranças
-                        </a>
-                        <a class="nav-link" href="perfil">
-                            <div class="sb-nav-link-icon ">
-                                <i class="fas fa-user-alt"></i>
-                            </div>
-                            Meu perfil
-                        </a>
+                        Novo Registro
+                        <div class="sb-sidenav-collapse-arrow">
+                            <i class="fas fa-angle-down"></i>
+                        </div>
+                    </a>
+                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                        data-bs-parent="#sidenavAccordion">
+                        <nav>
+
+                            <a class="nav-link" href="lancamento_receita">
+                                <div class="sb-nav-link-icon ">
+                                    <i class="fas fa-money-bill-alt"></i>
+                                </div>Receitas
+                            </a>
+
+                        </nav>
+                        <nav>
+                            <a class="nav-link" href="lancamento_despesa">
+                                <div class="sb-nav-link-icon ">
+                                    <i class="far fa-money-bill-alt"></i>
+                                </div>Despesas
+                            </a>
+
+                        </nav>
+                        <nav>
+                            <a class="nav-link" href="#">
+                                <div class="sb-nav-link-icon ">
+                                    <i class="fas fa-coins"></i>
+                                </div>Transfência
+                            </a>
+                        </nav>
                     </div>
+                    <a class="nav-link collapsed" href="page" data-bs-toggle="collapse"
+                        data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon">
+                            <i class="fa-solid fa-eye"></i>
+                        </div>
+                        Acompanhamento
+                        <div class="sb-sidenav-collapse-arrow">
+                            <i class="fas fa-angle-down"></i>
+                        </div>
+                    </a>
+                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                        data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="listar_registros">Extrato de movimentação</a>
+                            <a class="nav-link" href="pagina_em_branco">Pagina em pagina-branco</a>
+                        </nav>
+                    </div>
+                    <a class="nav-link" href="contas">
+                        <div class="sb-nav-link-icon ">
+                            <i class="fas fa-landmark"></i>
+                        </div>
+                        Contas
+                    </a>
+                    <a class="nav-link" href="categoria">
+                        <div class="sb-nav-link-icon ">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        Categorias
+                    </a>
+                    <a class="nav-link" href="cobranca">
+                        <div class="sb-nav-link-icon ">
+                            <i class="far fa-window-restore"></i>
+                        </div>
+                        Tipos de Cobranças
+                    </a>
+                    <a class="nav-link" href="perfil">
+                        <div class="sb-nav-link-icon ">
+                            <i class="fas fa-user-alt"></i>
+                        </div>
+                        Meu perfil
+                    </a>
                 </div>
-                <div class="sb-sidenav-footer sb-sidenav-light-blue">
-                    <p class="text-center" font-size="0.1rem" !important>Copyright &copy; MTTR Developers</p>
-                    <P class="text-center">
+            </div>
+            <div class="sb-sidenav-footer sb-sidenav-light-blue">
+                <p class="text-center" font-size="0.1rem" !important>Copyright &copy; MTTR Developers</p>
+                <P class="text-center">
 
-                        <a href="#">Politica de Privacidade</a>
-                        <a href="#">Termos &amp; Condições</a>
-                    </P>
-                </div>
-            </nav>
-        </div>
+                    <a href="#">Politica de Privacidade</a>
+                    <a href="#">Termos &amp; Condições</a>
+                </P>
+            </div>
+        </nav>
+    </div>
 </div>
