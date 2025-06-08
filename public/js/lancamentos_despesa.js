@@ -23,18 +23,20 @@ document.addEventListener("DOMContentLoaded", function () {
         const partes = dataFormatada.split("-"); 
         const dataFormatada1 = `${partes[2]}-${partes[1]}-${partes[0]}`;
         tr.innerHTML = `
-                        <td>${dataFormatada1}</td> 
+                        <td>${dataFormatada1}</td>
                         <td>${dado.docv}</td>
                         <td>${dado.tcdes}</td>
                         <td>${dado.natdes}</td>
                         <td>${dado.catdes}</td>
                         <td>${dado.contades}</td>
-                        <td>${dado.docobs}</td> 
+                        <td>${dado.docobs}</td>
                         <td>
                             ${dado.docsta === "LA" ? '<i class="fa fa-spinner fa-spin fa-1x fa-fw"></i>' : '<i class="fa fa-check-square"></i>'}
                             ${docsta}
-                        </td>                              
+                        </td>
                         <td>
+                            ${dado.docsta === "LA" ? `<button class="btn btn-success btn-sm" onclick="marcarPago(${dado.doccod})">Pago</button>` : ''}
+                            <button class="btn btn-warning btn-sm" onclick="abrirEditar(${dado.doccod})">Editar</button>
                             <button class="btn btn-danger btn-sm" onclick="deletar(${dado.doccod})">Deletar</button>
                         </td>
                     `;
@@ -153,6 +155,8 @@ async function atualizarTabelaDespesas() {
           ${docsta}
         </td>
         <td>
+          ${dado.docsta === "LA" ? `<button class="btn btn-success btn-sm" onclick="marcarPago(${dado.doccod})">Pago</button>` : ''}
+          <button class="btn btn-warning btn-sm" onclick="abrirEditar(${dado.doccod})">Editar</button>
           <button class="btn btn-danger btn-sm" onclick="deletar(${dado.doccod})">Deletar</button>
         </td>
       `;
@@ -244,6 +248,104 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     })
     .catch((error) => {
-      console.error("Erro ao carregar categorias:", error);
+  console.error("Erro ao carregar categorias:", error);
+  });
+});
+
+// Carregar opções nos selects do modal de edição
+document.addEventListener("DOMContentLoaded", function () {
+  fetch('/api/dadosUserLogado')
+    .then(res => res.json())
+    .then(dados => fetch(`${BASE_URL}/tc/${dados.usucod}`))
+    .then(res => res.json())
+    .then(data => {
+      const select = document.getElementById('edit_tccod');
+      data.forEach(item => {
+        const opt = document.createElement('option');
+        opt.value = item.tccod;
+        opt.textContent = item.tcdes;
+        select.appendChild(opt);
+      });
+    });
+  fetch('/api/dadosUserLogado')
+    .then(res => res.json())
+    .then(dados => fetch(`${BASE_URL}/contas/${dados.usucod}`))
+    .then(res => res.json())
+    .then(data => {
+      const select = document.getElementById('edit_contacod');
+      data.forEach(item => {
+        const opt = document.createElement('option');
+        opt.value = item.contacod;
+        opt.textContent = `${item.contades} (${item.contatipodes})`;
+        select.appendChild(opt);
+      });
+    });
+  fetch('/api/dadosUserLogado')
+    .then(res => res.json())
+    .then(dados => fetch(`${BASE_URL}/catTodosDespesa/${dados.usucod}`))
+    .then(res => res.json())
+    .then(data => {
+      const select = document.getElementById('edit_catcod');
+      data.forEach(item => {
+        const opt = document.createElement('option');
+        opt.value = item.catcod;
+        opt.textContent = item.catdes;
+        select.appendChild(opt);
+      });
     });
 });
+
+// Abrir modal de edição preenchendo dados
+window.abrirEditar = async function(id) {
+  try {
+    const res = await fetch(`${BASE_URL}/docid/${id}`);
+    if(!res.ok) throw new Error();
+    const doc = await res.json();
+    document.getElementById('edit_doccod').value = doc.doccod;
+    document.getElementById('edit_docv').value = doc.docv;
+    document.getElementById('edit_docobs').value = doc.docobs || '';
+    document.getElementById('edit_docdtpag').value = doc.docdtpag ? doc.docdtpag.split('T')[0] : '';
+    document.getElementById('edit_docsta').checked = doc.docsta === 'BA';
+    document.getElementById('edit_contacod').value = doc.doccontacod;
+    document.getElementById('edit_tccod').value = doc.doctccod;
+    document.getElementById('edit_catcod').value = doc.doccatcod;
+    const modal = new bootstrap.Modal(document.getElementById('modalEditar'));
+    modal.show();
+  } catch (err) {
+    alert('Erro ao carregar dados.');
+    console.error(err);
+  }
+};
+
+// Submissão do formulário de edição
+document.getElementById('formEditar').addEventListener('submit', function(e){
+  e.preventDefault();
+  const form = e.target;
+  const data = Object.fromEntries(new FormData(form).entries());
+  if(!data.docsta) data.docsta = 'LA';
+  fetch(`${BASE_URL}/docedit/${data.doccod}`, {
+    method: 'PUT',
+    credentials: 'include',
+    headers: { 'Content-Type':'application/json' },
+    body: JSON.stringify(data)
+  })
+  .then(res => res.json())
+  .then(() => {
+    const modalEl = document.getElementById('modalEditar');
+    bootstrap.Modal.getInstance(modalEl).hide();
+    atualizarTabelaDespesas();
+  })
+  .catch(err => { alert('Erro ao editar registro.'); console.error(err); });
+});
+
+// Marca despesa como paga
+window.marcarPago = function(id) {
+  fetch(`${BASE_URL}/docstatus/${id}`, {
+    method: 'PUT',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' }
+  })
+  .then(res => res.json())
+  .then(() => atualizarTabelaDespesas())
+  .catch(err => { alert('Erro ao atualizar status.'); console.error(err); });
+};

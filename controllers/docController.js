@@ -235,3 +235,33 @@ exports.editarDoc = async (req, res) => {
     }
 };
 
+// Atualiza status do lançamento pendente para BA e ajusta o saldo da conta
+exports.atualizarStatus = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const busca = await pool.query('select docsta, docnatcod, docv, doccontacod, docusucod from doc where doccod = $1', [id]);
+        if (busca.rowCount === 0) {
+            return res.status(404).json({ error: 'Documento não encontrado' });
+        }
+        const doc = busca.rows[0];
+        if (doc.docsta === 'BA') {
+            return res.status(400).json({ error: 'Documento já baixado' });
+        }
+
+        await pool.query('update doc set docsta = $1 where doccod = $2', ['BA', id]);
+
+        if (doc.docnatcod === 2) {
+            await pool.query('update conta set contavltotal = contavltotal + $1 where contacod = $2 and contausucod = $3',
+                [doc.docv, doc.doccontacod, doc.docusucod]);
+        } else if (doc.docnatcod === 1) {
+            await pool.query('update conta set contavltotal = contavltotal - $1 where contacod = $2 and contausucod = $3',
+                [doc.docv, doc.doccontacod, doc.docusucod]);
+        }
+
+        res.status(200).json({ message: 'Status atualizado' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro ao atualizar status' });
+    }
+};
+

@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 ${docsta}
             </td>
             <td>
+                ${dado.docsta === "LA" ? `<button class="btn btn-success btn-sm" onclick="marcarRecebido(${dado.doccod})">Recebido</button>` : ''}
                 <button class="btn btn-warning btn-sm" onclick="abrirEditar(${dado.doccod})">Editar</button>
                 <button class="btn btn-danger btn-sm" onclick="deletar(${dado.doccod})">Deletar</button>
             </td>
@@ -157,6 +158,8 @@ async function atualizarTabelaReceitas() {
           ${docsta}
         </td>
         <td>
+          ${dado.docsta === "LA" ? `<button class="btn btn-success btn-sm" onclick="marcarRecebido(${dado.doccod})">Recebido</button>` : ''}
+          <button class="btn btn-warning btn-sm" onclick="abrirEditar(${dado.doccod})">Editar</button>
           <button class="btn btn-danger btn-sm" onclick="deletar(${dado.doccod})">Deletar</button>
         </td>
       `;
@@ -338,3 +341,15 @@ document.getElementById('formEditar').addEventListener('submit', function(e){
   })
   .catch(err => { alert('Erro ao editar registro.'); console.error(err); });
 });
+
+// Marca lançamento como recebido
+window.marcarRecebido = function(id) {
+  fetch(`${BASE_URL}/docstatus/${id}`, {
+    method: 'PUT',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' }
+  })
+  .then(res => res.json())
+  .then(() => atualizarTabelaReceitas())
+  .catch(err => { alert('Erro ao atualizar status.'); console.error(err); });
+};
