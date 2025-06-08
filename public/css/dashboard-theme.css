@@ -2,3 +2,29 @@ body.login-bg {
     background: linear-gradient(135deg, #5ce7c4 0%, #799cfd 100%);
     font-family: 'Poppins-Regular', sans-serif;
 }
+
+/* Estilo moderno para tabelas */
+table.modern-table {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+table.modern-table thead {
+    background-color: var(--bs-dark-blue);
+    color: #fff;
+}
+
+table.modern-table th,
+table.modern-table td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+table.modern-table tbody tr:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+table.modern-table tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.07);
+}
