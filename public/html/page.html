@@ -8,11 +8,14 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Sidenav Light - SB Admin</title>
-    <link href="../css/styles.css" rel="stylesheet" />
+    <link href="../css/styles-bootstrap.css" rel="stylesheet" />
+    <!-- Estilos de login reutilizados para unificar visual -->
+    <link rel="stylesheet" href="../login/css/main.css">
+    <link rel="stylesheet" href="../css/dashboard-theme.css">
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 
-<body class="sb-nav-fixed">
+<body class="sb-nav-fixed login-bg">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
         <a class="navbar-brand ps-3" href="dash">Start Bootstrap</a>
@@ -128,7 +131,7 @@
                 <a href="dash"><button id="btnVoltar" class="btn btn-primary" type="submit">Voltar</button> </a>
                 <button id="btnMostrar" class="btn btn-success" type="submit">Buscar</button>
                 <button id="btnDeleteAll" class="btn btn-danger">Apagar Tudo</button>
-                <table class="table table-bordered mt-3">
+                <table class="table table-bordered table-striped table-hover modern-table mt-3">
                     <thead>
                         <tr>
                             <th>id</th>
