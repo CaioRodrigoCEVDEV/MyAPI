@@ -2,19 +2,3 @@ body.login-bg {
     background: linear-gradient(135deg, #5ce7c4 0%, #799cfd 100%);
     font-family: 'Poppins-Regular', sans-serif;
 }
-.chart-card {
-    background: transparent;
-    border: none;
-    box-shadow: none;
-}
-.chart-card .card-header,
-.chart-card .card-footer {
-    background: transparent;
-    border: none;
-}
-
-.modern-card {
-    border: none;
-    border-radius: 1rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
