@@ -200,3 +200,38 @@ exports.deletarTodos = async (req, res) => {
     }
 };
 
+// Retorna um único lançamento pelo código
+exports.listarDocId = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const result = await pool.query('select * from doc where doccod = $1', [id]);
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Documento não encontrado' });
+        }
+        res.status(200).json(result.rows[0]);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro ao buscar documento' });
+    }
+};
+
+// Edita dados do lançamento
+exports.editarDoc = async (req, res) => {
+    const { id } = req.params;
+    const { doctccod, doccontacod, doccatcod, docv, docobs, docdtpag, docsta } = req.body;
+    const valor = parseFloat(docv.replace(',', '.'));
+    try {
+        const result = await pool.query(
+            'update doc set doctccod=$1, doccontacod=$2, doccatcod=$3, docv=$4, docobs=$5, docdtpag=$6, docsta=$7 where doccod=$8 RETURNING *',
+            [doctccod, doccontacod, doccatcod, valor, docobs, docdtpag, docsta, id]
+        );
+        if (result.rowCount === 0) {
+            return res.status(404).json({ error: 'Documento não encontrado' });
+        }
+        res.status(200).json(result.rows[0]);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro ao editar documento' });
+    }
+};
+

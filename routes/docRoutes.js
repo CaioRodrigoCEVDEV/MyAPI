@@ -11,6 +11,8 @@ router.get('/doc/receitas',autenticarToken, docController.listarDocsReceitas);
 router.get('/doc/despesas',autenticarToken, docController.listarDocsDespesas);
 router.get('/doc/despesas/:id',autenticarToken, docController.listarDocsDespesasUser);
 router.get('/doc/receitas/:id',autenticarToken, docController.listarDocsReceitasUser);
+router.get('/docid/:id',autenticarToken, docController.listarDocId);
+router.put('/docedit/:id',autenticarToken, docController.editarDoc);
 router.put('/doc/:id',autenticarToken, docController.deletarDoc);
 router.delete('/doc',autenticarToken, docController.deletarTodos);
 

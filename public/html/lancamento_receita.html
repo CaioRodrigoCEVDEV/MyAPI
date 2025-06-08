@@ -152,6 +152,54 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <!-- Modal de edição -->
+                            <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form id="formEditar">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="modalEditarLabel">Editar Lançamento</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input type="hidden" id="edit_doccod" name="doccod">
+                                                <div class="form-group mb-2">
+                                                    <label>Conta:</label>
+                                                    <select id="edit_contacod" name="doccontacod" class="form-control" required></select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label>Tipo de Cobrança:</label>
+                                                    <select id="edit_tccod" name="doctccod" class="form-control" required></select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label>Categoria:</label>
+                                                    <select id="edit_catcod" name="doccatcod" class="form-control" required></select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label>Valor:</label>
+                                                    <input type="text" id="edit_docv" name="docv" class="form-control" required>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label>Observações</label>
+                                                    <textarea id="edit_docobs" name="docobs" rows="2" class="form-control"></textarea>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label>Status</label>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="edit_docsta" name="docsta" value="BA">
+                                                        <label class="form-check-label" for="edit_docsta">Recebido</label>
+                                                    </div>
+                                                    <input type="date" id="edit_docdtpag" name="docdtpag" class="form-control mt-2" required>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                <button type="submit" class="btn btn-primary">Salvar</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <!-- criar uma table para mostrar os lançamentos -->
                     </div>
