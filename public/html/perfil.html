@@ -1,74 +1,94 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
     <title>Ulife Uctrl | Perfil</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="../login/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../login/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="../login/fonts/iconic/css/material-design-iconic-font.min.css">
-    <link rel="stylesheet" type="text/css" href="../login/vendor/animate/animate.css">
-    <link rel="stylesheet" type="text/css" href="../login/vendor/css-hamburgers/hamburgers.min.css">
-    <link rel="stylesheet" type="text/css" href="../login/vendor/animsition/css/animsition.min.css">
-    <link rel="stylesheet" type="text/css" href="../login/vendor/select2/select2.min.css">
-    <link rel="stylesheet" type="text/css" href="../login/vendor/daterangepicker/daterangepicker.css">
     <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="../login/css/util.css">
-    <link rel="stylesheet" type="text/css" href="../login/css/main.css">
-    <link rel="stylesheet" href="../login/css/loadin.css">
+    <link href="../css/styles-bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../login/css/main.css">
+    <link rel="stylesheet" href="../css/dashboard-theme.css">
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
-<body>
-    <div class="limiter">
-        <div class="container-login100">
-            <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-                <form id="meuFormulario" class="login100-form validate-form">
-                    <span class="login100-form-title p-b-49">
-                        <img src="../img/login-image.png" alt="" width="70" height="70">
-                        Perfil
-                    </span>
-                    <div id="cod"></div>
-
-                    <div class="wrap-input100 m-b-23" data-validate="Por favor insira o nome">
-                        <label class="label-input100" for="nome">Nome</label>
-                        <input id="nome" class="input100" type="text" name="usunome" placeholder="Digite seu nome" required>
-                        <span class="focus-input100" data-symbol="&#xf206;"></span>
-                    </div>
-
-                    <div class="wrap-input100 m-b-23">
-                        <label class="label-input100" for="email">Email</label>
-                        <input id="email" class="input100" type="email" name="usuemail" placeholder="Seu email" readonly style="cursor: not-allowed;">
-                        <span class="focus-input100" data-symbol="&#xf15a;"></span>
-                    </div>
-
-                    <div class="wrap-input100" data-validate="Por favor insira a senha">
-                        <label class="label-input100" for="ususenha">Senha</label>
-                        <input id="ususenha" class="input100" type="password" name="ususenha" placeholder="Digite a nova senha" required>
-                        <span class="focus-input100" data-symbol="&#xf190;"></span>
-                    </div>
-
-                    <div class="container-login100-form-btn m-t-30">
-                        <div class="wrap-login100-form-btn">
-                            <div class="login100-form-bgbtn"></div>
-                            <button id="salvar" type="submit" class="login100-form-btn">
-                                Salvar<div id="c-loader" class="c-loader"></div>
-                            </button>
+<body class="sb-nav-fixed login-bg">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-medium-blue-rgb">
+        <a class="navbar-brand ps-3" href="dash">
+            <img src="../img/logo-tamanho-normal.png" width="30" height="30" alt="">
+            Ulife UCtrl
+        </a>
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
+            <i class="fas fa-bars"></i>
+        </button>
+        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            <div class="input-group">
+                <label style="color: aliceblue;" id="cronometro"></label>
+            </div>
+        </form>
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="perfil">Configurações</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item" id="buttonSair">sair</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <div id="layoutSidenav">
+        <div id="sidebar-container"></div>
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="limiter">
+                    <div class="container-login100">
+                        <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+                            <form id="meuFormulario" class="login100-form validate-form">
+                                <span class="login100-form-title p-b-49">
+                                    <img src="../img/login-image.png" alt="" width="70" height="70">
+                                    Perfil
+                                </span>
+                                <div id="cod"></div>
+                                <div class="wrap-input100 m-b-23" data-validate="Por favor insira o nome">
+                                    <label class="label-input100" for="nome">Nome</label>
+                                    <input id="nome" class="input100" type="text" name="usunome" placeholder="Digite seu nome" required>
+                                    <span class="focus-input100" data-symbol="&#xf206;"></span>
+                                </div>
+                                <div class="wrap-input100 m-b-23">
+                                    <label class="label-input100" for="email">Email</label>
+                                    <input id="email" class="input100" type="email" name="usuemail" placeholder="Seu email" readonly style="cursor: not-allowed;">
+                                    <span class="focus-input100" data-symbol="&#xf15a;"></span>
+                                </div>
+                                <div class="wrap-input100" data-validate="Por favor insira a senha">
+                                    <label class="label-input100" for="ususenha">Senha</label>
+                                    <input id="ususenha" class="input100" type="password" name="ususenha" placeholder="Digite a nova senha" required>
+                                    <span class="focus-input100" data-symbol="&#xf190;"></span>
+                                </div>
+                                <div class="container-login100-form-btn m-t-30">
+                                    <div class="wrap-login100-form-btn">
+                                        <div class="login100-form-bgbtn"></div>
+                                        <button id="salvar" type="submit" class="login100-form-btn">
+                                            Salvar<div id="c-loader" class="c-loader"></div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+            </main>
         </div>
     </div>
-
     <script src="/config.js"></script>
     <script src="../js/alterarSenha.js"></script>
-    <script src="../login/vendor/jquery/jquery-3.2.1.min.js"></script>
-    <script src="../login/vendor/animsition/js/animsition.min.js"></script>
-    <script src="../login/vendor/bootstrap/js/popper.js"></script>
-    <script src="../login/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../login/vendor/select2/select2.min.js"></script>
-    <script src="../login/vendor/daterangepicker/moment.min.js"></script>
-    <script src="../login/vendor/daterangepicker/daterangepicker.js"></script>
-    <script src="../login/vendor/countdowntime/countdowntime.js"></script>
-    <script src="../login/js/main.js"></script>
+    <script src="../js/cronometro.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/logout.js"></script>
+    <script src="../js/scripts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 </body>
 </html>
