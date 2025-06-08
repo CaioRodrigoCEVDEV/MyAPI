@@ -1,0 +1,125 @@
+/* Reset e box-sizing */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body com gradiente */
+html, body {
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  background: linear-gradient(135deg, #5ce7c4 0%, #799cfd 100%);
+  color: #374151;
+}
+
+/* Container central */
+.reg-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 1rem;
+}
+
+/* Card branco */
+.reg-card {
+  background: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 480px;
+  padding: 2rem;
+}
+
+/* Título */
+.reg-card h2 {
+  text-align: center;
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+/* Formulário */
+.reg-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Grupos de campo */
+.reg-group {
+  display: flex;
+  flex-direction: column;
+}
+.reg-group label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+.reg-group input {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.reg-group input:focus {
+  border-color: #5ce7d0;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(153, 212, 226, 0.2);
+}
+
+/* Botão */
+.btn-reg {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #5ce7ad;
+  border: none;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.btn-reg:hover {
+  background-color: #0ce69d;
+}
+
+/* Footer do card */
+.reg-footer {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+.reg-footer a {
+  color: #535355;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.reg-footer a:hover {
+  color: #2f2e30;
+}
+
+
+.flash-message {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #4ade80;            /* verde claro */
+  color: #065f46;                /* verde escuro */
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.25rem 0.75rem rgba(0,0,0,0.1);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+}
+.flash-message.show {
+  opacity: 1;
+  pointer-events: auto;
+}

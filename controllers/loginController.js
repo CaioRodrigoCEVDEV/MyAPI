@@ -11,16 +11,42 @@ exports.listarlogin = async (req, res) => {
     }
 };
 
+// exports.cadastrarlogin = async (req, res) => {
+//     const { usunome,usuemail, ususenha } = req.body;
+//     const senhaHash = crypto.createHash('md5').update(ususenha).digest('hex');
+//     try {
+//         const result = await pool.query('INSERT INTO usu (usunome,usuemail, ususenha) VALUES ($1, $2,$3)', [usunome,usuemail, senhaHash]);
+//         res.status(201).json({ message: 'Usuário cadastrado com sucesso' });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ error: 'Erro ao cadastrar usuário' });
+//     }
+// };
 exports.cadastrarlogin = async (req, res) => {
-    const { usunome,usuemail, ususenha } = req.body;
-    const senhaHash = crypto.createHash('md5').update(ususenha).digest('hex');
-    try {
-        const result = await pool.query('INSERT INTO usu (usunome,usuemail, ususenha) VALUES ($1, $2,$3)', [usunome,usuemail, senhaHash]);
-        res.status(201).json({ message: 'Usuário cadastrado com sucesso' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Erro ao cadastrar usuário' });
+  const { usunome, usuemail, ususenha } = req.body;
+  const senhaHash = crypto.createHash('md5').update(ususenha).digest('hex');
+
+  try {
+    // 1) Verifica se o email já está cadastrado
+    const { rowCount } = await pool.query(
+      'SELECT 1 FROM usu WHERE usuemail = $1',
+      [usuemail]
+    );
+    if (rowCount > 0) {
+      return res.status(409).json({ error: 'Email já existe na base de dados, Faça o Login!' });
     }
+
+    // 2) Se não existe, insere normalmente
+    await pool.query(
+      'INSERT INTO usu (usunome, usuemail, ususenha) VALUES ($1, $2, $3)',
+      [usunome, usuemail, senhaHash]
+    );
+    return res.status(201).json({ message: 'Usuário cadastrado com sucesso' });
+
+  } catch (error) {
+    console.error('Erro ao cadastrar usuário:', error);
+    return res.status(500).json({ error: 'Erro ao cadastrar usuário' });
+  }
 };
 
 

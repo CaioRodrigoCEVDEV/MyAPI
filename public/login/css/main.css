@@ -1,3 +1,29 @@
+/* === Inputs no estilo do register === */
+.wrap-login100 .input100 {
+  /* padding e tamanho igual ao register */
+  padding: 0.75rem 1rem !important;
+  height: auto;                /* remove altura fixa */
+  font-size: 1rem;
+  background: transparent;      
+  /* borda e cantos arredondados */
+  border: 1px solid #e5e7eb !important;
+  border-radius: 0.75rem !important;
+  /* remove estilos antigos de underline */
+  box-shadow: none !important;
+}
+
+/* foco igual ao register */
+.wrap-login100 .input100:focus {
+  border-color: #5ce7d0 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(153, 212, 226, 0.2) !important;
+}
+
+/* opcional: esconde a linha extra do .focus-input100 */
+.wrap-login100 .focus-input100::before,
+.wrap-login100 .focus-input100::after {
+  display: none !important;
+}
 
 
 
@@ -212,12 +238,12 @@ iframe {
 .wrap-input100 {
   width: 100%;
   position: relative;
-  border-bottom: 2px solid #d9d9d9;
+  
 }
 
 .label-input100 {
   font-family: Poppins-Regular;
-  font-size: 14px;
+  font-size: 15px;
   color: #333333;
   line-height: 1.5;
   padding-left: 7px;
@@ -506,4 +532,10 @@ iframe {
     width: 24px;
     height: 24px;
     margin-right: 10px;
+}
+.container-login100 {
+  background: linear-gradient(135deg, #5ce7c4 0%, #799cfd 100%);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
