@@ -13,6 +13,7 @@ router.get('/doc/despesas/:id',autenticarToken, docController.listarDocsDespesas
 router.get('/doc/receitas/:id',autenticarToken, docController.listarDocsReceitasUser);
 router.get('/docid/:id',autenticarToken, docController.listarDocId);
 router.put('/docedit/:id',autenticarToken, docController.editarDoc);
+router.put('/docstatus/:id',autenticarToken, docController.atualizarStatus);
 router.put('/doc/:id',autenticarToken, docController.deletarDoc);
 router.delete('/doc',autenticarToken, docController.deletarTodos);
 
