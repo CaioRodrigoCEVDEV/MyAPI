@@ -10,11 +10,14 @@
     <title>Ulife UCtrl</title>
     <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon">
     <link href="../css/styles-bootstrap.css" rel="stylesheet" />
+    <!-- Estilos de login reutilizados para unificar visual -->
+    <link rel="stylesheet" href="../login/css/main.css">
+    <link rel="stylesheet" href="../css/dashboard-theme.css">
     <!--Fonte de icones \v/-->
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 
-<body class="sb-nav-fixed">
+<body class="sb-nav-fixed login-bg">
     
     <div id="layoutSidenav">
         <!-- Sidebar  >>>>>  html/sidebar.hmtl-->
@@ -63,7 +66,7 @@
                     </ol>
                     <div class="row">
                         <div class="col-xl-3 col-md-6">
-                            <div class="card bg-primary text-white mb-4">
+                            <div class="card modern-card bg-primary text-white mb-4">
                                 <div class="card-body">Extrato de movimentação</div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
                                     <a class="small text-white stretched-link" href="listar_registros">Ver mais</a>
@@ -74,7 +77,7 @@
                             </div>
                         </div>
                         <div class="col-xl-3 col-md-6">
-                            <div class="card bg-success text-white mb-4">
+                            <div class="card modern-card bg-success text-white mb-4">
                                 <div class="card-body">Suas Cobranças</div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
                                     <a class="small text-white stretched-link" href="cobranca">Ver mais</a>
@@ -85,7 +88,7 @@
                             </div>
                         </div>
                         <div class="col-xl-3 col-md-6">
-                            <div class="card bg-danger text-white mb-4">
+                            <div class="card modern-card bg-danger text-white mb-4">
                                 <div class="card-body">Saldo: R$<span id="saldo">0.00</span> </div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
                                     <a class="small text-white stretched-link" href="contas">Ver mais</a>
@@ -98,7 +101,7 @@
                     </div>
                     <div class="row">
                         <div class="col-xl-6">
-                            <div class="card mb-4">
+                            <div class="card chart-card mb-4">
                                 <div class="card-header">
                                     <i class="fas fa-chart-pie me-1"></i>
                                     Receitas
@@ -109,7 +112,7 @@
                             </div>
                         </div>
                         <div class="col-xl-6">
-                            <div class="card mb-4">
+                            <div class="card chart-card mb-4">
                                 <div class="card-header">
                                     <i class="fas fa-chart-pie me-1"></i>
                                     Despesas
