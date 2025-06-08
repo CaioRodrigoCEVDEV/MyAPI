@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .then(res => res.json())
     .then(dados => {
         const corpoTabela = document.getElementById("corpoTabela");
+        if (!corpoTabela) return; // Se não existir tabela, nada a fazer
         corpoTabela.innerHTML = ""; // Limpa o conteúdo atual da tabela
 
         dados.forEach(dado => {
@@ -107,6 +108,7 @@ function atualizarTabela() {
     .then(res => res.json())
     .then(dados => {
       const corpoTabela = document.getElementById("corpoTabela");
+      if (!corpoTabela) return;
       corpoTabela.innerHTML = "";
       dados.forEach(dado => {
         const tr = document.createElement("tr");
