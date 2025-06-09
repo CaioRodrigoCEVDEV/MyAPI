@@ -193,3 +193,13 @@ function carregarContaParaEdicao(id) {
     });
 }
 
+// Toggle do formulário de nova conta
+document.addEventListener('DOMContentLoaded', () => {
+  const btnNovo = document.getElementById('novoConta');
+  const modalEl = document.getElementById('modalNovaConta');
+  const modalNovaConta = modalEl ? new bootstrap.Modal(modalEl) : null;
+  btnNovo?.addEventListener('click', () => {
+    modalNovaConta?.show();
+  });
+});
+
