@@ -140,6 +140,10 @@ function atualizarTabela() {
 }
 // delete
 window.deletar = function (id) {
+    if (!confirm('Deseja excluir esta conta?')) {
+        return;
+    }
+
     fetch(`${BASE_URL}/conta/${id}`, {
         method: "DELETE"
     })
