@@ -353,11 +353,10 @@ window.marcarPago = function(id) {
 // Toggle do formulário e busca no grid
 document.addEventListener('DOMContentLoaded', () => {
   const btnNovo = document.getElementById('novoLancamento');
-  const formContainer = document.getElementById('formContainer');
+  const modalEl = document.getElementById('modalNovo');
+  const modalNovo = modalEl ? new bootstrap.Modal(modalEl) : null;
   btnNovo?.addEventListener('click', () => {
-    if(formContainer){
-      formContainer.style.display = formContainer.style.display === 'none' ? 'block' : 'none';
-    }
+    modalNovo?.show();
   });
   const busca = document.getElementById('buscaLancamento');
   busca?.addEventListener('input', () => {

@@ -72,70 +72,6 @@
                             <div class="d-flex justify-content-between mb-3">
                                 <button id="novoLancamento" class="btn btn-primary">Novo</button>
                             </div>
-                            <div id="formContainer" style="display:none;" class="d-flex justify-content-center">
-                                <div class="w-100" style="max-width: 400px;">
-                                    <h3>Novo lançamento</h3>
-                                    <form id="meuFormulario">
-                                        <input id="usucod" name="docusucod" type="hidden" value="" />
-
-                                        <div class="form-group">
-                                            <label>Conta:</label>
-                                            <select id="contacod" name="doccontacod" class="form-control" required>
-                                                <option value="" hidden>Selecione</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Tipo de Cobrança:</label>
-                                            <select id="tipoCobranca" name="doctccod" class="form-control" required>
-                                                <option value="" hidden>Selecione</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Categoria:</label>
-                                            <select id="categoria" name="doccatcod" class="form-control" required>
-                                                <option value="" hidden>Selecione</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Valor:</label>
-                                            <input type="text" name="docv" class="form-control" required
-                                                placeholder="R$ 0,00">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Observações (opcional):</label>
-                                            <textarea name="docobs" rows="3" class="form-control"
-                                                placeholder="Informações complementares"></textarea>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Status</label>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="docsta"
-                                                    value="BA">
-                                                <label class="form-check-label" for="status">Pago</label>
-                                            </div>
-                                            <div class="form-group">
-
-                                                <input id="docdtpag" type="date" name="docdtpag" class="form-control"
-                                                    required>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <button class="btn btn-success" type="submit">Salvar</button>
-                                        </div>
-
-                                        <br>
-                                        <div class="alert alert-success" id="alerta-sucess" style="display: none;">
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-
                             <input id="buscaLancamento" class="form-control mb-3" style="max-width:200px;" placeholder="Buscar">
                             <h3 class="mt-5">Lançamentos Registrados</h3>
                             <div class="table-responsive">
@@ -200,6 +136,63 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                                             <button type="submit" class="btn btn-primary">Salvar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Modal de novo lançamento -->
+                        <div class="modal fade" id="modalNovo" tabindex="-1" aria-labelledby="modalNovoLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form id="meuFormulario">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="modalNovoLabel">Novo Lançamento</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input id="usucod" name="docusucod" type="hidden" value="" />
+                                            <div class="form-group">
+                                                <label>Conta:</label>
+                                                <select id="contacod" name="doccontacod" class="form-control" required>
+                                                    <option value="" hidden>Selecione</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Tipo de Cobrança:</label>
+                                                <select id="tipoCobranca" name="doctccod" class="form-control" required>
+                                                    <option value="" hidden>Selecione</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Categoria:</label>
+                                                <select id="categoria" name="doccatcod" class="form-control" required>
+                                                    <option value="" hidden>Selecione</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Valor:</label>
+                                                <input type="text" name="docv" class="form-control" required placeholder="R$ 0,00">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Observações (opcional):</label>
+                                                <textarea name="docobs" rows="3" class="form-control" placeholder="Informações complementares"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Status</label>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="docsta" value="BA">
+                                                    <label class="form-check-label" for="status">Pago</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input id="docdtpag" type="date" name="docdtpag" class="form-control" required>
+                                                </div>
+                                            </div>
+                                            <div class="alert alert-success mt-2" id="alerta-sucess" style="display: none;"></div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <button class="btn btn-success" type="submit">Salvar</button>
                                         </div>
                                     </form>
                                 </div>
