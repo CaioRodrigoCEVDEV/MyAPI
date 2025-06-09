@@ -54,7 +54,17 @@ exports.listarCategoriaReceita = async (req, res) => {
     try {
         const r = "R"
         const ex = "EX"
-        const result = await pool.query('select catcod,catdes,cattipo,sum(docv) as docv from categoria join doc on doccatcod = catcod where cattipo = $1 and catusucod = $2 and docsta <> $3 group by catcod,catdes,cattipo', [r,id,ex]);
+        const result = await pool.query(
+            `select catcod, catdes, cattipo, sum(docv) as docv
+             from categoria
+             join doc on doccatcod = catcod
+             where cattipo = $1
+               and catusucod = $2
+               and docsta <> $3
+               and date_trunc('month', docdtlan) = date_trunc('month', CURRENT_DATE)
+             group by catcod, catdes, cattipo`,
+            [r, id, ex]
+        );
         res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);
@@ -79,7 +89,17 @@ exports.listarCategoriaDespesa = async (req, res) => {
         const d = "D"
         const ex = "EX"
         //const result = await pool.query('select catcod,catdes,cattipo,docv from categoria join doc on doccatcod = catcod where cattipo = $1 and catusucod = $2 order by catcod', [d,id]);
-        const result = await pool.query('select catcod,catdes,cattipo,sum(docv) as docv from categoria join doc on doccatcod = catcod where cattipo = $1 and catusucod = $2 and docsta <> $3 group by catcod,catdes,cattipo', [d,id,ex]);
+        const result = await pool.query(
+            `select catcod, catdes, cattipo, sum(docv) as docv
+             from categoria
+             join doc on doccatcod = catcod
+             where cattipo = $1
+               and catusucod = $2
+               and docsta <> $3
+               and date_trunc('month', docdtlan) = date_trunc('month', CURRENT_DATE)
+             group by catcod, catdes, cattipo`,
+            [d, id, ex]
+        );
         res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);
