@@ -38,9 +38,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 ${docsta}
             </td>
             <td>
-                ${dado.docsta === "LA" ? `<button class="btn btn-success btn-sm" onclick="marcarRecebido(${dado.doccod})">Recebido</button>` : ''}
-                <button class="btn btn-warning btn-sm" onclick="abrirEditar(${dado.doccod})">Editar</button>
-                <button class="btn btn-danger btn-sm" onclick="deletar(${dado.doccod})">Deletar</button>
+                ${dado.docsta === "LA" ? `<button class="btn btn-success btn-sm" onclick="marcarRecebido(${dado.doccod})" title="Recebido"><i class="fa fa-check"></i></button>` : ''}
+                <button class="btn btn-warning btn-sm" onclick="abrirEditar(${dado.doccod})" title="Editar"><i class="fa fa-edit"></i></button>
+                <button class="btn btn-danger btn-sm" onclick="deletar(${dado.doccod})" title="Deletar"><i class="fa fa-trash"></i></button>
             </td>
               `;
         corpoTabela.appendChild(tr);
@@ -158,9 +158,9 @@ async function atualizarTabelaReceitas() {
           ${docsta}
         </td>
         <td>
-          ${dado.docsta === "LA" ? `<button class="btn btn-success btn-sm" onclick="marcarRecebido(${dado.doccod})">Recebido</button>` : ''}
-          <button class="btn btn-warning btn-sm" onclick="abrirEditar(${dado.doccod})">Editar</button>
-          <button class="btn btn-danger btn-sm" onclick="deletar(${dado.doccod})">Deletar</button>
+          ${dado.docsta === "LA" ? `<button class="btn btn-success btn-sm" onclick="marcarRecebido(${dado.doccod})" title="Recebido"><i class="fa fa-check"></i></button>` : ''}
+          <button class="btn btn-warning btn-sm" onclick="abrirEditar(${dado.doccod})" title="Editar"><i class="fa fa-edit"></i></button>
+          <button class="btn btn-danger btn-sm" onclick="deletar(${dado.doccod})" title="Deletar"><i class="fa fa-trash"></i></button>
         </td>
       `;
       corpoTabela.appendChild(tr);
@@ -353,3 +353,21 @@ window.marcarRecebido = function(id) {
   .then(() => atualizarTabelaReceitas())
   .catch(err => { alert('Erro ao atualizar status.'); console.error(err); });
 };
+
+// Toggle do formulário e busca no grid
+document.addEventListener('DOMContentLoaded', () => {
+  const btnNovo = document.getElementById('novoLancamento');
+  const formContainer = document.getElementById('formContainer');
+  btnNovo?.addEventListener('click', () => {
+    if(formContainer){
+      formContainer.style.display = formContainer.style.display === 'none' ? 'block' : 'none';
+    }
+  });
+  const busca = document.getElementById('buscaLancamento');
+  busca?.addEventListener('input', () => {
+    const termo = busca.value.toLowerCase();
+    document.querySelectorAll('#corpoTabela tr').forEach(tr => {
+      tr.style.display = tr.textContent.toLowerCase().includes(termo) ? '' : 'none';
+    });
+  });
+});
