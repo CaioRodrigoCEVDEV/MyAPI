@@ -343,6 +343,52 @@ insert into natureza (natdes) values('Receita');
 
 ---
 
+## 💳 Tabela `cartaocredito` (Cartões de Crédito)
+
+Gerencia os cartões de crédito cadastrados pelo usuário.
+
+```sql
+CREATE TABLE public.cartaocredito (
+  cccod serial PRIMARY KEY,
+  ccusucod int,
+  ccdes varchar,
+  cclimite numeric(14, 2),
+  ccfechamento date,
+  ccvencimento date
+);
+```
+- **cccod**: Identificador do cartão (chave primária).
+- **ccusucod**: Código do usuário dono do cartão.
+- **ccdes**: Descrição do cartão.
+- **cclimite**: Limite de crédito disponível.
+- **ccfechamento**: Dia de fechamento da fatura.
+- **ccvencimento**: Dia de vencimento da fatura.
+
+## 💳 Tabela `gastocredito` (Gastos do Cartão)
+
+Registra as compras realizadas no cartão de crédito.
+
+```sql
+CREATE TABLE public.gastocredito (
+  gcid serial PRIMARY KEY,
+  ccid int,
+  catcod int,
+  descricao varchar,
+  valor numeric(14, 2),
+  data date,
+  mesfat varchar(7),
+  usucod int
+);
+```
+- **gcid**: Código do gasto (chave primária).
+- **ccid**: Código do cartão relacionado.
+- **catcod**: Código da categoria do gasto.
+- **descricao**: Detalhe do gasto.
+- **valor**: Valor da transação.
+- **data**: Data da compra.
+- **mesfat**: Mês de faturamento no formato YYYY-MM.
+- **usucod**: Código do usuário.
+
 ## ✅ Consultas e Testes
 
 ### Ver todos os usuários:
