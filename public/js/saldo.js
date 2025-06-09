@@ -2,7 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const saldoSpan = document.getElementById("saldo");
     const toggle = document.getElementById("toggleSaldo");
     let saldoValor = null;
-    let visivel = false;
+    // Mantém a escolha do usuário entre carregamentos
+    let visivel = localStorage.getItem("saldoVisivel") === "true";
 
     function atualizarExibicao() {
         if (!visivel) {
@@ -20,9 +21,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    // Ajusta a exibição logo após definir a variável
+    atualizarExibicao();
+
     if (toggle) {
         toggle.addEventListener("click", function () {
             visivel = !visivel;
+            localStorage.setItem("saldoVisivel", visivel);
             atualizarExibicao();
         });
     }
