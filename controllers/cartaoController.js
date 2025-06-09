@@ -3,10 +3,12 @@ const pool = require('../db/db.js');
 exports.insertCartao = async (req, res) => {
     const { ccusucod, ccdes, cclimite, ccfechamento, ccvencimento } = req.body;
     const limite = parseFloat(cclimite.replace(',', '.'));
+    const fechamento = parseInt(ccfechamento, 10);
+    const vencimento = parseInt(ccvencimento, 10);
     try {
         const result = await pool.query(
             'INSERT INTO cartaocredito (ccusucod, ccdes, cclimite, ccfechamento, ccvencimento) VALUES ($1,$2,$3,$4,$5) RETURNING *',
-            [ccusucod, ccdes, limite, ccfechamento, ccvencimento]
+            [ccusucod, ccdes, limite, fechamento, vencimento]
         );
         res.status(201).json(result.rows[0]);
     } catch (error) {
