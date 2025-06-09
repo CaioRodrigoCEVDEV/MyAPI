@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (res.status === 200) {
           return res.json().then(data => {
             showToast(data.message || "Excluido com sucesso!", "success");
-            setTimeout(() => location.reload(), 500);
+            setTimeout(() => location.reload(), 3000);
           });
         }
 
