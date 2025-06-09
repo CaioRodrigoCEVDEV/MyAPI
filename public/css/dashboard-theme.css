@@ -60,3 +60,15 @@ form.form-inline .form-group {
         margin-bottom: 1rem;
     }
 }
+
+/* Minimal dashboard styles */
+.card.shadow-sm {
+    border: 1px solid #e5e7eb;
+    background-color: #f9fafb;
+}
+.chart-card {
+    border: 1px solid #e5e7eb;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
