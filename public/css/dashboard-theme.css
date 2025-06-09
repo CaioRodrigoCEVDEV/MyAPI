@@ -77,6 +77,9 @@ form.form-inline .form-group {
 .dashboard-card.card-purple {
     background: linear-gradient(135deg, #d16ba5, #86a8e7);
 }
+.dashboard-card.card-orange {
+    background: linear-gradient(135deg, var(--bs-orange), var(--bs-yellow));
+}
 .dashboard-card .card-footer {
     background: transparent;
     border-top: none;
