@@ -18,10 +18,12 @@ document.addEventListener("DOMContentLoaded", function () {
             <td>${dado.contatipodes}</td>
             <td>${dado.contavltotal}</td>
             <td>
-                <a href="editar?id=${dado.contacod}" title="Editar">
-                  <i class="fas fa-edit" style="color: #ffc107; cursor: pointer;"></i>
-                </a>
-                <button class="btn btn-danger btn-sm" onclick="deletar(${dado.contacod})">Deletar</button>
+                <button class="btn btn-warning btn-sm" onclick="window.location.href='editar?id=${dado.contacod}'" title="Editar">
+                  <i class="fa fa-edit"></i>
+                </button>
+                <button class="btn btn-danger btn-sm" onclick="deletar(${dado.contacod})" title="Deletar">
+                  <i class="fa fa-trash"></i>
+                </button>
             </td>
 
         `;
@@ -117,10 +119,12 @@ function atualizarTabela() {
           <td>${dado.contatipodes}</td>
           <td>${dado.contavltotal}</td>
           <td>
-            <a href="/editar/${dado.contacod}" title="Editar">
-              <i class="fas fa-edit" style="color: #ffc107; cursor: pointer;"></i>
-            </a>
-            <button class="btn btn-danger btn-sm" onclick="deletar(${dado.contacod})">Deletar</button>
+            <button class="btn btn-warning btn-sm" onclick="window.location.href='editar?id=${dado.contacod}'" title="Editar">
+              <i class="fa fa-edit"></i>
+            </button>
+            <button class="btn btn-danger btn-sm" onclick="deletar(${dado.contacod})" title="Deletar">
+              <i class="fa fa-trash"></i>
+            </button>
           </td>
         `;
         corpoTabela.appendChild(tr);
