@@ -80,6 +80,12 @@ form.form-inline .form-group {
 .dashboard-card.card-orange {
     background: linear-gradient(135deg, var(--bs-orange), var(--bs-yellow));
 }
+.dashboard-card.card-teal {
+    background: linear-gradient(135deg, var(--bs-teal), var(--bs-light-blue));
+}
+.dashboard-card.card-red {
+    background: linear-gradient(135deg, var(--bs-red), var(--bs-orange));
+}
 .dashboard-card .card-footer {
     background: transparent;
     border-top: none;
