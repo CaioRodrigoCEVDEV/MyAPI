@@ -25,7 +25,8 @@ document.addEventListener("DOMContentLoaded", function () {
     atualizarExibicao();
 
     if (toggle) {
-        toggle.addEventListener("click", function () {
+        toggle.addEventListener("click", function (e) {
+            e.stopPropagation();
             visivel = !visivel;
             localStorage.setItem("saldoVisivel", visivel);
             atualizarExibicao();
