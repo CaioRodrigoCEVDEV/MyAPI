@@ -29,6 +29,14 @@ table.modern-table tbody tr:hover {
     background-color: rgba(0, 0, 0, 0.07);
 }
 
+@media (max-width: 767.98px) {
+    table.modern-table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
 /* ------------ Form enhancements ------------ */
 .form-control {
     padding: 0.75rem 1rem;
