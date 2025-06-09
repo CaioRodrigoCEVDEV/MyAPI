@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     maximumFractionDigits: 2
                 });
             } else {
-                saldo.innerText = "Indisponível";
+                saldo.innerText = "0,00";
             }
         })
         .catch(erro => {
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     maximumFractionDigits: 2
                 });
             } else {
-                saldo.innerText = "Indisponível";
+                saldo.innerText = "0,00";
             }
         })
         .catch(erro => {
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     maximumFractionDigits: 2
                 });
             } else {
-                saldo.innerText = "Indisponível";
+                saldo.innerText = "0,00";
             }
         })
         .catch(erro => {
