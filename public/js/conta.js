@@ -89,7 +89,7 @@ if (formElem) formElem.addEventListener("submit", function (e) {
       alerta.innerHTML = contacod ? "Editado com sucesso!" : "Lançado com sucesso!";
       setTimeout(() => {
         alerta.style.display = "none";
-        window.location.href = "conta.html";
+        window.location.href = "/contas";
       }, 1000);
     })
     .catch(erro => {
