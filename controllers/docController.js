@@ -63,10 +63,11 @@ exports.listarDocsAnual = async (req, res) => {
 };
 
 
-exports.listarDocsPvsRAnual = async (req, res) => {
+exports.listarDocsPvsRatual = async (req, res) => {
     const { id } = req.params;
+    const sta = ['LA', 'BA'];
     try {
-        const result = await pool.query('select * from vw_orcado_vs_realizado_anual where docusucod = $1', [id]);
+        const result = await pool.query('select * from vw_orcado_vs_realizado_atual where docusucod = $1 and docsta = ANY($2)', [id, sta]);
         res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);

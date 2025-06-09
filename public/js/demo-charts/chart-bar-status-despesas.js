@@ -1,6 +1,6 @@
 fetch('/api/dadosUserLogado')
   .then(res => res.json())
-  .then(user => fetch(`${BASE_URL}/docPvsRAnual/${user.usucod}`))
+  .then(user => fetch(`${BASE_URL}/docPvsRatual/${user.usucod}`))
   .then(res => res.json())
   .then(data => {
     const totals = {};
