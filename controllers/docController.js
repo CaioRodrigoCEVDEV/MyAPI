@@ -221,13 +221,60 @@ exports.editarDoc = async (req, res) => {
     const { doctccod, doccontacod, doccatcod, docv, docobs, docdtpag, docsta } = req.body;
     const valor = parseFloat(docv.replace(',', '.'));
     try {
+        // Busca dados atuais do lançamento para ajustar o saldo quando necessário
+        const busca = await pool.query(
+            'select docsta, docv, doccontacod, docnatcod, docusucod from doc where doccod = $1',
+            [id]
+        );
+        if (busca.rowCount === 0) {
+            return res.status(404).json({ error: 'Documento não encontrado' });
+        }
+        const docAnterior = busca.rows[0];
+
         const result = await pool.query(
             'update doc set doctccod=$1, doccontacod=$2, doccatcod=$3, docv=$4, docobs=$5, docdtpag=$6, docsta=$7 where doccod=$8 RETURNING *',
             [doctccod, doccontacod, doccatcod, valor, docobs, docdtpag, docsta, id]
         );
+
         if (result.rowCount === 0) {
             return res.status(404).json({ error: 'Documento não encontrado' });
         }
+
+        try {
+            // Reverte o efeito anterior se o lançamento estava baixado
+            if (docAnterior.docsta === 'BA') {
+                if (docAnterior.docnatcod === 2) {
+                    await pool.query(
+                        'update conta set contavltotal = contavltotal - $1 where contacod = $2 and contausucod = $3',
+                        [docAnterior.docv, docAnterior.doccontacod, docAnterior.docusucod]
+                    );
+                } else if (docAnterior.docnatcod === 1) {
+                    await pool.query(
+                        'update conta set contavltotal = contavltotal + $1 where contacod = $2 and contausucod = $3',
+                        [docAnterior.docv, docAnterior.doccontacod, docAnterior.docusucod]
+                    );
+                }
+            }
+
+            // Aplica o novo efeito caso o lançamento esteja baixado
+            if (docsta === 'BA') {
+                if (docAnterior.docnatcod === 2) {
+                    await pool.query(
+                        'update conta set contavltotal = contavltotal + $1 where contacod = $2 and contausucod = $3',
+                        [valor, doccontacod, docAnterior.docusucod]
+                    );
+                } else if (docAnterior.docnatcod === 1) {
+                    await pool.query(
+                        'update conta set contavltotal = contavltotal - $1 where contacod = $2 and contausucod = $3',
+                        [valor, doccontacod, docAnterior.docusucod]
+                    );
+                }
+            }
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ error: 'Erro ao atualizar saldo' });
+        }
+
         res.status(200).json(result.rows[0]);
     } catch (error) {
         console.error(error);
