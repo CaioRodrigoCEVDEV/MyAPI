@@ -17,6 +17,8 @@ const contaTipoRoutes = require('./routes/contaTipoRoutes');
 const categoriaController = require('./routes/categoriaRoutes');
 const naturezaController = require('./routes/naturezaRoutes');
 const transfController = require('./routes/transfRoutes');
+const cartaoRoutes = require('./routes/cartaoRoutes');
+const cartaoGastoRoutes = require('./routes/cartaoGastoRoutes');
 const app = express();
 
 
@@ -73,6 +75,8 @@ app.use(naturezaController);
 app.use(categoriaController);
 app.use(contaTipoRoutes);
 app.use(contaRoutes);
+app.use(cartaoRoutes);
+app.use(cartaoGastoRoutes);
 app.use(docRoutes);
 app.use(tcRoutes);
 app.use('/', loginRoutes);
@@ -117,6 +121,12 @@ app.get('/contas', autenticarToken, (req, res) => {
 });
 app.get('/conta_nova', autenticarToken, (req, res) => {
   res.sendFile(__dirname + '/public/html/conta_nova.html')
+});
+app.get('/cartao_credito', autenticarToken, (req, res) => {
+  res.sendFile(__dirname + '/public/html/cartao_credito.html')
+});
+app.get('/gasto_credito', autenticarToken, (req, res) => {
+  res.sendFile(__dirname + '/public/html/gasto_credito.html')
 });
 app.get('/pagina_em_branco', autenticarToken, (req, res) => {
   res.sendFile(__dirname + '/public/html/pagina-branco.html')

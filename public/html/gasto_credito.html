@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Ulife UCtrl</title>
+    <link rel="shortcut icon" href="../img/favicon.png" type="image/x-icon">
+    <link href="../css/styles-bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../login/css/main.css">
+    <link rel="stylesheet" href="../css/dashboard-theme.css">
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+<body class="sb-nav-fixed login-bg">
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-medium-blue-rgb">
+    <a class="navbar-brand ps-3" href="dash">
+        <img src="../img/logo-tamanho-normal.png" width="30" height="30" alt="">
+        Ulife UCtrl
+    </a>
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
+        <i class="fas fa-bars"></i>
+    </button>
+    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+        <div class="input-group">
+            <label style="color: aliceblue;" id="cronometro"></label>
+        </div>
+    </form>
+    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="perfil">Configurações</a></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li><a class="dropdown-item" id="buttonSair">sair</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+<div id="layoutSidenav">
+    <div id="sidebar-container"></div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="row">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h3><i class="fas fa-credit-card"></i> Gastos no Crédito</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-3">
+                        <button id="novoGasto" class="btn btn-primary">Novo</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover table-bordered modern-table">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Descrição</th>
+                                    <th>Valor</th>
+                                    <th>Cartão</th>
+                                    <th>Categoria</th>
+                                    <th>Mês Fatura</th>
+                                </tr>
+                            </thead>
+                            <tbody id="corpoTabela"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal novo gasto -->
+            <div class="modal fade" id="modalNovoGasto" tabindex="-1" aria-labelledby="modalNovoGastoLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form id="formGasto">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalNovoGastoLabel">Novo Gasto</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <input id="usucod" type="hidden" name="usucod" value="">
+                                <div class="form-group mb-2">
+                                    <label>Descrição:</label>
+                                    <input type="text" name="descricao" class="form-control" required>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label>Valor:</label>
+                                    <input type="text" name="valor" class="form-control" required placeholder="R$ 0,00">
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label>Data:</label>
+                                    <input type="date" name="data" class="form-control" required>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label>Mês da Fatura:</label>
+                                    <input type="month" name="mesfat" class="form-control" required>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label>Categoria:</label>
+                                    <select id="categoria" name="catcod" class="form-control" required></select>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label>Cartão:</label>
+                                    <select id="cartao" name="ccid" class="form-control" required></select>
+                                </div>
+                                <div class="alert alert-success mt-2" id="alerta-sucess" style="display: none;"></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button class="btn btn-success" type="submit">Salvar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<script src="/config.js"></script>
+<script src="../js/usucod.js"></script>
+<script src="../js/gasto_credito.js"></script>
+<script src="../js/cronometro.js"></script>
+<script src="../js/sidebar.js"></script>
+<script src="../js/logout.js"></script>
+<script src="../js/scripts.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
+</html>
