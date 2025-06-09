@@ -353,8 +353,8 @@ CREATE TABLE public.cartaocredito (
   ccusucod int,
   ccdes varchar,
   cclimite numeric(14, 2),
-  ccfechamento smallint,
-  ccvencimento smallint
+  ccfechamento int,
+  ccvencimento int
 );
 ```
 - **cccod**: Identificador do cartão (chave primária).
