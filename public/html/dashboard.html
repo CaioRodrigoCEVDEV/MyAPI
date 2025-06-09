@@ -18,45 +18,45 @@
 </head>
 
 <body class="sb-nav-fixed login-bg">
-    
+
     <div id="layoutSidenav">
         <!-- Sidebar  >>>>>  html/sidebar.hmtl-->
-         <!-- <div id="nav-container"></div>    <<<<< VERIFICAR O TOGGLE CLICK quando importado o não esta ocultando-->
+        <!-- <div id="nav-container"></div>    <<<<< VERIFICAR O TOGGLE CLICK quando importado o não esta ocultando-->
         <div id="sidebar-container"></div>
         <!-- Sidebar  >>>>>  html/sidebar.hmtl-->
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-medium-blue-rgb">
-        <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="dash">
-            <img src="../img/logo-tamanho-normal.png" width="30" height="30" alt="">
-            Ulife UCtrl
-        </a>
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-3" href="dash">
+                <img src="../img/logo-tamanho-normal.png" width="30" height="30" alt="">
+                Ulife UCtrl
+            </a>
 
-        
-        <!-- Sidebar Toggle-->
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
-            <i class="fas fa-bars"></i>
-        </button>
-        <!-- Navbar Search-->
-        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-            <div class="input-group">
-                <label style="color: aliceblue;" id="cronometro"></label>
-            </div>
-        </form>
-        <!-- Navbar esquerda usuario configs-->
-        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="perfil">Configurações</a></li>
-                    <li>
-                        <hr class="dropdown-divider" />
-                    </li>
-                    <li><a  class="dropdown-item" id="buttonSair">sair</a></li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
+
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
+                <i class="fas fa-bars"></i>
+            </button>
+            <!-- Navbar Search-->
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <label style="color: aliceblue;" id="cronometro"></label>
+                </div>
+            </form>
+            <!-- Navbar esquerda usuario configs-->
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="perfil">Configurações</a></li>
+                        <li>
+                            <hr class="dropdown-divider" />
+                        </li>
+                        <li><a class="dropdown-item" id="buttonSair">sair</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
@@ -77,22 +77,21 @@
                             </div>
                         </div>
                         <div class="col-xl-4 col-md-6">
-                            <div class="card dashboard-card card-blue mb-4">
-                                <div class="card-body">Receitas a receber: R$<span id="receitaP">0.00</span> </div>
+                            <div class="card dashboard-card card-orange mb-4">
+                                <div class="card-body">Gastos hoje: R$<span id="gastosNow">0.00</span> </div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small stretched-link" href="lancamento_receita" >Ver mais</a>
                                     <div class="small">
                                         <i class="fas fa-angle-right"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="col-xl-4 col-md-6">
-                            <div class="card dashboard-card card-green mb-4">
-                                <div class="card-body">Suas Cobranças</div>
+                            <div class="card dashboard-card card-blue mb-4">
+                                <div class="card-body">Receitas a receber: R$<span id="receitaP">0.00</span> </div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small stretched-link" href="cobranca">Ver mais</a>
+                                    <a class="small stretched-link" href="lancamento_receita">Ver mais</a>
                                     <div class="small">
                                         <i class="fas fa-angle-right"></i>
                                     </div>
@@ -101,17 +100,6 @@
                         </div>
                     </div>
                     <div class="row justify-content-center">
-                        <div class="col-xl-4 col-md-6">
-                            <div class="card dashboard-card card-orange mb-4">
-                                <div class="card-body">Gastos hoje: R$<span id="gastosNow">0.00</span> </div>
-                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small stretched-link"></a>
-                                    <div class="small">
-                                        <i class="fas fa-angle-right"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="col-xl-4 col-md-6">
                             <div class="card dashboard-card card-red mb-4">
                                 <div class="card-body">Despesas a pagar: R$<span id="despesaP">0.00</span> </div>
@@ -124,10 +112,21 @@
                             </div>
                         </div>
                         <div class="col-xl-4 col-md-6">
-                            <div class="card dashboard-card card-teal mb-4">
-                                <div class="card-body">Receita</div>
+                            <div class="card dashboard-card card-orange mb-4">
+                                <div class="card-body">Gastos no crédito hoje: R$<span id="gastosNow">0.00</span> </div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small stretched-link" href="lancamento_receita">Ver mais</a>
+                                    <a class="small stretched-link"></a>
+                                    <div class="small">
+                                        <i class="fas fa-angle-right"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-md-6">
+                            <div class="card dashboard-card card-teal mb-4">
+                                <div class="card-body">Total seguro: R$<span id="totalSeguro">0.00</span> </div>
+                                <div class="card-footer d-flex align-items-center justify-content-between">
+                                    <a class="small stretched-link"></a>
                                     <div class="small">
                                         <i class="fas fa-angle-right"></i>
                                     </div>
@@ -164,7 +163,8 @@
                                     <i class="fas fa-chart-line me-1"></i>
                                     Receitas vs Despesas
                                 </div>
-                                <div class="card-body"><canvas id="lineChartReceitasDespesas" width="100%" height="40"></canvas></div>
+                                <div class="card-body"><canvas id="lineChartReceitasDespesas" width="100%"
+                                        height="40"></canvas></div>
                             </div>
                         </div>
                         <div class="col-xl-6">
@@ -173,7 +173,8 @@
                                     <i class="fas fa-chart-bar me-1"></i>
                                     Despesas por Status
                                 </div>
-                                <div class="card-body"><canvas id="barChartPvsR" width="100%" height="40"></canvas></div>
+                                <div class="card-body"><canvas id="barChartPvsR" width="100%" height="40"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div>
