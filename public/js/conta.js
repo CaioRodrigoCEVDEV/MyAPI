@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", function () {
             const tr = document.createElement("tr");
             tr.innerHTML = `
             <td>${dado.contades}</td>
-            <td>${dado.contatipodes}</td>
             <td>${dado.contavltotal}</td>
             <td>
                 <button class="btn btn-warning btn-sm" onclick="window.location.href='editar?id=${dado.contacod}'" title="Editar">
