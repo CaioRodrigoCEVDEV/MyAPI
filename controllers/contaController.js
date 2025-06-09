@@ -64,7 +64,7 @@ exports.deletarConta = async (req, res) => {
     try {
         const result = await pool.query('delete from conta where contacod = $1 RETURNING *', [id]);
         if (result.rows.length === 0) return res.status(404).json({ error: 'Documento não encontrado' });
-        res.status(200).json(result.rows[0]);
+        res.status(200).json({ message: 'Conta excluída com sucesso', conta: result.rows[0] });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Erro ao deletar documento' });
