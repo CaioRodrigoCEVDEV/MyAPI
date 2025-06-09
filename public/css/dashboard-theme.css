@@ -61,14 +61,40 @@ form.form-inline .form-group {
     }
 }
 
-/* Minimal dashboard styles */
-.card.shadow-sm {
-    border: 1px solid #e5e7eb;
-    background-color: #f9fafb;
+/* Modern colorful card styles */
+.dashboard-card {
+    color: #fff;
+    border: none;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+.dashboard-card.card-blue {
+    background: linear-gradient(135deg, var(--bs-light-blue), var(--bs-medium-blue));
+}
+.dashboard-card.card-green {
+    background: linear-gradient(135deg, var(--bs-light-green), var(--bs-light-blue));
+}
+.dashboard-card.card-purple {
+    background: linear-gradient(135deg, #d16ba5, #86a8e7);
+}
+.dashboard-card .card-footer {
+    background: transparent;
+    border-top: none;
+}
+.dashboard-card a {
+    color: #fff;
+    text-decoration: underline;
+}
+
 .chart-card {
-    border: 1px solid #e5e7eb;
+    border: none;
     background-color: #ffffff;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.chart-card .card-header {
+    background: var(--bs-light-blue);
+    color: #fff;
+    font-weight: 500;
+    border-bottom: none;
 }
