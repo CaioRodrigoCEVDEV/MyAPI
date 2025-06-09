@@ -23,7 +23,8 @@ var x = setInterval(function() {
   var seconds = Math.floor((distance % (1000 * 60)) / 1000);
     
   
-  document.getElementById("cronometro").innerHTML = "Sessão expira em: " + minutes + "m " + seconds + "s ";
+  document.getElementById("cronometro").innerHTML =
+    "<i class='fas fa-clock fa-spin'></i> " + minutes + "m " + seconds + "s";
     
   // If the count down is over, write some text 
   if (distance < 0) {
