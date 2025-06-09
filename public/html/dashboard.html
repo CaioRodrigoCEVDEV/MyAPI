@@ -66,33 +66,33 @@
                     </ol>
                     <div class="row">
                         <div class="col-xl-3 col-md-6">
-                            <div class="card modern-card bg-primary text-white mb-4">
+                            <div class="card shadow-sm mb-4">
                                 <div class="card-body">Extrato de movimentação</div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="listar_registros">Ver mais</a>
-                                    <div class="small text-white">
+                                    <a class="small stretched-link" href="listar_registros">Ver mais</a>
+                                    <div class="small">
                                         <i class="fas fa-angle-right"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-xl-3 col-md-6">
-                            <div class="card modern-card bg-success text-white mb-4">
+                            <div class="card shadow-sm mb-4">
                                 <div class="card-body">Suas Cobranças</div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="cobranca">Ver mais</a>
-                                    <div class="small text-white">
+                                    <a class="small stretched-link" href="cobranca">Ver mais</a>
+                                    <div class="small">
                                         <i class="fas fa-angle-right"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-xl-3 col-md-6">
-                            <div class="card modern-card bg-danger text-white mb-4">
+                            <div class="card shadow-sm mb-4">
                                 <div class="card-body">Saldo: R$<span id="saldo">0.00</span> </div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="contas">Ver mais</a>
-                                    <div class="small text-white">
+                                    <a class="small stretched-link" href="contas">Ver mais</a>
+                                    <div class="small">
                                         <i class="fas fa-angle-right"></i>
                                     </div>
                                 </div>
@@ -108,7 +108,6 @@
                                 </div>
                                 <div class="card-body"><canvas id="myPieChartRec" width="100%" height="50"></canvas>
                                 </div>
-                                <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
                             </div>
                         </div>
                         <div class="col-xl-6">
@@ -119,34 +118,27 @@
                                 </div>
                                 <div class="card-body"><canvas id="myPieChartDep" width="100%" height="50"></canvas>
                                 </div>
-                                <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-
-                    </div>
-
-                    <!--Tabela-->
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <i class="fas fa-table me-1"></i>
-                            DataTable Example
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="card chart-card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-chart-line me-1"></i>
+                                    Receitas vs Despesas
+                                </div>
+                                <div class="card-body"><canvas id="lineChartReceitasDespesas" width="100%" height="40"></canvas></div>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <!-- lembrar de por o id da tabel para ficar formatada -->
-                            <table id="datatablesSimple" class="table table-striped table-hover table-bordered modern-table">
-                                <thead>
-                                    <tr>
-                                        <th>Descrição</th>
-                                        <th>Categoria</th>
-                                        <th>Valor</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="corpoTableDash">
-                                </tbody>
-                            </table>
+                        <div class="col-xl-6">
+                            <div class="card chart-card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-chart-bar me-1"></i>
+                                    Despesas por Status
+                                </div>
+                                <div class="card-body"><canvas id="barChartPvsR" width="100%" height="40"></canvas></div>
+                            </div>
                         </div>
                     </div>
             </main>
@@ -174,6 +166,8 @@
     <!-- <script src="../js/demo-charts/chart-area-demo.js"></script> -->
     <script src="../js/demo-charts/chart-pie-despesa.js"></script>
     <script src="../js/demo-charts/chart-pie-receita.js"></script>
+    <script src="../js/demo-charts/chart-line-receitas-despesas.js"></script>
+    <script src="../js/demo-charts/chart-bar-status-despesas.js"></script>
     <!--Fim-->
     <!-- <script src="../js/demo-charts/datatables-simple-demo.js"></script>Organiza a tabela -->
     <script src="../js/saldo.js"></script>
