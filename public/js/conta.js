@@ -52,7 +52,8 @@ document.addEventListener("DOMContentLoaded", function () {
 // });
 // post
 
-document.getElementById("meuFormulario").addEventListener("submit", function (e) {
+const formElem = document.getElementById("meuFormulario");
+if (formElem) formElem.addEventListener("submit", function (e) {
   e.preventDefault();
 
   const form = e.target;
@@ -88,13 +89,8 @@ document.getElementById("meuFormulario").addEventListener("submit", function (e)
       alerta.innerHTML = contacod ? "Editado com sucesso!" : "Lançado com sucesso!";
       setTimeout(() => {
         alerta.style.display = "none";
-      }, 2000);
-      // Se for edição, volte para a lista de contas
-      if (contacod) {
-        setTimeout(() => {
-          window.location.href = "conta.html";
-        }, 1000);
-      }
+        window.location.href = "conta.html";
+      }, 1000);
     })
     .catch(erro => {
       alert("Erro ao salvar os dados.");

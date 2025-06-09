@@ -115,6 +115,9 @@ app.get('/cobranca', autenticarToken, (req, res) => {
 app.get('/contas', autenticarToken, (req, res) => {
   res.sendFile(__dirname + '/public/html/conta.html')
 });
+app.get('/conta_nova', autenticarToken, (req, res) => {
+  res.sendFile(__dirname + '/public/html/conta_nova.html')
+});
 app.get('/pagina_em_branco', autenticarToken, (req, res) => {
   res.sendFile(__dirname + '/public/html/pagina-branco.html')
 });
