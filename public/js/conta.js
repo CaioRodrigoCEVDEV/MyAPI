@@ -1,3 +1,14 @@
+function showToast(message, type = 'success') {
+  const toastEl = document.getElementById('toastConta');
+  if (!toastEl) return;
+  const body = toastEl.querySelector('.toast-body');
+  body.textContent = message;
+  toastEl.classList.remove('bg-success', 'bg-danger');
+  toastEl.classList.add(type === 'success' ? 'bg-success' : 'bg-danger');
+  const toast = bootstrap.Toast.getOrCreateInstance(toastEl);
+  toast.show();
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   fetch('/api/dadosUserLogado')
     .then(res => res.json())
@@ -92,7 +103,7 @@ if (formElem) formElem.addEventListener("submit", function (e) {
       }, 1000);
     })
     .catch(erro => {
-      alert("Erro ao salvar os dados.");
+      showToast("Erro ao salvar os dados.", "danger");
       console.error(erro);
     });
 });
@@ -134,12 +145,12 @@ window.deletar = function (id) {
     })
         .then(res => {
             if (res.status === 200) {
-                alert("Registro deletado com sucesso!");
+                showToast("Registro deletado com sucesso!", "success");
                 location.reload();
             } else if (res.status === 500) {
-                alert("Existem registros vinculados a este item. Não é possível deletar.");
-            }else {
-                alert("Erro ao deletar o registro.");
+                showToast("Existem registros vinculados a este item. Não é possível deletar.", "danger");
+            } else {
+                showToast("Erro ao deletar o registro.", "danger");
             }
         })
         
@@ -188,7 +199,7 @@ function carregarContaParaEdicao(id) {
     })
     .catch(error => {
       console.error("Erro ao buscar dados:", error);
-      alert("Erro ao carregar os dados da conta.");
+      showToast("Erro ao carregar os dados da conta.", "danger");
     });
 }
 
