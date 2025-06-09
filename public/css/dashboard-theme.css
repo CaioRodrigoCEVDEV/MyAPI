@@ -117,3 +117,9 @@ form.form-inline .form-group {
     font-weight: 500;
     border-bottom: none;
 }
+
+/* Expand layouts to full width */
+.container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+}
