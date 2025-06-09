@@ -312,3 +312,29 @@ exports.atualizarStatus = async (req, res) => {
     }
 };
 
+
+exports.contaDespesaPendente = async (req, res) => {
+    const {id} = req.params;
+    const natureza = "Despesa"
+    const LA = "LA";
+    try {
+        const result = await pool.query('select sum(docv) as total from doc join natureza on natcod = docnatcod where natdes = $1 and docsta = $2 and docusucod = $3', [natureza,LA,id]);
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro ao buscar conta' });
+    }
+};
+
+exports.contaReceitaPendente = async (req, res) => {
+    const {id} = req.params;
+    const natureza = "Receita"
+    const LA = "LA";
+    try {
+        const result = await pool.query('select sum(docv) as total from doc join natureza on natcod = docnatcod where natdes = $1 and docsta = $2 and docusucod = $3', [natureza,LA,id]);
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro ao buscar conta' });
+    }
+};
