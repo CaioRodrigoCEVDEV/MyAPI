@@ -24,7 +24,7 @@ fetch('/api/dadosUserLogado')
     });
 
     const myPieChart = new Chart(ctxRec, {
-      type: "pie",
+      type: "doughnut",
       data: {
         labels: labels,
         datasets: [
@@ -48,6 +48,7 @@ fetch('/api/dadosUserLogado')
           display: true,
           position: "top",
         },
+        cutoutPercentage: 60,
       },
     });
   })
