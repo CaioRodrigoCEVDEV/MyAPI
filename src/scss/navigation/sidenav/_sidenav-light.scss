@@ -6,7 +6,12 @@
 // Append .sb-sidenav-light to .sb-sidenav to use
 
 .sb-sidenav-light {
-    background-color: $sidenav-light-bg;
+    // Apply a light gradient with transparency for a cleaner appearance
+    background: linear-gradient(
+        180deg,
+        rgba($sidenav-light-bg, 0.95) 0%,
+        rgba($sidenav-light-footer-bg, 0.85) 100%
+    );
     color: $sidenav-light-color;
 
     .sb-sidenav-menu {
