@@ -108,3 +108,30 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("saldo").innerText = "Erro";
         });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    fetch('/api/dadosUserLogado')
+        .then(res => res.json())
+        .then(dados => {
+
+            return fetch(`${BASE_URL}/doc/totalSeguro/${dados.usucod}`)
+        })
+        .then(res => res.json())
+        .then(dados => {
+            const saldo = document.getElementById("totalSeguro");
+
+            if (dados.length > 0 && dados[0].total_seguro) {
+                const valor = parseFloat(dados[0].total_seguro);
+                saldo.innerText = valor.toLocaleString('pt-BR', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            } else {
+                saldo.innerText = "0,00";
+            }
+        })
+        .catch(erro => {
+            console.error("Erro ao buscar saldo:", erro);
+            document.getElementById("saldo").innerText = "Erro";
+        });
+});

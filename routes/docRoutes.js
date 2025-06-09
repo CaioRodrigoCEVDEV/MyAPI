@@ -14,6 +14,7 @@ router.get('/doc/receitas/:id',autenticarToken, docController.listarDocsReceitas
 router.get('/doc/contaDespesaPendente/:id',autenticarToken, docController.contaDespesaPendente);
 router.get('/doc/contaReceitaPendente/:id',autenticarToken, docController.contaReceitaPendente);
 router.get('/doc/GastosHoje/:id',autenticarToken, docController.GastosHoje);
+router.get('/doc/totalSeguro/:id',autenticarToken, docController.TotalSeguro);
 router.get('/docid/:id',autenticarToken, docController.listarDocId);
 router.put('/docedit/:id',autenticarToken, docController.editarDoc);
 router.put('/docstatus/:id',autenticarToken, docController.atualizarStatus);

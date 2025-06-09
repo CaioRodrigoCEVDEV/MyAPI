@@ -475,6 +475,25 @@ GRANT ALL ON TABLE public.vw_orcado_vs_realizado_anual TO postgres;
 ```
 
 ---
+
+# 💰 View Orçado VS Realizado | ANUAL
+
+```sql
+CREATE OR REPLACE VIEW public.vw_total_seguro
+AS SELECT vw_saldo_contas.usu,
+    vw_saldo_contas.contas_saldo - sum(doc.docv) AS total_seguro
+   FROM vw_saldo_contas
+     JOIN doc ON doc.docusucod = vw_saldo_contas.usu AND doc.docsta = 'LA'::bpchar AND doc.docnatcod = 1
+  GROUP BY vw_saldo_contas.usu, vw_saldo_contas.contas_saldo;
+
+-- Permissions
+
+ALTER TABLE public.vw_total_seguro OWNER TO postgres;
+GRANT ALL ON TABLE public.vw_total_seguro TO postgres;
+```
+
+---
+
 ## 🔐 Variáveis de Ambiente
 
 Exemplo `.env`:
