@@ -353,16 +353,16 @@ CREATE TABLE public.cartaocredito (
   ccusucod int,
   ccdes varchar,
   cclimite numeric(14, 2),
-  ccfechamento date,
-  ccvencimento date
+  ccfechamento smallint,
+  ccvencimento smallint
 );
 ```
 - **cccod**: Identificador do cartão (chave primária).
 - **ccusucod**: Código do usuário dono do cartão.
 - **ccdes**: Descrição do cartão.
 - **cclimite**: Limite de crédito disponível.
-- **ccfechamento**: Dia de fechamento da fatura.
-- **ccvencimento**: Dia de vencimento da fatura.
+- **ccfechamento**: Dia de fechamento da fatura (1-31).
+- **ccvencimento**: Dia de vencimento da fatura (1-31).
 
 ## 💳 Tabela `gastocredito` (Gastos do Cartão)
 
