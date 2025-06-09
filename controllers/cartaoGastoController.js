@@ -19,7 +19,13 @@ exports.listarGastos = async (req, res) => {
     const { id } = req.params;
     try {
         const result = await pool.query(
-            'SELECT * FROM gastocredito WHERE usucod = $1 ORDER BY data DESC',
+            `SELECT g.gcid, g.descricao, g.valor, g.data, g.mesfat,
+                    c.ccdes, cat.catdes
+             FROM gastocredito g
+             JOIN cartaocredito c ON c.cccod = g.ccid
+             JOIN categoria cat ON cat.catcod = g.catcod
+             WHERE g.usucod = $1
+             ORDER BY g.data DESC`,
             [id]
         );
         res.status(200).json(result.rows);
