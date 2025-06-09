@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <td>${dado.contades}</td>
             <td>${dado.contavltotal}</td>
             <td>
-                <button class="btn btn-warning btn-sm" onclick="window.location.href='editar?id=${dado.contacod}'" title="Editar">
+                <button class="btn btn-warning btn-sm" onclick="abrirEditar(${dado.contacod})" title="Editar">
                   <i class="fa fa-edit"></i>
                 </button>
                 <button class="btn btn-danger btn-sm" onclick="deletar(${dado.contacod})" title="Deletar">
@@ -114,7 +114,7 @@ function atualizarTabela() {
           <td>${dado.contatipodes}</td>
           <td>${dado.contavltotal}</td>
           <td>
-            <button class="btn btn-warning btn-sm" onclick="window.location.href='editar?id=${dado.contacod}'" title="Editar">
+            <button class="btn btn-warning btn-sm" onclick="abrirEditar(${dado.contacod})" title="Editar">
               <i class="fa fa-edit"></i>
             </button>
             <button class="btn btn-danger btn-sm" onclick="deletar(${dado.contacod})" title="Deletar">
@@ -197,8 +197,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnNovo = document.getElementById('novoConta');
   const modalEl = document.getElementById('modalNovaConta');
   const modalNovaConta = modalEl ? new bootstrap.Modal(modalEl) : null;
+  const modalLabel = document.getElementById('modalNovaContaLabel');
+  const form = document.getElementById('meuFormulario');
+
   btnNovo?.addEventListener('click', () => {
+    modalLabel.textContent = 'Nova Conta';
+    form?.reset();
+    document.getElementById('contacod').value = '';
     modalNovaConta?.show();
   });
+
+  modalEl?.addEventListener('hidden.bs.modal', () => {
+    form?.reset();
+    document.getElementById('contacod').value = '';
+    modalLabel.textContent = 'Nova Conta';
+  });
+
+  window.abrirEditar = function(id) {
+    carregarContaParaEdicao(id);
+    modalLabel.textContent = 'Editar Conta';
+    modalNovaConta?.show();
+  };
 });
 
