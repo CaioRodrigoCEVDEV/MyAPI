@@ -139,26 +139,38 @@ function atualizarTabela() {
     .catch(erro => console.error(erro));
 }
 // delete
-window.deletar = function (id) {
-    if (!confirm('Deseja excluir esta conta?')) {
-        return;
-    }
+let deleteContaId = null;
+let confirmDeleteModal = null;
 
-    fetch(`${BASE_URL}/conta/${id}`, {
-        method: "DELETE"
-    })
-        .then(res => {
-            if (res.status === 200) {
-                showToast("Registro deletado com sucesso!", "success");
-                location.reload();
-            } else if (res.status === 500) {
-                showToast("Existem registros vinculados a este item. Não é possível deletar.", "danger");
-            } else {
-                showToast("Erro ao deletar o registro.", "danger");
-            }
-        })
-        
+window.deletar = function (id) {
+    deleteContaId = id;
+    confirmDeleteModal?.show();
 };
+
+document.addEventListener('DOMContentLoaded', () => {
+  const modalEl = document.getElementById('confirmDeleteModal');
+  confirmDeleteModal = modalEl ? new bootstrap.Modal(modalEl) : null;
+  const btnConfirmDelete = document.getElementById('btnConfirmDelete');
+
+  btnConfirmDelete?.addEventListener('click', () => {
+    if (!deleteContaId) return;
+
+    fetch(`${BASE_URL}/conta/${deleteContaId}`, {
+      method: "DELETE"
+    })
+      .then(res => {
+        confirmDeleteModal?.hide();
+        if (res.status === 200) {
+          showToast("Excluido com sucesso!", "success");
+          location.reload();
+        } else if (res.status === 500) {
+          showToast("Existem registros vinculados a este item. Não é possível deletar.", "danger");
+        } else {
+          showToast("Erro ao deletar o registro.", "danger");
+        }
+      });
+  });
+});
 
 document.addEventListener("DOMContentLoaded", function() {
   const params = new URLSearchParams(window.location.search);
