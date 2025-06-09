@@ -161,13 +161,24 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(res => {
         confirmDeleteModal?.hide();
         if (res.status === 200) {
-          showToast("Excluido com sucesso!", "success");
-          location.reload();
-        } else if (res.status === 500) {
-          showToast("Existem registros vinculados a este item. Não é possível deletar.", "danger");
-        } else {
-          showToast("Erro ao deletar o registro.", "danger");
+          return res.json().then(data => {
+            showToast(data.message || "Excluido com sucesso!", "success");
+            setTimeout(() => location.reload(), 500);
+          });
         }
+
+        if (res.status === 500) {
+          showToast("Existem registros vinculados a este item. Não é possível deletar.", "danger");
+          return;
+        }
+
+        return res.json()
+          .then(err => {
+            showToast(err.error || "Erro ao deletar o registro.", "danger");
+          })
+          .catch(() => {
+            showToast("Erro ao deletar o registro.", "danger");
+          });
       });
   });
 });
