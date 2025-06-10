@@ -360,3 +360,25 @@ exports.TotalSeguro = async (req, res) => {
         res.status(500).json({ error: 'Erro ao buscar conta' });
     }
 };
+
+exports.desepesasPorStatus = async (req, res) => {
+    const {id} = req.params;
+    try {
+        const result = await pool.query('select * from vw_despesas_sta where  docusucod = $1', [id]);
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro ao buscar conta' });
+    }
+};
+
+exports.receitasPorStatus = async (req, res) => {
+    const {id} = req.params;
+    try {
+        const result = await pool.query('select * from vw_receitas_sta where  docusucod = $1', [id]);
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro ao buscar conta' });
+    }
+};
