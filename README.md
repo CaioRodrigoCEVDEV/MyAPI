@@ -476,7 +476,7 @@ GRANT ALL ON TABLE public.vw_orcado_vs_realizado_anual TO postgres;
 
 ---
 
-# 💰 View Orçado VS Realizado | ANUAL
+# 💰 View Total Seguro
 
 ```sql
 CREATE OR REPLACE VIEW public.vw_total_seguro
@@ -493,6 +493,39 @@ GRANT ALL ON TABLE public.vw_total_seguro TO postgres;
 ```
 
 ---
+
+# 💰 View Orçado vs Realizado | Atual
+
+```sql
+create or replace view vw_orcado_vs_realizado_atual
+as SELECT doc.docusucod,
+    doc.docsta,
+    to_char(date_trunc('month'::text, doc.docdtpag::timestamp with time zone), 'YYYY-MM'::text) AS mes,
+    sum(doc.docv) AS total
+   FROM doc
+  WHERE date_part('month'::text, doc.docdtpag) = date_part('month'::text, CURRENT_DATE) 
+  AND doc.docnatcod = 1 
+  GROUP BY doc.docusucod, doc.docsta, (date_trunc('month'::text, doc.docdtpag::timestamp with time zone))
+  ORDER BY doc.docusucod, doc.docsta, (to_char(date_trunc('month'::text, doc.docdtpag::timestamp with time zone), 'YYYY-MM'::text));
+```
+
+---
+---
+
+# 💰 View Despesa Pendente | Atual
+
+```sql
+create or replace view vw_despesa_pendente_atual
+as select docusucod,sum(docv) as total 
+from doc 
+join natureza on natcod = docnatcod 
+where natdes = 'Despesa' 
+and docsta = 'LA'
+and date_part('month'::text, doc.docdtpag) = date_part('month'::text, CURRENT_DATE)
+group by docusucod
+
+```
+
 
 ## 🔐 Variáveis de Ambiente
 

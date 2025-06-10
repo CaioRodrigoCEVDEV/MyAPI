@@ -64,8 +64,8 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(dados => {
             const saldo = document.getElementById("despesaP");
 
-            if (dados.length > 0 && dados[0].total) {
-                const valor = parseFloat(dados[0].total);
+            if (dados.length > 0 && dados[0].total_pendente_atual) {
+                const valor = parseFloat(dados[0].total_pendente_atual);
                 saldo.innerText = valor.toLocaleString('pt-BR', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2

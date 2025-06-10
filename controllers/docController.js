@@ -316,10 +316,8 @@ exports.atualizarStatus = async (req, res) => {
 
 exports.contaDespesaPendente = async (req, res) => {
     const {id} = req.params;
-    const natureza = "Despesa"
-    const LA = "LA";
     try {
-        const result = await pool.query('select sum(docv) as total from doc join natureza on natcod = docnatcod where natdes = $1 and docsta = $2 and docusucod = $3', [natureza,LA,id]);
+        const result = await pool.query('select total as total_pendente_atual from vw_despesa_pendente_atual  where docusucod = $1', [id]);
         res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);
