@@ -7,6 +7,7 @@ router.post('/doc',autenticarToken, docController.criarDoc);
 router.get('/doc/:id',autenticarToken, docController.listarDocs);
 router.get('/docAnual/:id',autenticarToken, docController.listarDocsAnual);
 router.get('/docPvsRatual/:id',autenticarToken, docController.listarDocsPvsRatual);
+router.get('/docReceitaStatusAtual/:id',autenticarToken, docController.receitasStatusAtual);
 router.get('/doc/receitas',autenticarToken, docController.listarDocsReceitas);
 router.get('/doc/despesas',autenticarToken, docController.listarDocsDespesas);
 router.get('/doc/despesas/:id',autenticarToken, docController.listarDocsDespesasUser);

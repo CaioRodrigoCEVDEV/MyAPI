@@ -75,6 +75,22 @@ exports.listarDocsPvsRatual = async (req, res) => {
     }
 };
 
+// Lista o total de receitas baixadas (BA) e lançadas (LA) no mês atual
+exports.receitasStatusAtual = async (req, res) => {
+    const { id } = req.params;
+    const sta = ['LA', 'BA'];
+    try {
+        const result = await pool.query(
+            'select docsta, sum(docv) as total from doc where docusucod = $1 and docsta = ANY($2) and docnatcod = 2 and date_part(''month'', docdtpag) = date_part(''month'', CURRENT_DATE) group by docsta',
+            [id, sta]
+        );
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro ao listar receitas por status' });
+    }
+};
+
 exports.listarDocsReceitas = async (req, res) => {
     try {
         const natureza = "Receita";
