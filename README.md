@@ -484,6 +484,7 @@ AS SELECT vw_saldo_contas.usu,
     vw_saldo_contas.contas_saldo - sum(doc.docv) AS total_seguro
    FROM vw_saldo_contas
      JOIN doc ON doc.docusucod = vw_saldo_contas.usu AND doc.docsta = 'LA'::bpchar AND doc.docnatcod = 1
+     and date_part('month'::text, doc.docdtpag) = date_part('month'::text, CURRENT_DATE)
   GROUP BY vw_saldo_contas.usu, vw_saldo_contas.contas_saldo;
 
 -- Permissions
