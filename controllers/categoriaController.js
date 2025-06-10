@@ -49,11 +49,11 @@ exports.listarcatTodosDespesa = async (req, res) => {
 
 
 
-exports.listarCategoriaReceita = async (req, res) => {
+exports.listarCategoriaReceitaLA = async (req, res) => {
     const { id } = req.params;
     try {
         const r = "R"
-        const ex = "EX"
+        const LA = "LA"
         const result = await pool.query(
             `select catcod, catdes, cattipo, sum(docv) as docv
              from categoria
@@ -61,9 +61,9 @@ exports.listarCategoriaReceita = async (req, res) => {
              where cattipo = $1
                and catusucod = $2
                and docsta <> $3
-               and date_trunc('month', docdtlan) = date_trunc('month', CURRENT_DATE)
+               and date_trunc('month', docdtpag) = date_trunc('month', CURRENT_DATE)
              group by catcod, catdes, cattipo`,
-            [r, id, ex]
+            [r, id, LA]
         );
         res.status(200).json(result.rows);
     } catch (error) {
