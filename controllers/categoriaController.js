@@ -96,7 +96,7 @@ exports.listarCategoriaDespesaLA = async (req, res) => {
              where cattipo = $1
                and catusucod = $2
                and docsta = $3
-               and date_trunc('month', docdtlan) = date_trunc('month', CURRENT_DATE)
+               and date_trunc('month', docdtpag) = date_trunc('month', CURRENT_DATE)
              group by catcod, catdes, cattipo`,
             [d, id, LA]
         );
