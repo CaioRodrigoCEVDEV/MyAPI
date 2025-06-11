@@ -511,7 +511,7 @@ as SELECT doc.docusucod,
 ```
 
 ---
----
+
 
 # 💰 View Despesa Pendente | Atual
 
@@ -526,6 +526,46 @@ and date_part('month'::text, doc.docdtpag) = date_part('month'::text, CURRENT_DA
 group by docusucod
 
 ```
+---
+# 💰 View Receita e Despesa Realizado | Anual
+
+```sql
+CREATE OR REPLACE VIEW public.vw_receita_vs_despesa_anual_realizado
+AS SELECT docusucod,
+    docnatcod,
+    to_char(date_trunc('month'::text, docdtpag::timestamp with time zone), 'YYYY-MM'::text) AS mes,
+    sum(docv) AS total
+   FROM doc
+  WHERE date_part('year'::text, docdtpag) = date_part('year'::text, CURRENT_DATE) AND (docsta = ANY (ARRAY['BA'::bpchar]))
+  GROUP BY docusucod, docnatcod, (date_trunc('month'::text, docdtpag::timestamp with time zone))
+  ORDER BY docusucod, docnatcod, (to_char(date_trunc('month'::text, docdtpag::timestamp with time zone), 'YYYY-MM'::text));
+
+-- Permissions
+
+ALTER TABLE public.vw_receita_vs_despesa_anual_realizado OWNER TO postgres;
+GRANT ALL ON TABLE public.vw_receita_vs_despesa_anual_realizado TO postgres;
+```
+---
+# 💰 View Receita e Despesa Provisionado | Anual
+
+```sql
+CREATE OR REPLACE VIEW public.vw_receita_vs_despesa_anual_provisionado
+AS SELECT docusucod,
+    docnatcod,
+    to_char(date_trunc('month'::text, docdtpag::timestamp with time zone), 'YYYY-MM'::text) AS mes,
+    sum(docv) AS total
+   FROM doc
+  WHERE date_part('year'::text, docdtpag) = date_part('year'::text, CURRENT_DATE) AND (docsta = ANY (ARRAY['LA'::bpchar]))
+  GROUP BY docusucod, docnatcod, (date_trunc('month'::text, docdtpag::timestamp with time zone))
+  ORDER BY docusucod, docnatcod, (to_char(date_trunc('month'::text, docdtpag::timestamp with time zone), 'YYYY-MM'::text));
+
+-- Permissions
+
+ALTER TABLE public.vw_receita_vs_despesa_anual_provisionado OWNER TO postgres;
+GRANT ALL ON TABLE public.vw_receita_vs_despesa_anual_provisionado TO postgres;
+```
+
+---
 
 
 ## 🔐 Variáveis de Ambiente
