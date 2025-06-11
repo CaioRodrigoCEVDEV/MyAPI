@@ -51,10 +51,23 @@ exports.listarDocs = async (req, res) => {
 };
 
 
-exports.listarDocsAnual = async (req, res) => {
+exports.listarDocsAnualRealizado = async (req, res) => {
     const { id } = req.params;
     try {
-        const result = await pool.query('select * from vw_receita_vs_despesa_anual where docusucod = $1', [id]);
+        const result = await pool.query('select * from vw_receita_vs_despesa_anual_realizado where docusucod = $1', [id]);
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro ao listar documentos' });
+    }
+};
+
+
+
+exports.listarDocsAnualProvisionado = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const result = await pool.query('select * from vw_receita_vs_despesa_anual_provisionado where docusucod = $1', [id]);
         res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);

@@ -1,6 +1,6 @@
 fetch('/api/dadosUserLogado')
   .then(res => res.json())
-  .then(user => fetch(`${BASE_URL}/docAnual/${user.usucod}`))
+  .then(user => fetch(`${BASE_URL}/docAnualRealizado/${user.usucod}`))
   .then(res => res.json())
   .then(data => {
     const mesesSet = new Set(data.map(d => d.mes));
@@ -13,7 +13,7 @@ fetch('/api/dadosUserLogado')
       const item = data.find(d => d.mes === m && d.docnatcod === 1);
       return item ? Number(item.total) : 0;
     });
-    const ctx = document.getElementById('lineChartReceitasDespesas');
+    const ctx = document.getElementById('lineChartReceitasDespesasRealizado');
     new Chart(ctx, {
       type: 'line',
       data: {
