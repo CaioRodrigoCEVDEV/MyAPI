@@ -13,23 +13,23 @@ fetch('/api/dadosUserLogado')
       const item = data.find(d => d.mes === m && d.docnatcod === 1);
       return item ? Number(item.total) : 0;
     });
-    const ctx = document.getElementById('lineChartReceitasDespesasRealizado');
+    const ctx = document.getElementById('barChartReceitasDespesasRealizado');
     new Chart(ctx, {
-      type: 'line',
+      type: 'bar',
       data: {
         labels: meses,
         datasets: [
           {
             label: 'Receitas',
             data: receitas,
-            borderColor: '#28a745',
-            fill: false
+            backgroundColor: '#28a745',
+            borderColor: '#28a745'
           },
           {
             label: 'Despesas',
             data: despesas,
-            borderColor: '#dc3545',
-            fill: false
+            backgroundColor: '#dc3545',
+            borderColor: '#dc3545'
           }
         ]
       },
@@ -38,4 +38,4 @@ fetch('/api/dadosUserLogado')
       }
     });
   })
-  .catch(err => console.error('Erro ao carregar grafico linha:', err));
+  .catch(err => console.error('Erro ao carregar grafico barra:', err));
