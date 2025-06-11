@@ -3,7 +3,7 @@ const router = express.Router();
 const categoriaController = require('../controllers/categoriaController');
 const autenticarToken = require('../src/middleware/authMiddleware');
 
-router.get('/catReceita/:id',autenticarToken , categoriaController.listarCategoriaReceitaLA);
+router.get('/catReceita/:id',autenticarToken , categoriaController.listarCategoriaReceitaBA);
 router.get('/catDespesa/:id',autenticarToken , categoriaController.listarCategoriaDespesaLA);
 router.get('/catTodos/:id',autenticarToken , categoriaController.listarcatTodos);
 router.get('/catTodosReceita/:id',autenticarToken , categoriaController.listarcatTodosReceita);
