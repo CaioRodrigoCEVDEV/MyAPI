@@ -329,8 +329,9 @@ exports.contaReceitaPendente = async (req, res) => {
     const {id} = req.params;
     const natureza = "Receita"
     const LA = "LA";
+    const agora = 'now()';
     try {
-        const result = await pool.query('select sum(docv) as total from doc join natureza on natcod = docnatcod where natdes = $1 and docsta = $2 and docusucod = $3', [natureza,LA,id]);
+        const result = await pool.query('select sum(docv) as total from doc join natureza on natcod = docnatcod where natdes = $1 and docsta = $2 and docusucod = $3 and docdtpag = $4', [natureza,LA,id,agora]);
         res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);
