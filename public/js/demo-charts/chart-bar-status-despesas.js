@@ -21,7 +21,14 @@ fetch('/api/dadosUserLogado')
         }]
       },
       options: {
-        legend: { display: false }
+        legend: { display: false },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
       }
     });
   })
@@ -53,7 +60,14 @@ fetch('/api/dadosUserLogado')
         }]
       },
       options: {
-        legend: { display: false }
+        legend: { display: false },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
       }
     });
   })

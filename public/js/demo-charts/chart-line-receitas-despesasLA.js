@@ -34,7 +34,14 @@ fetch('/api/dadosUserLogado')
         ]
       },
       options: {
-        legend: { display: true }
+        legend: { display: true },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
       }
     });
   })
