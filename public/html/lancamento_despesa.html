@@ -51,31 +51,61 @@
         <div id="sidebar-container"></div>
 
         <div id="layoutSidenav_content">
-            <main>
+            <main style="padding: 15px;">
 
-                <div class="container-fluid mt-4">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card mb-4">
-                                <div class="card-header">
-                                    <h3><i class="fa-solid fa-money-bill-transfer"></i> Lançamentos - Despesas</h3>
-                                </div>
+
+                
+                <div style="margin: auto;" class="row justify-content-center">
+                    
+                    <div class="col-xl-3">
+                        <div class="card dashboard-card card-purple mb-4">
+                            <div class="card-body">Total de lançamentos: <span id="saldo">0</span> </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3">
+                        <div class="card dashboard-card card-orange mb-4">
+                            <div class="card-body">Total a Pagar: R$<span id="gastosNow">0.00</span> </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                            </div>
+                        </div>
+                    </div>
+                
+                
+                    <div class="col-xl-3">
+                        <div class="card dashboard-card card-red mb-4">
+                            <div class="card-body">Total Pendente: R$<span id="despesaP">0.00</span> </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-xl-3">
+                        <div class="card dashboard-card card-teal mb-4">
+                            <div class="card-body">A Pagar: R$<span id="totalSeguro">0.00</span> </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <div style="padding: 10px; background-color: antiquewhite; justify-items: center; align-items: center; ">
+                    <div style="padding: 10px;" >Lançamentos de Despesas </div>
+                        <button id="novoLancamento" class="btn btn-primary">Nova Despesa</button>
+                    </div>
+
                 <div class="container-fluid">
                     <div class="card">
                         <div class="card-body">
 
-                            <div class="d-flex justify-content-between mb-3">
-                                <button id="novoLancamento" class="btn btn-primary">Novo</button>
-                            </div>
-                            <input id="buscaLancamento" class="form-control mb-3" style="max-width:200px;" placeholder="Buscar">
-                            <h3 class="mt-5">Lançamentos Registrados</h3>
+
+                            <label style="margin-left: 0.5%;">Filtros de Pesquisa</label>
+                            <input id="buscaLancamento" class="form-control mb-3" placeholder="Buscar">
+
                             <div class="table-responsive">
-                                <table class="table table-lg table-striped table-hover table-bordered modern-table">
+                                <table class="table  table-hover">
                                     <thead>
                                         <tr>
                                             <th>Data</th>
@@ -89,119 +119,140 @@
                                             <th>Ações</th>
                                         </tr>
                                     </thead>
-                                <tbody id="corpoTabela">
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- Modal de edição -->
-                        <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <form id="formEditar">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="modalEditarLabel">Editar Lançamento</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <input type="hidden" id="edit_doccod" name="doccod">
-                                            <div class="form-group mb-2">
-                                                <label>Conta:</label>
-                                                <select id="edit_contacod" name="doccontacod" class="form-control" required></select>
+                                    <tbody id="corpoTabela">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- Modal de edição -->
+                            <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalEditarLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form id="formEditar">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="modalEditarLabel">Editar Lançamento</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                             </div>
-                                            <div class="form-group mb-2">
-                                                <label>Tipo de Cobrança:</label>
-                                                <select id="edit_tccod" name="doctccod" class="form-control" required></select>
-                                            </div>
-                                            <div class="form-group mb-2">
-                                                <label>Categoria:</label>
-                                                <select id="edit_catcod" name="doccatcod" class="form-control" required></select>
-                                            </div>
-                                            <div class="form-group mb-2">
-                                                <label>Valor:</label>
-                                                <input type="text" id="edit_docv" name="docv" class="form-control" required>
-                                            </div>
-                                            <div class="form-group mb-2">
-                                                <label>Observações</label>
-                                                <textarea id="edit_docobs" name="docobs" rows="2" class="form-control"></textarea>
-                                            </div>
-                                            <div class="form-group mb-2">
-                                                <label>Status</label>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="edit_docsta" name="docsta" value="BA">
-                                                    <label class="form-check-label" for="edit_docsta">Pago</label>
+                                            <div class="modal-body">
+                                                <input type="hidden" id="edit_doccod" name="doccod">
+                                                <div class="form-group mb-2">
+                                                    <label>Conta:</label>
+                                                    <select id="edit_contacod" name="doccontacod" class="form-control"
+                                                        required></select>
                                                 </div>
-                                                <input type="date" id="edit_docdtpag" name="docdtpag" class="form-control mt-2" required>
+                                                <div class="form-group mb-2">
+                                                    <label>Tipo de Cobrança:</label>
+                                                    <select id="edit_tccod" name="doctccod" class="form-control"
+                                                        required></select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label>Categoria:</label>
+                                                    <select id="edit_catcod" name="doccatcod" class="form-control"
+                                                        required></select>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label>Valor:</label>
+                                                    <input type="text" id="edit_docv" name="docv" class="form-control"
+                                                        required>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label>Observações</label>
+                                                    <textarea id="edit_docobs" name="docobs" rows="2"
+                                                        class="form-control"></textarea>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label>Status</label>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="edit_docsta"
+                                                            name="docsta" value="BA">
+                                                        <label class="form-check-label" for="edit_docsta">Pago</label>
+                                                    </div>
+                                                    <input type="date" id="edit_docdtpag" name="docdtpag"
+                                                        class="form-control mt-2" required>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                            <button type="submit" class="btn btn-primary">Salvar</button>
-                                        </div>
-                                    </form>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Cancelar</button>
+                                                <button type="submit" class="btn btn-primary">Salvar</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- Modal de novo lançamento -->
-                        <div class="modal fade" id="modalNovo" tabindex="-1" aria-labelledby="modalNovoLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <form id="meuFormulario">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="modalNovoLabel">Novo Lançamento</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <input id="usucod" name="docusucod" type="hidden" value="" />
-                                            <div class="form-group">
-                                                <label>Conta:</label>
-                                                <select id="contacod" name="doccontacod" class="form-control" required>
-                                                    <option value="" hidden>Selecione</option>
-                                                </select>
+                            <!-- Modal de novo lançamento -->
+                            <div class="modal fade" id="modalNovo" tabindex="-1" aria-labelledby="modalNovoLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form id="meuFormulario">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="modalNovoLabel">Novo Lançamento</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                             </div>
-                                            <div class="form-group">
-                                                <label>Tipo de Cobrança:</label>
-                                                <select id="tipoCobranca" name="doctccod" class="form-control" required>
-                                                    <option value="" hidden>Selecione</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Categoria:</label>
-                                                <select id="categoria" name="doccatcod" class="form-control" required>
-                                                    <option value="" hidden>Selecione</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Valor:</label>
-                                                <input type="text" name="docv" class="form-control" required placeholder="R$ 0,00">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Observações (opcional):</label>
-                                                <textarea name="docobs" rows="3" class="form-control" placeholder="Informações complementares"></textarea>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Status</label>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" name="docsta" value="BA">
-                                                    <label class="form-check-label" for="status">Pago</label>
+                                            <div class="modal-body">
+                                                <input id="usucod" name="docusucod" type="hidden" value="" />
+                                                <div class="form-group">
+                                                    <label>Conta:</label>
+                                                    <select id="contacod" name="doccontacod" class="form-control"
+                                                        required>
+                                                        <option value="" hidden>Selecione</option>
+                                                    </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input id="docdtpag" type="date" name="docdtpag" class="form-control" required>
+                                                    <label>Tipo de Cobrança:</label>
+                                                    <select id="tipoCobranca" name="doctccod" class="form-control"
+                                                        required>
+                                                        <option value="" hidden>Selecione</option>
+                                                    </select>
                                                 </div>
+                                                <div class="form-group">
+                                                    <label>Categoria:</label>
+                                                    <select id="categoria" name="doccatcod" class="form-control"
+                                                        required>
+                                                        <option value="" hidden>Selecione</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Valor:</label>
+                                                    <input type="text" name="docv" class="form-control" required
+                                                        placeholder="R$ 0,00">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Observações (opcional):</label>
+                                                    <textarea name="docobs" rows="3" class="form-control"
+                                                        placeholder="Informações complementares"></textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Status</label>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" name="docsta"
+                                                            value="BA">
+                                                        <label class="form-check-label" for="status">Pago</label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input id="docdtpag" type="date" name="docdtpag"
+                                                            class="form-control" required>
+                                                    </div>
+                                                </div>
+                                                <div class="alert alert-success mt-2" id="alerta-sucess"
+                                                    style="display: none;"></div>
                                             </div>
-                                            <div class="alert alert-success mt-2" id="alerta-sucess" style="display: none;"></div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                            <button class="btn btn-success" type="submit">Salvar</button>
-                                        </div>
-                                    </form>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Cancelar</button>
+                                                <button class="btn btn-success" type="submit">Salvar</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
-            </div>
 
             </main>
         </div>
@@ -222,7 +273,7 @@
             }
         });
     </script>
-    
+
     <!--Bootstrap Scripts-->
     <script src="../js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
