@@ -434,6 +434,27 @@ GRANT ALL ON TABLE public.vw_saldo_contas TO postgres;
 ```
 
 ---
+
+# 💰 View Gastos de hoje
+
+```sql
+
+CREATE OR REPLACE VIEW public.vw_gastos_hoje
+AS SELECT doc.docusucod,
+    sum(doc.docv) AS gastosnow
+   FROM doc
+  WHERE doc.docsta = 'BA'::bpchar AND doc.docnatcod = 1 AND date_part('day'::text, doc.docdtpag) = date_part('day'::text, CURRENT_DATE)
+  GROUP BY doc.docusucod;
+
+-- Permissions
+
+ALTER TABLE public.vw_gastos_hoje OWNER TO postgres;
+GRANT ALL ON TABLE public.vw_gastos_hoje TO postgres;
+```
+
+---
+
+
 # 💰 View Receita VS Despesas | ANUAL
 
 ```sql
