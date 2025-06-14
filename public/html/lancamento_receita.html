@@ -16,6 +16,9 @@
     <!--Fonte de icones \v/-->
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+
+    </style>
 </head>
 
 <body class="sb-nav-fixed login-bg">
@@ -59,12 +62,12 @@
 
 
                 <div style="margin: auto;" class="row justify-content-center">
-                    
+
                     <div class="col-xl-3">
                         <div class="card dashboard-card card-purple mb-4">
                             <div class="card-body">Total de lançamentos: <span id="saldo">0</span> </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                
+
                             </div>
                         </div>
                     </div>
@@ -82,7 +85,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-xl-3">
                         <div class="card dashboard-card card-teal mb-4">
                             <div class="card-body">A receber: R$<span id="totalSeguro">0.00</span> </div>
@@ -91,15 +94,14 @@
                         </div>
                     </div>
                 </div>
-
-                <div style="padding: 10px; background-color: antiquewhite; justify-items: center;">
-                    <div style="padding: 10px;" >Lançamentos de Receitas </div>
-                        <button id="novoLancamento" class="btn btn-primary">Nova Receita</button>
-                    </div>
                 <div class="container-fluid">
                     <div class="card">
                         <div class="card-body">
-
+                            <div id="botaonovo">
+                                <div>
+                                    <button id="novoLancamento" class="btn btn-primary">Nova Receita</button>
+                                </div>
+                            </div>
                             <label style="margin-left: 0.5%;">Filtros de Pesquisa</label>
                             <input id="buscaLancamento" class="form-control mb-3" placeholder="Buscar">
 

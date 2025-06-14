@@ -2,9 +2,10 @@
 .wrap-login100 .input100 {
   /* padding e tamanho igual ao register */
   padding: 0.75rem 1rem !important;
-  height: auto;                /* remove altura fixa */
+  height: auto;
+  /* remove altura fixa */
   font-size: 1rem;
-  background: transparent;      
+  background: transparent;
   /* borda e cantos arredondados */
   border: 1px solid #e5e7eb !important;
   border-radius: 0.75rem !important;
@@ -33,22 +34,22 @@
 
 @font-face {
   font-family: Poppins-Regular;
-  src: url('../fonts/poppins/Poppins-Regular.ttf'); 
+  src: url('../fonts/poppins/Poppins-Regular.ttf');
 }
 
 @font-face {
   font-family: Poppins-Medium;
-  src: url('../fonts/poppins/Poppins-Medium.ttf'); 
+  src: url('../fonts/poppins/Poppins-Medium.ttf');
 }
 
 @font-face {
   font-family: Poppins-Bold;
-  src: url('../fonts/poppins/Poppins-Bold.ttf'); 
+  src: url('../fonts/poppins/Poppins-Bold.ttf');
 }
 
 @font-face {
   font-family: Poppins-SemiBold;
-  src: url('../fonts/poppins/Poppins-SemiBold.ttf'); 
+  src: url('../fonts/poppins/Poppins-SemiBold.ttf');
 }
 
 
@@ -58,61 +59,68 @@
 [ RESTYLE TAG ]*/
 
 * {
-	margin: 0px; 
-	padding: 0px; 
-	box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
 }
 
-body, html {
-	height: 100%;
-	font-family: Poppins-Regular, sans-serif;
+body,
+html {
+  height: 100%;
+  font-family: Poppins-Regular, sans-serif;
 }
 
 /*---------------------------------------------*/
 a {
-	font-family: Poppins-Regular;
-	font-size: 14px;
-	line-height: 1.7;
-	color: #666666;
-	margin: 0px;
-	transition: all 0.4s;
-	-webkit-transition: all 0.4s;
+  font-family: Poppins-Regular;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #666666;
+  margin: 0px;
+  transition: all 0.4s;
+  -webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
   -moz-transition: all 0.4s;
 }
 
 a:focus {
-	outline: none !important;
+  outline: none !important;
 }
 
 a:hover {
-	text-decoration: none;
+  text-decoration: none;
   color: #4bf453;
 }
 
 /*---------------------------------------------*/
-h1,h2,h3,h4,h5,h6 {
-	margin: 0px;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0px;
 }
 
 p {
-	font-family: Poppins-Regular;
-	font-size: 14px;
-	line-height: 1.7;
-	color: #666666;
-	margin: 0px;
+  font-family: Poppins-Regular;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #666666;
+  margin: 0px;
 }
 
-ul, li {
-	margin: 0px;
-	list-style-type: none;
+ul,
+li {
+  margin: 0px;
+  list-style-type: none;
 }
 
 
 /*---------------------------------------------*/
 input {
-	outline: none;
-	border: none;
+  outline: none;
+  border: none;
 }
 
 textarea {
@@ -120,43 +128,88 @@ textarea {
   border: none;
 }
 
-textarea:focus, input:focus {
+textarea:focus,
+input:focus {
   border-color: transparent !important;
 }
 
-input:focus::-webkit-input-placeholder { color:transparent; }
-input:focus:-moz-placeholder { color:transparent; }
-input:focus::-moz-placeholder { color:transparent; }
-input:focus:-ms-input-placeholder { color:transparent; }
+input:focus::-webkit-input-placeholder {
+  color: transparent;
+}
 
-textarea:focus::-webkit-input-placeholder { color:transparent; }
-textarea:focus:-moz-placeholder { color:transparent; }
-textarea:focus::-moz-placeholder { color:transparent; }
-textarea:focus:-ms-input-placeholder { color:transparent; }
+input:focus:-moz-placeholder {
+  color: transparent;
+}
 
-input::-webkit-input-placeholder { color: #adadad;}
-input:-moz-placeholder { color: #adadad;}
-input::-moz-placeholder { color: #adadad;}
-input:-ms-input-placeholder { color: #adadad;}
+input:focus::-moz-placeholder {
+  color: transparent;
+}
 
-textarea::-webkit-input-placeholder { color: #adadad;}
-textarea:-moz-placeholder { color: #adadad;}
-textarea::-moz-placeholder { color: #adadad;}
-textarea:-ms-input-placeholder { color: #adadad;}
+input:focus:-ms-input-placeholder {
+  color: transparent;
+}
+
+textarea:focus::-webkit-input-placeholder {
+  color: transparent;
+}
+
+textarea:focus:-moz-placeholder {
+  color: transparent;
+}
+
+textarea:focus::-moz-placeholder {
+  color: transparent;
+}
+
+textarea:focus:-ms-input-placeholder {
+  color: transparent;
+}
+
+input::-webkit-input-placeholder {
+  color: #adadad;
+}
+
+input:-moz-placeholder {
+  color: #adadad;
+}
+
+input::-moz-placeholder {
+  color: #adadad;
+}
+
+input:-ms-input-placeholder {
+  color: #adadad;
+}
+
+textarea::-webkit-input-placeholder {
+  color: #adadad;
+}
+
+textarea:-moz-placeholder {
+  color: #adadad;
+}
+
+textarea::-moz-placeholder {
+  color: #adadad;
+}
+
+textarea:-ms-input-placeholder {
+  color: #adadad;
+}
 
 /*---------------------------------------------*/
 button {
-	outline: none !important;
-	border: none;
-	background: transparent;
+  outline: none !important;
+  border: none;
+  background: transparent;
 }
 
 button:hover {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 iframe {
-	border: none !important;
+  border: none !important;
 }
 
 /*//////////////////////////////////////////////////////////////////
@@ -176,9 +229,17 @@ iframe {
   text-transform: uppercase;
 }
 
-.bg1 {background-color: #2c69ec}
-.bg2 {background-color: #1db6f2}
-.bg3 {background-color: #ea4335}
+.bg1 {
+  background-color: #2c69ec
+}
+
+.bg2 {
+  background-color: #1db6f2
+}
+
+.bg3 {
+  background-color: #ea4335
+}
 
 
 
@@ -240,7 +301,7 @@ iframe {
 .wrap-input100 {
   width: 100%;
   position: relative;
-  
+
 }
 
 .label-input100 {
@@ -313,19 +374,19 @@ iframe {
 }
 
 
-.input100:focus + .focus-input100::before {
+.input100:focus+.focus-input100::before {
   width: 100%;
 }
 
-.has-val.input100 + .focus-input100::before {
+.has-val.input100+.focus-input100::before {
   width: 100%;
 }
 
-.input100:focus + .focus-input100::after {
+.input100:focus+.focus-input100::after {
   color: #a64bf4;
 }
 
-.has-val.input100 + .focus-input100::after {
+.has-val.input100+.focus-input100::after {
   color: #a64bf4;
 }
 
@@ -501,43 +562,66 @@ iframe {
     padding-left: 15px;
     padding-right: 15px;
   }
-} 
+}
+
 .google-login-button {
-    display: block; /* Mudei de 'flex' para 'block' para que 'margin: auto' funcione para o elemento inteiro */
-    margin: 20px auto; /* Adicionado margem superior/inferior e centralização horizontal */
-    align-items: center; /* Ainda necessário para alinhar o conteúdo interno quando se usa 'display: flex' */
-    justify-content: center; /* Ainda necessário para alinhar o conteúdo interno */
-    width: 250px;
-    padding: 10px 15px;
-    border: 1px solid #dadce0;
-    border-radius: 4px;
-    background-color: #fff;
-    cursor: pointer;
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-    color: #3c4043;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  display: block;
+  /* Mudei de 'flex' para 'block' para que 'margin: auto' funcione para o elemento inteiro */
+  margin: 20px auto;
+  /* Adicionado margem superior/inferior e centralização horizontal */
+  align-items: center;
+  /* Ainda necessário para alinhar o conteúdo interno quando se usa 'display: flex' */
+  justify-content: center;
+  /* Ainda necessário para alinhar o conteúdo interno */
+  width: 250px;
+  padding: 10px 15px;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  color: #3c4043;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .google-login-button:hover {
-    background-color: #f8f9fa;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  background-color: #f8f9fa;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
 }
 
 .google-login-button:active {
-    background-color: #e8eaed;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
+  background-color: #e8eaed;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
 }
 
 .google-icon {
-    width: 24px;
-    height: 24px;
-    margin-right: 10px;
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
 }
+
 .container-login100 {
   background: #ffffff;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+}
+
+
+#botaonovo {
+  display: block;
+  margin-bottom: 1%;
+}
+
+@media (max-width: 575.98px) {
+  #botaonovo {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+#novoLancamento {
+  margin-left: 5px;
 }
