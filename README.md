@@ -502,10 +502,9 @@ GRANT ALL ON TABLE public.vw_orcado_vs_realizado_anual TO postgres;
 ```sql
 CREATE OR REPLACE VIEW public.vw_total_seguro
 AS SELECT vw_saldo_contas.usu,
-    vw_saldo_contas.contas_saldo - sum(doc.docv) AS total_seguro
+    vw_saldo_contas.contas_saldo - coalesce(sum(doc.docv),0) AS total_seguro
    FROM vw_saldo_contas
-     JOIN doc ON doc.docusucod = vw_saldo_contas.usu AND doc.docsta = 'LA'::bpchar AND doc.docnatcod = 1
-     and date_part('month'::text, doc.docdtpag) = date_part('month'::text, CURRENT_DATE)
+     left JOIN doc ON doc.docusucod = vw_saldo_contas.usu AND doc.docsta = 'LA'::bpchar AND doc.docnatcod = 1 AND date_part('month'::text, doc.docdtpag) = date_part('month'::text, CURRENT_DATE)
   GROUP BY vw_saldo_contas.usu, vw_saldo_contas.contas_saldo;
 
 -- Permissions
