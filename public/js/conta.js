@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const tr = document.createElement("tr");
             tr.innerHTML = `
             <td>${dado.contades}</td>
-            <td>${dado.contavltotal}</td>
+            <td> R$ ${dado.contavltotal}</td>
             <td>
                 <button class="btn btn-warning btn-sm" onclick="abrirEditar(${dado.contacod})" title="Editar">
                   <i class="fa fa-edit"></i>
