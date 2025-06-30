@@ -7,8 +7,10 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .then((res) => res.json())
     .then((dados) => {
-      const corpoTabela = document.getElementById("corpoTabela");
-      corpoTabela.innerHTML = ""; // Limpa o conteúdo atual da tabela
+      const corpoTabelaPendentes = document.getElementById("corpoTabelaPendentes");
+      const corpoTabelaPagas = document.getElementById("corpoTabelaPagas");
+      corpoTabelaPendentes.innerHTML = "";
+      corpoTabelaPagas.innerHTML = "";
       dados.forEach((dado) => {
         const tr = document.createElement("tr");
         if (dado.docsta === "LA") {
@@ -40,7 +42,11 @@ document.addEventListener("DOMContentLoaded", function () {
                             <button class="btn btn-danger btn-sm" onclick="deletar(${dado.doccod})" title="Deletar"><i class="fa fa-trash"></i></button>
                         </td>
                     `;
-        corpoTabela.appendChild(tr);
+        if (dado.docsta === "LA") {
+          corpoTabelaPendentes.appendChild(tr);
+        } else {
+          corpoTabelaPagas.appendChild(tr);
+        }
       });
     })
     .catch((erro) => console.error(erro));
@@ -59,7 +65,8 @@ window.deletar = function (id) {
     .then(() => {
       alert("Registro deletado com sucesso!");
       // Atualiza a tabela após a exclusão
-      document.getElementById("corpoTabela").innerHTML = "";
+      document.getElementById("corpoTabelaPendentes").innerHTML = "";
+      document.getElementById("corpoTabelaPagas").innerHTML = "";
       location.reload();
     })
     .catch((erro) => {
@@ -131,8 +138,10 @@ async function atualizarTabelaDespesas() {
     const despesasRes = await fetch(`${BASE_URL}/doc/despesas/${dadosUser.usucod}`);
     const dados = await despesasRes.json();
 
-    const corpoTabela = document.getElementById("corpoTabela");
-    corpoTabela.innerHTML = "";
+    const corpoTabelaPendentes = document.getElementById("corpoTabelaPendentes");
+    const corpoTabelaPagas = document.getElementById("corpoTabelaPagas");
+    corpoTabelaPendentes.innerHTML = "";
+    corpoTabelaPagas.innerHTML = "";
     dados.forEach((dado) => {
       const tr = document.createElement("tr");
       tr.style.color = dado.docsta === "LA" ? "#856404" : "#155724";
@@ -160,7 +169,11 @@ async function atualizarTabelaDespesas() {
           <button class="btn btn-danger btn-sm" onclick="deletar(${dado.doccod})" title="Deletar"><i class="fa fa-trash"></i></button>
         </td>
       `;
-      corpoTabela.appendChild(tr);
+      if (dado.docsta === "LA") {
+        corpoTabelaPendentes.appendChild(tr);
+      } else {
+        corpoTabelaPagas.appendChild(tr);
+      }
     });
   } catch (erro) {
     console.error("Erro ao atualizar tabela de despesas:", erro);
@@ -358,11 +371,151 @@ document.addEventListener('DOMContentLoaded', () => {
   btnNovo?.addEventListener('click', () => {
     modalNovo?.show();
   });
+
+  const tables = [
+    document.querySelector('#tabelaPendentes table'),
+    document.querySelector('#tabelaPagas table')
+  ];
+  const filtros = new Map();
+  const headerMap = new Map();
+
+  function atualizarLabel(table, indice, texto) {
+    const map = headerMap.get(table);
+    if (!map || !map[indice]) return;
+    const th = map[indice];
+    let label = th.querySelector('.filter-label');
+    if (!label) {
+      label = document.createElement('div');
+      label.className = 'filter-label text-primary small';
+      th.appendChild(label);
+    }
+    if (texto) {
+      label.textContent = texto;
+      label.style.display = 'block';
+    } else {
+      label.style.display = 'none';
+    }
+  }
+
+  function coletarValoresUnicos(table, indice) {
+    const valores = new Set();
+    table.querySelectorAll('tbody tr').forEach(tr => {
+      const td = tr.children[indice];
+      if (td) valores.add(td.textContent.trim());
+    });
+    return Array.from(valores);
+  }
+
+  function atualizarSelect(table, indice, select) {
+    select.innerHTML = '<option value="">Todos</option>';
+    coletarValoresUnicos(table, indice).forEach(val => {
+      const opt = document.createElement('option');
+      opt.value = val.toLowerCase();
+      opt.textContent = val;
+      select.appendChild(opt);
+    });
+  }
+
+  function aplicarFiltros(table) {
+    const map = filtros.get(table);
+    if (!map) return;
+    table.querySelectorAll('tbody tr').forEach(tr => {
+      let visivel = true;
+      for (const chave in map) {
+        const valor = map[chave];
+        if (chave === 'global') {
+          if (!tr.textContent.toLowerCase().includes(valor)) {
+            visivel = false;
+            break;
+          }
+        } else {
+          const td = tr.children[chave];
+          if (!td || !td.textContent.toLowerCase().includes(valor)) {
+            visivel = false;
+            break;
+          }
+        }
+      }
+      tr.style.display = visivel ? '' : 'none';
+    });
+  }
+
+  let dropdownAtual = null;
+
+  function fecharDropdown() {
+    if (dropdownAtual) {
+      document.removeEventListener('click', dropdownAtual.handler);
+      dropdownAtual.remove();
+      dropdownAtual = null;
+    }
+  }
+
+  function mostrarDropdown(th, table, indice) {
+    fecharDropdown();
+    const rect = th.getBoundingClientRect();
+    const dropdown = document.createElement('div');
+    dropdown.style.position = 'absolute';
+    dropdown.style.left = `${rect.left + window.pageXOffset}px`;
+    dropdown.style.top = `${rect.bottom + window.pageYOffset}px`;
+    dropdown.style.minWidth = `${rect.width}px`;
+    dropdown.style.zIndex = '1000';
+
+    const select = document.createElement('select');
+    select.className = 'form-select form-select-sm column-filter';
+    atualizarSelect(table, indice, select);
+    const map = filtros.get(table);
+    if (map && map[indice]) select.value = map[indice];
+    select.addEventListener('change', () => {
+      const val = select.value;
+      if (val) {
+        map[indice] = val.toLowerCase();
+        atualizarLabel(table, indice, select.options[select.selectedIndex].textContent);
+      } else {
+        delete map[indice];
+        atualizarLabel(table, indice, '');
+      }
+      aplicarFiltros(table);
+      fecharDropdown();
+    });
+
+    dropdown.appendChild(select);
+    document.body.appendChild(dropdown);
+    select.focus();
+
+    const fecharSeFora = (e) => {
+      if (!dropdown.contains(e.target) && e.target !== th) {
+        fecharDropdown();
+      }
+    };
+    dropdown.handler = fecharSeFora;
+    document.addEventListener('click', fecharSeFora);
+    dropdownAtual = dropdown;
+  }
+
+  function adicionarFiltrosColuna(table) {
+    if (!table) return;
+    filtros.set(table, {});
+    const map = {};
+    const thead = table.querySelector('thead');
+    const headerRow = thead.querySelector('tr');
+    [...headerRow.children].forEach((th, idx) => {
+      th.style.cursor = 'pointer';
+      th.addEventListener('click', () => mostrarDropdown(th, table, idx));
+      map[idx] = th;
+    });
+    headerMap.set(table, map);
+  }
+
+  tables.forEach(t => adicionarFiltrosColuna(t));
+
   const busca = document.getElementById('buscaLancamento');
   busca?.addEventListener('input', () => {
-    const termo = busca.value.toLowerCase();
-    document.querySelectorAll('#corpoTabela tr').forEach(tr => {
-      tr.style.display = tr.textContent.toLowerCase().includes(termo) ? '' : 'none';
+    const val = busca.value.trim().toLowerCase();
+    tables.forEach(t => {
+      const map = filtros.get(t);
+      if (!map) return;
+      if (val) map['global'] = val; else delete map['global'];
+      aplicarFiltros(t);
     });
   });
 });
