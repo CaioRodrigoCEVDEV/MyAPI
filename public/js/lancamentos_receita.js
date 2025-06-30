@@ -395,7 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
     select.innerHTML = '<option value="">Todos</option>';
     coletarValoresUnicos(indice).forEach(val => {
       const opt = document.createElement('option');
-      opt.value = val;
+      opt.value = val.toLowerCase();
       opt.textContent = val;
       select.appendChild(opt);
     });
@@ -449,8 +449,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const select = document.createElement('select');
     select.className = 'form-select form-select-sm column-filter';
     atualizarSelect(indice, select);
+    if (filtros[indice]) select.value = filtros[indice];
     select.addEventListener('change', () => {
-      const val = select.value.trim().toLowerCase();
+      const val = select.value;
       if (val) filtros[indice] = val; else delete filtros[indice];
       aplicarFiltros();
       fecharDropdown();
