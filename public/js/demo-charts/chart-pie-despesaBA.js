@@ -28,9 +28,9 @@ fetch('/api/dadosUserLogado')
       id: "totalizadorDepBA",
       beforeDraw: (chart) => {
         if (chart.config.type !== "doughnut" || chart.canvas.id !== "myPieChartDepBA") return;
-        const width = chart.chart.width;
-        const height = chart.chart.height;
-        const ctx = chart.chart.ctx;
+        const width = chart.width;
+        const height = chart.height;
+        const ctx = chart.ctx;
 
         // Calcula o total apenas das categorias visíveis
         const data = chart.data.datasets[0].data;
@@ -48,6 +48,9 @@ fetch('/api/dadosUserLogado')
         ctx.restore();
       },
     };
+
+    // Registro global para funcionar no Chart.js 2.x
+    Chart.plugins.register(totalPlugin);
 
     const myPieChart = new Chart(ctxDepBA, {
       type: "doughnut",
@@ -89,7 +92,6 @@ fetch('/api/dadosUserLogado')
         },
         cutoutPercentage: 60,
       },
-      plugins: [totalPlugin],
     });
   })
   .catch((error) => {
