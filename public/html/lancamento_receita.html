@@ -105,8 +105,14 @@
                             <label style="margin-left: 0.5%;">Filtros de Pesquisa</label>
                             <input id="buscaLancamento" class="form-control mb-3" placeholder="Buscar">
 
-                            <div class="table-responsive">
-                                <table class="table  table-hover ">
+                            <div class="mb-2">
+                                <button class="btn btn-sm btn-outline-secondary me-2" onclick="toggleTable('abertos')">Mostrar/Ocultar Abertos</button>
+                                <button class="btn btn-sm btn-outline-secondary" onclick="toggleTable('pagos')">Mostrar/Ocultar Pagos</button>
+                            </div>
+
+                            <h6>Abertos</h6>
+                            <div id="tabelaAbertos" class="table-responsive mb-3">
+                                <table class="table table-hover">
                                     <thead>
                                         <tr>
                                             <th>Data</th>
@@ -120,8 +126,27 @@
                                             <th>Ações</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="corpoTabela">
-                                    </tbody>
+                                    <tbody id="corpoTabelaAbertos"></tbody>
+                                </table>
+                            </div>
+
+                            <h6>Pagos</h6>
+                            <div id="tabelaPagos" class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Data</th>
+                                            <th>Valor</th>
+                                            <th>Cobrança</th>
+                                            <th>Natureza</th>
+                                            <th>Categoria</th>
+                                            <th>Conta</th>
+                                            <th>Observações</th>
+                                            <th>Status</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="corpoTabelaPagos"></tbody>
                                 </table>
                             </div>
                             <!-- Modal de edição -->
@@ -272,6 +297,12 @@
                 campoData.value = hoje;
             }
         });
+
+        window.toggleTable = function(tipo) {
+            const id = tipo === 'abertos' ? 'tabelaAbertos' : 'tabelaPagos';
+            const div = document.getElementById(id);
+            div.style.display = div.style.display === 'none' ? '' : 'none';
+        }
     </script>
     <!--Bootstrap Scripts-->
     <script src="../js/scripts.js"></script>
