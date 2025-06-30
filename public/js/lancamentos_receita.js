@@ -372,11 +372,72 @@ document.addEventListener('DOMContentLoaded', () => {
   btnNovo?.addEventListener('click', () => {
     modalNovo?.show();
   });
+
+  const tables = [
+    document.querySelector('#tabelaAbertos table'),
+    document.querySelector('#tabelaPagos table')
+  ];
+  const filtros = {};
+
+  function aplicarFiltros() {
+    tables.forEach(table => {
+      if (!table) return;
+      table.querySelectorAll('tbody tr').forEach(tr => {
+        let visivel = true;
+        for (const chave in filtros) {
+          const valor = filtros[chave];
+          if (chave === 'global') {
+            if (!tr.textContent.toLowerCase().includes(valor)) {
+              visivel = false;
+              break;
+            }
+          } else {
+            const td = tr.children[chave];
+            if (!td || !td.textContent.toLowerCase().includes(valor)) {
+              visivel = false;
+              break;
+            }
+          }
+        }
+        tr.style.display = visivel ? '' : 'none';
+      });
+    });
+  }
+
+  function adicionarFiltrosColuna(table) {
+    if (!table) return;
+    const thead = table.querySelector('thead');
+    const headerRow = thead.querySelector('tr');
+    const filterRow = document.createElement('tr');
+    [...headerRow.children].forEach((th, idx) => {
+      const cell = document.createElement('th');
+      cell.style.display = 'none';
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'form-control form-control-sm column-filter';
+      input.dataset.index = idx;
+      input.addEventListener('input', () => {
+        const val = input.value.trim().toLowerCase();
+        if (val) filtros[idx] = val; else delete filtros[idx];
+        aplicarFiltros();
+      });
+      cell.appendChild(input);
+      filterRow.appendChild(cell);
+      th.style.cursor = 'pointer';
+      th.addEventListener('click', () => {
+        cell.style.display = cell.style.display === 'none' ? '' : 'none';
+        input.focus();
+      });
+    });
+    thead.appendChild(filterRow);
+  }
+
+  tables.forEach(t => adicionarFiltrosColuna(t));
+
   const busca = document.getElementById('buscaLancamento');
   busca?.addEventListener('input', () => {
-    const termo = busca.value.toLowerCase();
-    document.querySelectorAll('#corpoTabelaAbertos tr, #corpoTabelaPagos tr').forEach(tr => {
-      tr.style.display = tr.textContent.toLowerCase().includes(termo) ? '' : 'none';
-    });
+    const val = busca.value.trim().toLowerCase();
+    if (val) filtros['global'] = val; else delete filtros['global'];
+    aplicarFiltros();
   });
 });
