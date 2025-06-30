@@ -357,10 +357,9 @@ document.addEventListener('DOMContentLoaded', () => {
   btnNovo?.addEventListener('click', () => {
     modalNovo?.show();
   });
-  const tables = [
-    document.querySelector('#tabelaAbertos table'),
-    document.querySelector('#tabelaPagos table')
-  ];
+  const tables = Array.from(document.querySelectorAll(
+    '#tabelaAbertos table, #tabelaPagos table'
+  ));
   const filtros = new Map();
   const headerMap = new Map();
 
