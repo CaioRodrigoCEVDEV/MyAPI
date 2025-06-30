@@ -379,6 +379,35 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
   const filtros = {};
 
+  function coletarValoresUnicos(indice) {
+    const valores = new Set();
+    tables.forEach(t => {
+      if (!t) return;
+      t.querySelectorAll('tbody tr').forEach(tr => {
+        const td = tr.children[indice];
+        if (td) valores.add(td.textContent.trim());
+      });
+    });
+    return Array.from(valores);
+  }
+
+  function atualizarDatalist(indice) {
+    const listId = `filter-options-${indice}`;
+    let datalist = document.getElementById(listId);
+    if (!datalist) {
+      datalist = document.createElement('datalist');
+      datalist.id = listId;
+      document.body.appendChild(datalist);
+    }
+    datalist.innerHTML = '';
+    coletarValoresUnicos(indice).forEach(val => {
+      const opt = document.createElement('option');
+      opt.value = val;
+      datalist.appendChild(opt);
+    });
+    return listId;
+  }
+
   function aplicarFiltros() {
     tables.forEach(table => {
       if (!table) return;
@@ -416,6 +445,8 @@ document.addEventListener('DOMContentLoaded', () => {
       input.type = 'text';
       input.className = 'form-control form-control-sm column-filter';
       input.dataset.index = idx;
+      const listId = atualizarDatalist(idx);
+      input.setAttribute('list', listId);
       input.addEventListener('input', () => {
         const val = input.value.trim().toLowerCase();
         if (val) filtros[idx] = val; else delete filtros[idx];
@@ -425,8 +456,16 @@ document.addEventListener('DOMContentLoaded', () => {
       filterRow.appendChild(cell);
       th.style.cursor = 'pointer';
       th.addEventListener('click', () => {
-        cell.style.display = cell.style.display === 'none' ? '' : 'none';
-        input.focus();
+        if (cell.style.display === 'none') {
+          atualizarDatalist(idx);
+          cell.style.display = '';
+          input.focus();
+        } else {
+          cell.style.display = 'none';
+          input.value = '';
+          delete filtros[idx];
+          aplicarFiltros();
+        }
       });
     });
     thead.appendChild(filterRow);
