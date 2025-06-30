@@ -18,9 +18,6 @@ fetch('/api/dadosUserLogado')
     const labels = data.map((item) => item.catdes);
     const valores = data.map((item) => Number(item.docv));
 
-    // Soma total dos valores para exibir no centro do gráfico
-    const total = valores.reduce((acc, val) => acc + val, 0);
-
     const formatter = new Intl.NumberFormat("pt-BR", {
       style: "currency",
       currency: "BRL",
@@ -34,6 +31,14 @@ fetch('/api/dadosUserLogado')
         const width = chart.chart.width;
         const height = chart.chart.height;
         const ctx = chart.chart.ctx;
+
+        // Calcula o total apenas das categorias visíveis
+        const data = chart.data.datasets[0].data;
+        const meta = chart.getDatasetMeta(0);
+        const total = data.reduce((acc, val, idx) => {
+          return meta.data[idx].hidden ? acc : acc + Number(val);
+        }, 0);
+
         ctx.save();
         ctx.font = "bold 1rem sans-serif";
         ctx.textAlign = "center";
