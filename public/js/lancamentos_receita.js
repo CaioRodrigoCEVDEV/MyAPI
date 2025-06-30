@@ -391,21 +391,14 @@ document.addEventListener('DOMContentLoaded', () => {
     return Array.from(valores);
   }
 
-  function atualizarDatalist(indice) {
-    const listId = `filter-options-${indice}`;
-    let datalist = document.getElementById(listId);
-    if (!datalist) {
-      datalist = document.createElement('datalist');
-      datalist.id = listId;
-      document.body.appendChild(datalist);
-    }
-    datalist.innerHTML = '';
+  function atualizarSelect(indice, select) {
+    select.innerHTML = '<option value="">Todos</option>';
     coletarValoresUnicos(indice).forEach(val => {
       const opt = document.createElement('option');
       opt.value = val;
-      datalist.appendChild(opt);
+      opt.textContent = val;
+      select.appendChild(opt);
     });
-    return listId;
   }
 
   function aplicarFiltros() {
@@ -441,28 +434,25 @@ document.addEventListener('DOMContentLoaded', () => {
     [...headerRow.children].forEach((th, idx) => {
       const cell = document.createElement('th');
       cell.style.display = 'none';
-      const input = document.createElement('input');
-      input.type = 'text';
-      input.className = 'form-control form-control-sm column-filter';
-      input.dataset.index = idx;
-      const listId = atualizarDatalist(idx);
-      input.setAttribute('list', listId);
-      input.addEventListener('input', () => {
-        const val = input.value.trim().toLowerCase();
+      const select = document.createElement('select');
+      select.className = 'form-select form-select-sm column-filter';
+      select.dataset.index = idx;
+      select.addEventListener('change', () => {
+        const val = select.value.trim().toLowerCase();
         if (val) filtros[idx] = val; else delete filtros[idx];
         aplicarFiltros();
       });
-      cell.appendChild(input);
+      cell.appendChild(select);
       filterRow.appendChild(cell);
       th.style.cursor = 'pointer';
       th.addEventListener('click', () => {
         if (cell.style.display === 'none') {
-          atualizarDatalist(idx);
+          atualizarSelect(idx, select);
           cell.style.display = '';
-          input.focus();
+          select.focus();
         } else {
           cell.style.display = 'none';
-          input.value = '';
+          select.value = '';
           delete filtros[idx];
           aplicarFiltros();
         }
