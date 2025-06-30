@@ -7,8 +7,10 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .then((res) => res.json())
     .then((dados) => {
-      const corpoTabela = document.getElementById("corpoTabela");
-      corpoTabela.innerHTML = ""; // Limpa o conteúdo atual da tabela
+      const corpoAberto = document.getElementById("corpoTabelaAbertos");
+      const corpoPago = document.getElementById("corpoTabelaPagos");
+      corpoAberto.innerHTML = "";
+      corpoPago.innerHTML = "";
 
       dados.forEach((dado) => {
         const tr = document.createElement("tr");
@@ -19,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
           // tr.style.backgroundColor = "#d4edda"; // verde claro (Bootstrap success)
           tr.style.color = "#155724"; // texto escuro para contraste
         }
-        const docsta = dado.docsta === "LA" ? "Pendente" : "Recebido";
+        const docsta = dado.docsta === "LA" ? "Aberto" : "Pago";
         const dataFormatada = dado.docdtpag
           ? dado.docdtpag.split("T")[0]
           : null;
@@ -43,7 +45,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 <button class="btn btn-danger btn-sm" onclick="deletar(${dado.doccod})" title="Deletar"><i class="fa fa-trash"></i></button>
             </td>
               `;
-        corpoTabela.appendChild(tr);
+        if (dado.docsta === "LA") {
+          corpoAberto.appendChild(tr);
+        } else {
+          corpoPago.appendChild(tr);
+        }
       });
     })
     .catch((erro) => console.error(erro));
@@ -62,9 +68,7 @@ window.deletar = function (id) {
     })
     .then(() => {
       alert("Registro deletado com sucesso!");
-      // Atualiza a tabela após a exclusão
-      document.getElementById("corpoTabela").innerHTML = "";
-      location.reload();
+      atualizarTabelaReceitas();
     })
     .catch((erro) => {
       alert("Erro ao deletar o registro.");
@@ -134,8 +138,10 @@ async function atualizarTabelaReceitas() {
     const despesasRes = await fetch(`${BASE_URL}/doc/receitas/${dadosUser.usucod}`);
     const dados = await despesasRes.json();
 
-    const corpoTabela = document.getElementById("corpoTabela");
-    corpoTabela.innerHTML = "";
+    const corpoAberto = document.getElementById("corpoTabelaAbertos");
+    const corpoPago = document.getElementById("corpoTabelaPagos");
+    corpoAberto.innerHTML = "";
+    corpoPago.innerHTML = "";
     dados.forEach((dado) => {
       const tr = document.createElement("tr");
       tr.style.color = dado.docsta === "LA" ? "#856404" : "#155724";
@@ -163,7 +169,11 @@ async function atualizarTabelaReceitas() {
           <button class="btn btn-danger btn-sm" onclick="deletar(${dado.doccod})" title="Deletar"><i class="fa fa-trash"></i></button>
         </td>
       `;
-      corpoTabela.appendChild(tr);
+      if (dado.docsta === "LA") {
+        corpoAberto.appendChild(tr);
+      } else {
+        corpoPago.appendChild(tr);
+      }
     });
   } catch (erro) {
     console.error("Erro ao atualizar tabela de despesas:", erro);
@@ -365,7 +375,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const busca = document.getElementById('buscaLancamento');
   busca?.addEventListener('input', () => {
     const termo = busca.value.toLowerCase();
-    document.querySelectorAll('#corpoTabela tr').forEach(tr => {
+    document.querySelectorAll('#corpoTabelaAbertos tr, #corpoTabelaPagos tr').forEach(tr => {
       tr.style.display = tr.textContent.toLowerCase().includes(termo) ? '' : 'none';
     });
   });

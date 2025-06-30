@@ -105,8 +105,13 @@
                             <label style="margin-left: 0.5%;">Filtros de Pesquisa</label>
                             <input id="buscaLancamento" class="form-control mb-3" placeholder="Buscar">
 
-                            <div class="table-responsive">
-                                <table class="table  table-hover ">
+
+                            <h6 class="mt-3" style="cursor:pointer" onclick="toggleTable('abertos')">
+                                Abertos <i id="seta-abertos" class="fa fa-chevron-down"></i>
+                            </h6>
+                            
+                            <div id="tabelaAbertos" class="table-responsive mb-3">
+                                <table class="table table-hover">
                                     <thead>
                                         <tr>
                                             <th>Data</th>
@@ -120,8 +125,29 @@
                                             <th>Ações</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="corpoTabela">
-                                    </tbody>
+                                    <tbody id="corpoTabelaAbertos"></tbody>
+                                </table>
+                            </div>
+
+                            <h6 style="cursor:pointer" onclick="toggleTable('pagos')">
+                                Pagos <i id="seta-pagos" class="fa fa-chevron-down"></i>
+                            </h6>
+                            <div id="tabelaPagos" class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Data</th>
+                                            <th>Valor</th>
+                                            <th>Cobrança</th>
+                                            <th>Natureza</th>
+                                            <th>Categoria</th>
+                                            <th>Conta</th>
+                                            <th>Observações</th>
+                                            <th>Status</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="corpoTabelaPagos"></tbody>
                                 </table>
                             </div>
                             <!-- Modal de edição -->
@@ -272,6 +298,23 @@
                 campoData.value = hoje;
             }
         });
+
+        window.toggleTable = function(tipo) {
+            const id = tipo === 'abertos' ? 'tabelaAbertos' : 'tabelaPagos';
+            const setaId = tipo === 'abertos' ? 'seta-abertos' : 'seta-pagos';
+            const div = document.getElementById(id);
+            const seta = document.getElementById(setaId);
+            const aberto = div.style.display === '' || div.style.display === 'block';
+            if (aberto) {
+                div.style.display = 'none';
+                seta?.classList.remove('fa-chevron-down');
+                seta?.classList.add('fa-chevron-right');
+            } else {
+                div.style.display = '';
+                seta?.classList.remove('fa-chevron-right');
+                seta?.classList.add('fa-chevron-down');
+            }
+        }
     </script>
     <!--Bootstrap Scripts-->
     <script src="../js/scripts.js"></script>
