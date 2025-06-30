@@ -378,6 +378,25 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#tabelaPagos table')
   ];
   const filtros = {};
+  const headerMap = {};
+
+  function atualizarLabel(indice, texto) {
+    if (!headerMap[indice]) return;
+    headerMap[indice].forEach(th => {
+      let label = th.querySelector('.filter-label');
+      if (!label) {
+        label = document.createElement('div');
+        label.className = 'filter-label text-primary small';
+        th.appendChild(label);
+      }
+      if (texto) {
+        label.textContent = texto;
+        label.style.display = 'block';
+      } else {
+        label.style.display = 'none';
+      }
+    });
+  }
 
   function coletarValoresUnicos(indice) {
     const valores = new Set();
@@ -452,7 +471,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (filtros[indice]) select.value = filtros[indice];
     select.addEventListener('change', () => {
       const val = select.value;
-      if (val) filtros[indice] = val; else delete filtros[indice];
+      if (val) {
+        filtros[indice] = val.toLowerCase();
+        atualizarLabel(indice, select.options[select.selectedIndex].textContent);
+      } else {
+        delete filtros[indice];
+        atualizarLabel(indice, '');
+      }
       aplicarFiltros();
       fecharDropdown();
     });
@@ -478,6 +503,8 @@ document.addEventListener('DOMContentLoaded', () => {
     [...headerRow.children].forEach((th, idx) => {
       th.style.cursor = 'pointer';
       th.addEventListener('click', () => mostrarDropdown(th, idx));
+      if (!headerMap[idx]) headerMap[idx] = [];
+      headerMap[idx].push(th);
     });
   }
 
