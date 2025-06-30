@@ -18,10 +18,31 @@ fetch('/api/dadosUserLogado')
     const labels = data.map((item) => item.catdes);
     const valores = data.map((item) => Number(item.docv));
 
+    // Soma total dos valores para exibir no centro do gráfico
+    const total = valores.reduce((acc, val) => acc + val, 0);
+
     const formatter = new Intl.NumberFormat("pt-BR", {
       style: "currency",
       currency: "BRL",
     });
+
+    // Plugin para exibir o totalizador no centro do doughnut
+    const totalPlugin = {
+      id: "totalizadorDepBA",
+      beforeDraw: (chart) => {
+        if (chart.config.type !== "doughnut" || chart.canvas.id !== "myPieChartDepBA") return;
+        const width = chart.chart.width;
+        const height = chart.chart.height;
+        const ctx = chart.chart.ctx;
+        ctx.save();
+        ctx.font = "bold 1rem sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "#000";
+        ctx.fillText(formatter.format(total), width / 2, height / 2);
+        ctx.restore();
+      },
+    };
 
     const myPieChart = new Chart(ctxDepBA, {
       type: "doughnut",
@@ -63,6 +84,7 @@ fetch('/api/dadosUserLogado')
         },
         cutoutPercentage: 60,
       },
+      plugins: [totalPlugin],
     });
   })
   .catch((error) => {
