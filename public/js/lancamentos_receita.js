@@ -426,39 +426,58 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  let dropdownAtual = null;
+
+  function fecharDropdown() {
+    if (dropdownAtual) {
+      document.removeEventListener('click', dropdownAtual.handler);
+      dropdownAtual.remove();
+      dropdownAtual = null;
+    }
+  }
+
+  function mostrarDropdown(th, indice) {
+    fecharDropdown();
+    const rect = th.getBoundingClientRect();
+    const dropdown = document.createElement('div');
+    dropdown.style.position = 'absolute';
+    dropdown.style.left = `${rect.left + window.pageXOffset}px`;
+    dropdown.style.top = `${rect.bottom + window.pageYOffset}px`;
+    dropdown.style.minWidth = `${rect.width}px`;
+    dropdown.style.zIndex = '1000';
+
+    const select = document.createElement('select');
+    select.className = 'form-select form-select-sm column-filter';
+    atualizarSelect(indice, select);
+    select.addEventListener('change', () => {
+      const val = select.value.trim().toLowerCase();
+      if (val) filtros[indice] = val; else delete filtros[indice];
+      aplicarFiltros();
+      fecharDropdown();
+    });
+
+    dropdown.appendChild(select);
+    document.body.appendChild(dropdown);
+    select.focus();
+
+    const fecharSeFora = (e) => {
+      if (!dropdown.contains(e.target) && e.target !== th) {
+        fecharDropdown();
+      }
+    };
+    dropdown.handler = fecharSeFora;
+    document.addEventListener('click', fecharSeFora);
+    dropdownAtual = dropdown;
+  }
+
   function adicionarFiltrosColuna(table) {
     if (!table) return;
     const thead = table.querySelector('thead');
     const headerRow = thead.querySelector('tr');
-    const filterRow = document.createElement('tr');
     [...headerRow.children].forEach((th, idx) => {
-      const cell = document.createElement('th');
-      cell.style.display = 'none';
-      const select = document.createElement('select');
-      select.className = 'form-select form-select-sm column-filter';
-      select.dataset.index = idx;
-      select.addEventListener('change', () => {
-        const val = select.value.trim().toLowerCase();
-        if (val) filtros[idx] = val; else delete filtros[idx];
-        aplicarFiltros();
-      });
-      cell.appendChild(select);
-      filterRow.appendChild(cell);
       th.style.cursor = 'pointer';
-      th.addEventListener('click', () => {
-        if (cell.style.display === 'none') {
-          atualizarSelect(idx, select);
-          cell.style.display = '';
-          select.focus();
-        } else {
-          cell.style.display = 'none';
-          select.value = '';
-          delete filtros[idx];
-          aplicarFiltros();
-        }
-      });
+      th.addEventListener('click', () => mostrarDropdown(th, idx));
     });
-    thead.appendChild(filterRow);
   }
 
   tables.forEach(t => adicionarFiltrosColuna(t));
