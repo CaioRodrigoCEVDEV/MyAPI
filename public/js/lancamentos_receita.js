@@ -377,42 +377,39 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#tabelaAbertos table'),
     document.querySelector('#tabelaPagos table')
   ];
-  const filtros = {};
-  const headerMap = {};
+  const filtros = new Map();
+  const headerMap = new Map();
 
-  function atualizarLabel(indice, texto) {
-    if (!headerMap[indice]) return;
-    headerMap[indice].forEach(th => {
-      let label = th.querySelector('.filter-label');
-      if (!label) {
-        label = document.createElement('div');
-        label.className = 'filter-label text-primary small';
-        th.appendChild(label);
-      }
-      if (texto) {
-        label.textContent = texto;
-        label.style.display = 'block';
-      } else {
-        label.style.display = 'none';
-      }
-    });
+  function atualizarLabel(table, indice, texto) {
+    const map = headerMap.get(table);
+    if (!map || !map[indice]) return;
+    const th = map[indice];
+    let label = th.querySelector('.filter-label');
+    if (!label) {
+      label = document.createElement('div');
+      label.className = 'filter-label text-primary small';
+      th.appendChild(label);
+    }
+    if (texto) {
+      label.textContent = texto;
+      label.style.display = 'block';
+    } else {
+      label.style.display = 'none';
+    }
   }
 
-  function coletarValoresUnicos(indice) {
+  function coletarValoresUnicos(table, indice) {
     const valores = new Set();
-    tables.forEach(t => {
-      if (!t) return;
-      t.querySelectorAll('tbody tr').forEach(tr => {
-        const td = tr.children[indice];
-        if (td) valores.add(td.textContent.trim());
-      });
+    table.querySelectorAll('tbody tr').forEach(tr => {
+      const td = tr.children[indice];
+      if (td) valores.add(td.textContent.trim());
     });
     return Array.from(valores);
   }
 
-  function atualizarSelect(indice, select) {
+  function atualizarSelect(table, indice, select) {
     select.innerHTML = '<option value="">Todos</option>';
-    coletarValoresUnicos(indice).forEach(val => {
+    coletarValoresUnicos(table, indice).forEach(val => {
       const opt = document.createElement('option');
       opt.value = val.toLowerCase();
       opt.textContent = val;
@@ -420,28 +417,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function aplicarFiltros() {
-    tables.forEach(table => {
-      if (!table) return;
-      table.querySelectorAll('tbody tr').forEach(tr => {
-        let visivel = true;
-        for (const chave in filtros) {
-          const valor = filtros[chave];
-          if (chave === 'global') {
-            if (!tr.textContent.toLowerCase().includes(valor)) {
-              visivel = false;
-              break;
-            }
-          } else {
-            const td = tr.children[chave];
-            if (!td || !td.textContent.toLowerCase().includes(valor)) {
-              visivel = false;
-              break;
-            }
+  function aplicarFiltros(table) {
+    const map = filtros.get(table);
+    if (!map) return;
+    table.querySelectorAll('tbody tr').forEach(tr => {
+      let visivel = true;
+      for (const chave in map) {
+        const valor = map[chave];
+        if (chave === 'global') {
+          if (!tr.textContent.toLowerCase().includes(valor)) {
+            visivel = false;
+            break;
+          }
+        } else {
+          const td = tr.children[chave];
+          if (!td || !td.textContent.toLowerCase().includes(valor)) {
+            visivel = false;
+            break;
           }
         }
-        tr.style.display = visivel ? '' : 'none';
-      });
+      }
+      tr.style.display = visivel ? '' : 'none';
     });
   }
 
@@ -455,7 +451,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function mostrarDropdown(th, indice) {
+  function mostrarDropdown(th, table, indice) {
     fecharDropdown();
     const rect = th.getBoundingClientRect();
     const dropdown = document.createElement('div');
@@ -467,18 +463,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const select = document.createElement('select');
     select.className = 'form-select form-select-sm column-filter';
-    atualizarSelect(indice, select);
-    if (filtros[indice]) select.value = filtros[indice];
+    atualizarSelect(table, indice, select);
+    const map = filtros.get(table);
+    if (map && map[indice]) select.value = map[indice];
     select.addEventListener('change', () => {
       const val = select.value;
       if (val) {
-        filtros[indice] = val.toLowerCase();
-        atualizarLabel(indice, select.options[select.selectedIndex].textContent);
+        map[indice] = val.toLowerCase();
+        atualizarLabel(table, indice, select.options[select.selectedIndex].textContent);
       } else {
-        delete filtros[indice];
-        atualizarLabel(indice, '');
+        delete map[indice];
+        atualizarLabel(table, indice, '');
       }
-      aplicarFiltros();
+      aplicarFiltros(table);
       fecharDropdown();
     });
 
@@ -498,14 +495,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function adicionarFiltrosColuna(table) {
     if (!table) return;
+    filtros.set(table, {});
+    const map = {};
     const thead = table.querySelector('thead');
     const headerRow = thead.querySelector('tr');
     [...headerRow.children].forEach((th, idx) => {
       th.style.cursor = 'pointer';
-      th.addEventListener('click', () => mostrarDropdown(th, idx));
-      if (!headerMap[idx]) headerMap[idx] = [];
-      headerMap[idx].push(th);
+      th.addEventListener('click', () => mostrarDropdown(th, table, idx));
+      map[idx] = th;
     });
+    headerMap.set(table, map);
   }
 
   tables.forEach(t => adicionarFiltrosColuna(t));
@@ -513,7 +512,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const busca = document.getElementById('buscaLancamento');
   busca?.addEventListener('input', () => {
     const val = busca.value.trim().toLowerCase();
-    if (val) filtros['global'] = val; else delete filtros['global'];
-    aplicarFiltros();
+    tables.forEach(t => {
+      const map = filtros.get(t);
+      if (!map) return;
+      if (val) map['global'] = val; else delete map['global'];
+      aplicarFiltros(t);
+    });
   });
 });
