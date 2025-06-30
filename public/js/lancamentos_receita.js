@@ -7,10 +7,10 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .then((res) => res.json())
     .then((dados) => {
-      const corpoPend = document.getElementById("corpoTabelaPendentes");
-      const corpoRec = document.getElementById("corpoTabelaRecebidos");
-      corpoPend.innerHTML = "";
-      corpoRec.innerHTML = "";
+      const corpoAberto = document.getElementById("corpoTabelaAbertos");
+      const corpoPago = document.getElementById("corpoTabelaPagos");
+      corpoAberto.innerHTML = "";
+      corpoPago.innerHTML = "";
 
       dados.forEach((dado) => {
         const tr = document.createElement("tr");
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
           // tr.style.backgroundColor = "#d4edda"; // verde claro (Bootstrap success)
           tr.style.color = "#155724"; // texto escuro para contraste
         }
-        const docsta = dado.docsta === "LA" ? "Pendente" : "Recebido";
+        const docsta = dado.docsta === "LA" ? "Aberto" : "Pago";
         const dataFormatada = dado.docdtpag
           ? dado.docdtpag.split("T")[0]
           : null;
@@ -46,9 +46,9 @@ document.addEventListener("DOMContentLoaded", function () {
             </td>
               `;
         if (dado.docsta === "LA") {
-          corpoPend.appendChild(tr);
+          corpoAberto.appendChild(tr);
         } else {
-          corpoRec.appendChild(tr);
+          corpoPago.appendChild(tr);
         }
       });
     })
@@ -138,10 +138,10 @@ async function atualizarTabelaReceitas() {
     const despesasRes = await fetch(`${BASE_URL}/doc/receitas/${dadosUser.usucod}`);
     const dados = await despesasRes.json();
 
-    const corpoPend = document.getElementById("corpoTabelaPendentes");
-    const corpoRec = document.getElementById("corpoTabelaRecebidos");
-    corpoPend.innerHTML = "";
-    corpoRec.innerHTML = "";
+    const corpoAberto = document.getElementById("corpoTabelaAbertos");
+    const corpoPago = document.getElementById("corpoTabelaPagos");
+    corpoAberto.innerHTML = "";
+    corpoPago.innerHTML = "";
     dados.forEach((dado) => {
       const tr = document.createElement("tr");
       tr.style.color = dado.docsta === "LA" ? "#856404" : "#155724";
@@ -170,9 +170,9 @@ async function atualizarTabelaReceitas() {
         </td>
       `;
       if (dado.docsta === "LA") {
-        corpoPend.appendChild(tr);
+        corpoAberto.appendChild(tr);
       } else {
-        corpoRec.appendChild(tr);
+        corpoPago.appendChild(tr);
       }
     });
   } catch (erro) {
@@ -375,7 +375,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const busca = document.getElementById('buscaLancamento');
   busca?.addEventListener('input', () => {
     const termo = busca.value.toLowerCase();
-    document.querySelectorAll('#corpoTabelaPendentes tr, #corpoTabelaRecebidos tr').forEach(tr => {
+    document.querySelectorAll('#corpoTabelaAbertos tr, #corpoTabelaPagos tr').forEach(tr => {
       tr.style.display = tr.textContent.toLowerCase().includes(termo) ? '' : 'none';
     });
   });

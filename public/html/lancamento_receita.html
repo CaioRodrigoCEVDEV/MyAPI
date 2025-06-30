@@ -106,12 +106,12 @@
                             <input id="buscaLancamento" class="form-control mb-3" placeholder="Buscar">
 
                             <div class="mb-2">
-                                <button class="btn btn-sm btn-outline-secondary me-2" onclick="toggleTable('pendentes')">Mostrar/Ocultar Pendentes</button>
-                                <button class="btn btn-sm btn-outline-secondary" onclick="toggleTable('recebidos')">Mostrar/Ocultar Recebidos</button>
+                                <button class="btn btn-sm btn-outline-secondary me-2" onclick="toggleTable('abertos')">Mostrar/Ocultar Abertos</button>
+                                <button class="btn btn-sm btn-outline-secondary" onclick="toggleTable('pagos')">Mostrar/Ocultar Pagos</button>
                             </div>
 
-                            <h6>Pendentes</h6>
-                            <div id="tabelaPendentes" class="table-responsive mb-3">
+                            <h6>Abertos</h6>
+                            <div id="tabelaAbertos" class="table-responsive mb-3">
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
@@ -126,12 +126,12 @@
                                             <th>Ações</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="corpoTabelaPendentes"></tbody>
+                                    <tbody id="corpoTabelaAbertos"></tbody>
                                 </table>
                             </div>
 
-                            <h6>Recebidos</h6>
-                            <div id="tabelaRecebidos" class="table-responsive">
+                            <h6>Pagos</h6>
+                            <div id="tabelaPagos" class="table-responsive">
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
@@ -146,7 +146,7 @@
                                             <th>Ações</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="corpoTabelaRecebidos"></tbody>
+                                    <tbody id="corpoTabelaPagos"></tbody>
                                 </table>
                             </div>
                             <!-- Modal de edição -->
@@ -299,7 +299,7 @@
         });
 
         window.toggleTable = function(tipo) {
-            const id = tipo === 'pendentes' ? 'tabelaPendentes' : 'tabelaRecebidos';
+            const id = tipo === 'abertos' ? 'tabelaAbertos' : 'tabelaPagos';
             const div = document.getElementById(id);
             div.style.display = div.style.display === 'none' ? '' : 'none';
         }
