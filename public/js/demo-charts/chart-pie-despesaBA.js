@@ -23,6 +23,35 @@ fetch('/api/dadosUserLogado')
       currency: "BRL",
     });
 
+    // Plugin para exibir o totalizador no centro do doughnut
+    const totalPlugin = {
+      id: "totalizadorDepBA",
+      beforeDraw: (chart) => {
+        if (chart.config.type !== "doughnut" || chart.canvas.id !== "myPieChartDepBA") return;
+        const width = chart.width;
+        const height = chart.height;
+        const ctx = chart.ctx;
+
+        // Calcula o total apenas das categorias visíveis
+        const data = chart.data.datasets[0].data;
+        const meta = chart.getDatasetMeta(0);
+        const total = data.reduce((acc, val, idx) => {
+          return meta.data[idx].hidden ? acc : acc + Number(val);
+        }, 0);
+
+        ctx.save();
+        ctx.font = "bold 1rem sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "#000";
+        ctx.fillText(formatter.format(total), width / 2, height / 2);
+        ctx.restore();
+      },
+    };
+
+    // Registro global para funcionar no Chart.js 2.x
+    Chart.plugins.register(totalPlugin);
+
     const myPieChart = new Chart(ctxDepBA, {
       type: "doughnut",
       data: {
