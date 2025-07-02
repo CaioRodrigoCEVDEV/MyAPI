@@ -117,6 +117,9 @@ form.form-inline .form-group {
     font-weight: 500;
     border-bottom: none;
 }
+.chart-total {
+    font-weight: bold;
+}
 
 /* Expand layouts to full width */
 .container-fluid {
