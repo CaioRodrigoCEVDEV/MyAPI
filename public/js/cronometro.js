@@ -4,7 +4,7 @@
 //W3Schools Example: https://www.w3schools.com/howto/howto_js_countdown.asp
 
 // Set the date we're counting down to
-var countDownDate = new Date().getTime() + 10 * 60 * 1000;
+var countDownDate = new Date().getTime() + 60 * 60 * 1000;
 
 
 // Update the count down every 1 second
