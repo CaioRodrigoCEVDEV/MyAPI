@@ -10,14 +10,14 @@ function autenticarToken(req, res, next) {
     try {
         const decoded = jwt.verify(token, 'chave-secreta');
 
-     // gera de novo um novo token com 10 minutos
+     // gera de novo um novo token com 60 minutos
         const novoToken = jwt.sign({ 
             usuemail: decoded.usuemail,
             usucod: decoded.usucod,
             usunome: decoded.usunome 
-        }, 'chave-secreta', { expiresIn: '10m' });
+        }, 'chave-secreta', { expiresIn: '60m' });
 
-    // gauda o novo token com mais 10m em cookies
+    // gauda o novo token com mais 60m em cookies
         res.cookie('token', novoToken, {
         httpOnly: true,
         sameSite: 'Strict',
