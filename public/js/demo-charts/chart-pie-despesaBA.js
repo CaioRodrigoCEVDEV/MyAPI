@@ -23,7 +23,7 @@ fetch('/api/dadosUserLogado')
       currency: "BRL",
     });
 
-    // Plugin para exibir o totalizador no centro do doughnut
+    // Plugin para exibir o totalizador no centro do doughnut e mover para o título em telas pequenas
     const totalPlugin = {
       id: "totalizadorDepBA",
       beforeDraw: (chart) => {
@@ -39,12 +39,27 @@ fetch('/api/dadosUserLogado')
           return meta.data[idx].hidden ? acc : acc + Number(val);
         }, 0);
 
+        const totalFormatted = formatter.format(total);
+        const headerTotal = chart.canvas.closest('.card').querySelector('.chart-total');
+        if (headerTotal) {
+          if (window.innerWidth < 576) {
+            headerTotal.textContent = totalFormatted;
+          } else {
+            headerTotal.textContent = '';
+          }
+        }
+
+        if (window.innerWidth < 576) {
+          return; // Não desenha texto no centro em telas pequenas
+        }
+
         ctx.save();
-        ctx.font = "bold 1rem sans-serif";
+        const fontSize = Math.max(Math.min(width, height) * 0.12, 12);
+        ctx.font = `bold ${fontSize}px sans-serif`;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillStyle = "#000";
-        ctx.fillText(formatter.format(total), width / 2, height / 2);
+        ctx.fillText(totalFormatted, width / 2, height / 2);
         ctx.restore();
       },
     };
