@@ -340,10 +340,8 @@ exports.contaDespesaPendente = async (req, res) => {
 
 exports.contaReceitaPendente = async (req, res) => {
     const {id} = req.params;
-    const status = "LA";
-    const docdtpag = 'now()';
     try {
-        const result = await pool.query('select sum(docv) as total from doc where docnatcod = 2 and docsta = $1 and docusucod = $2 and docdtpag <= $3', [status,id,docdtpag]);
+        const result = await pool.query('select total from vw_receitas_pendentes_mes_atual where docusucod = $1', [id]);
         res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);
