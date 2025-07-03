@@ -23,14 +23,11 @@ fetch('/api/dadosUserLogado')
     currency: "BRL",
   });
 
-  // Plugin para exibir o totalizador no centro do doughnut e mover para o título em telas pequenas
+  // Plugin para exibir o totalizador apenas no cabeçalho do gráfico
   const totalPlugin = {
     id: "totalizadorRecLA",
     beforeDraw: (chart) => {
       if (chart.config.type !== "doughnut" || chart.canvas.id !== "myPieChartRecLA") return;
-      const width = chart.width;
-      const height = chart.height;
-      const ctx = chart.ctx;
 
       // Calcula o total apenas das categorias visíveis
       const data = chart.data.datasets[0].data;
@@ -42,25 +39,8 @@ fetch('/api/dadosUserLogado')
       const totalFormatted = formatter.format(total);
       const headerTotal = chart.canvas.closest('.card').querySelector('.chart-total');
       if (headerTotal) {
-        if (window.innerWidth < 576) {
-          headerTotal.textContent = totalFormatted;
-        } else {
-          headerTotal.textContent = '';
-        }
+        headerTotal.textContent = totalFormatted;
       }
-
-      if (window.innerWidth < 576) {
-        return; // Não desenha texto no centro em telas pequenas
-      }
-
-      ctx.save();
-      const fontSize = Math.max(Math.min(width, height) * 0.12, 12);
-      ctx.font = `bold ${fontSize}px sans-serif`;
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillStyle = "#000";
-      ctx.fillText(totalFormatted, width / 2, height / 2);
-      ctx.restore();
     },
   };
 
