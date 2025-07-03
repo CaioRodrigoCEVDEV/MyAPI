@@ -500,17 +500,56 @@ GRANT ALL ON TABLE public.vw_orcado_vs_realizado_anual TO postgres;
 # 💰 View Total Seguro
 
 ```sql
+
 CREATE OR REPLACE VIEW public.vw_total_seguro
 AS SELECT vw_saldo_contas.usu,
-    vw_saldo_contas.contas_saldo - coalesce(sum(doc.docv),0) AS total_seguro
+    sum(vw_saldo_contas.contas_saldo + vw_total_conta_docr.total_conta_docr - vw_total_conta_docd.total_conta_docr) AS total_seguro
    FROM vw_saldo_contas
-     left JOIN doc ON doc.docusucod = vw_saldo_contas.usu AND doc.docsta = 'LA'::bpchar AND doc.docnatcod = 1 AND date_part('month'::text, doc.docdtpag) = date_part('month'::text, CURRENT_DATE)
+     JOIN vw_total_conta_docd ON vw_total_conta_docd.usu = vw_saldo_contas.usu
+     JOIN vw_total_conta_docr ON vw_total_conta_docr.usu = vw_saldo_contas.usu
+  GROUP BY vw_saldo_contas.usu;
+
+ALTER TABLE public.vw_total_seguro OWNER TO postgres;
+GRANT ALL ON TABLE public.vw_total_seguro TO postgres;
+```
+
+---
+# 💰 View Total receita
+
+```sql
+-- public.vw_total_conta_docd fonte
+
+CREATE OR REPLACE VIEW public.vw_total_conta_docd
+AS SELECT vw_saldo_contas.usu,
+    sum(doc.docv) AS total_conta_docr
+   FROM vw_saldo_contas
+     JOIN doc ON doc.docusucod = vw_saldo_contas.usu AND doc.docsta = 'LA'::bpchar AND doc.docnatcod = 1 AND date_part('month'::text, doc.docdtpag) = date_part('month'::text, CURRENT_DATE)
   GROUP BY vw_saldo_contas.usu, vw_saldo_contas.contas_saldo;
 
 -- Permissions
 
-ALTER TABLE public.vw_total_seguro OWNER TO postgres;
-GRANT ALL ON TABLE public.vw_total_seguro TO postgres;
+ALTER TABLE public.vw_total_conta_docd OWNER TO postgres;
+GRANT ALL ON TABLE public.vw_total_conta_docd TO postgres;
+```
+
+---
+
+# 💰 View Total Despesa
+
+```sql
+-- public.vw_total_conta_docr fonte
+
+CREATE OR REPLACE VIEW public.vw_total_conta_docr
+AS SELECT vw_saldo_contas.usu,
+    sum(doc.docv) AS total_conta_docr
+   FROM vw_saldo_contas
+     JOIN doc ON doc.docusucod = vw_saldo_contas.usu AND doc.docsta = 'LA'::bpchar AND doc.docnatcod = 2 AND date_part('month'::text, doc.docdtpag) = date_part('month'::text, CURRENT_DATE)
+  GROUP BY vw_saldo_contas.usu, vw_saldo_contas.contas_saldo;
+
+-- Permissions
+
+ALTER TABLE public.vw_total_conta_docr OWNER TO postgres;
+GRANT ALL ON TABLE public.vw_total_conta_docr TO postgres;
 ```
 
 ---
