@@ -57,6 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Deletar
 window.deletar = function (id) {
+  if (!confirm('Confirma a exclusão deste lançamento?')) return;
   fetch(`${BASE_URL}/doc/${id}`, {
     method: "PUT",
     credentials: "include", // Inclui cookies na requisição, se necessário
