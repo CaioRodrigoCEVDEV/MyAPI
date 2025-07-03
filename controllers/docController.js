@@ -353,7 +353,12 @@ exports.contaReceitaPendente = async (req, res) => {
 exports.GastosHoje = async (req, res) => {
     const {id} = req.params;
     try {
-        const result = await pool.query('select * from vw_gastos_hoje where docusucod = $1', [id]);
+        const result = await pool.query(`
+            SELECT docusucod,
+            sum(docv) AS gastosnow
+            FROM doc
+            WHERE docsta = 'BA'::bpchar AND docnatcod = 1 AND docdtpag = 'now()' and docusucod = $1
+            GROUP BY docusucod;`, [id]);
         res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);
