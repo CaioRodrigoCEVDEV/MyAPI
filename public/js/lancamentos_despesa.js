@@ -519,4 +519,70 @@ document.addEventListener('DOMContentLoaded', () => {
       aplicarFiltros(t);
     });
   });
+
+  const filtroInicio = document.getElementById('dataInicio');
+  const filtroFim = document.getElementById('dataFim');
+  const valorMin = document.getElementById('valorMin');
+  const valorMax = document.getElementById('valorMax');
+  const filtroCategoria = document.getElementById('categoriaFiltro');
+  const limpar = document.getElementById('limparFiltros');
+
+  function filtrarExtras() {
+    const inicio = filtroInicio.value ? new Date(filtroInicio.value) : null;
+    const fim = filtroFim.value ? new Date(filtroFim.value) : null;
+    const min = parseFloat(valorMin.value.replace(',', '.'));
+    const max = parseFloat(valorMax.value.replace(',', '.'));
+    const cat = filtroCategoria.value.toLowerCase();
+
+    tables.forEach(table => {
+      table.querySelectorAll('tbody tr').forEach(tr => {
+        const dataTxt = tr.children[0].textContent.trim();
+        const partes = dataTxt.split('-');
+        const dataVal = new Date(`${partes[2]}-${partes[1]}-${partes[0]}`);
+        const valor = parseFloat(tr.children[1].textContent.replace(',', '.'));
+        const categoria = tr.children[4].textContent.toLowerCase();
+
+        let ok = true;
+        if (inicio && dataVal < inicio) ok = false;
+        if (fim && dataVal > fim) ok = false;
+        if (!isNaN(min) && valor < min) ok = false;
+        if (!isNaN(max) && valor > max) ok = false;
+        if (cat && !categoria.includes(cat)) ok = false;
+        tr.style.display = ok ? '' : 'none';
+      });
+    });
+  }
+
+  [filtroInicio, filtroFim, valorMin, valorMax, filtroCategoria].forEach(el => {
+    el?.addEventListener('input', filtrarExtras);
+  });
+  limpar?.addEventListener('click', e => {
+    e.preventDefault();
+    filtroInicio.value = '';
+    filtroFim.value = '';
+    valorMin.value = '';
+    valorMax.value = '';
+    filtroCategoria.value = '';
+    filtrarExtras();
+  });
+
+  fetch('/api/dadosUserLogado')
+    .then(res => res.json())
+    .then(dados => fetch(`${BASE_URL}/catTodosDespesa/${dados.usucod}`))
+    .then(res => res.json())
+    .then(data => {
+      if (filtroCategoria) {
+        const opt = document.createElement('option');
+        opt.value = '';
+        opt.textContent = 'Todas';
+        filtroCategoria.appendChild(opt);
+        data.forEach(catItem => {
+          const option = document.createElement('option');
+          option.value = catItem.catdes.toLowerCase();
+          option.textContent = catItem.catdes;
+          filtroCategoria.appendChild(option);
+        });
+      }
+    })
+    .catch(err => console.error('Erro carregando categorias', err));
 });
