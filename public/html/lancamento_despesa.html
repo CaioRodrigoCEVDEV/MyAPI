@@ -87,7 +87,34 @@
                         <button id="novoLancamento" class="btn btn-primary">Nova Despesa</button>
                     </div>
                             <label style="margin-left: 0.5%;">Filtros de Pesquisa</label>
-                            <input id="buscaLancamento" class="form-control mb-3" placeholder="Buscar">
+                            <div class="container-fluid p-0" id="filtrosContainer">
+                                <div class="row g-2">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Período</label>
+                                        <div class="d-flex">
+                                            <input type="date" id="dataInicio" class="form-control" />
+                                            <span class="mx-1 align-self-center">a</span>
+                                            <input type="date" id="dataFim" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">Valor Mín.</label>
+                                        <input type="number" step="0.01" id="valorMin" class="form-control" />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label">Valor Máx.</label>
+                                        <input type="number" step="0.01" id="valorMax" class="form-control" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Categoria</label>
+                                        <select id="categoriaFiltro" class="form-select"></select>
+                                    </div>
+                                    <div class="col-md-1 d-flex align-items-end">
+                                        <button class="btn btn-secondary w-100" id="limparFiltros">Limpar</button>
+                                    </div>
+                                </div>
+                                <input id="buscaLancamento" class="form-control mt-2" placeholder="Buscar">
+                            </div>
 
                             <div id="tabelaPendentes" class="table-responsive">
                                 <h5>Despesas Pendentes</h5>
