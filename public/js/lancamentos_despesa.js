@@ -525,7 +525,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const valorMin = document.getElementById('valorMin');
   const valorMax = document.getElementById('valorMax');
   const filtroCategoria = document.getElementById('categoriaFiltro');
+  const filtroStatus = document.getElementById('statusFiltro');
   const limpar = document.getElementById('limparFiltros');
+
+  const agora = new Date();
+  const inicioMes = new Date(agora.getFullYear(), agora.getMonth(), 1)
+    .toISOString()
+    .split('T')[0];
+  const fimMes = new Date(agora.getFullYear(), agora.getMonth() + 1, 0)
+    .toISOString()
+    .split('T')[0];
+  if (filtroInicio) filtroInicio.value = inicioMes;
+  if (filtroFim) filtroFim.value = fimMes;
 
   function filtrarExtras() {
     const inicio = filtroInicio.value ? new Date(filtroInicio.value) : null;
@@ -533,6 +544,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const min = parseFloat(valorMin.value.replace(',', '.'));
     const max = parseFloat(valorMax.value.replace(',', '.'));
     const cat = filtroCategoria.value.toLowerCase();
+    const status = filtroStatus.value.toLowerCase();
 
     tables.forEach(table => {
       table.querySelectorAll('tbody tr').forEach(tr => {
@@ -541,6 +553,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const dataVal = new Date(`${partes[2]}-${partes[1]}-${partes[0]}`);
         const valor = parseFloat(tr.children[1].textContent.replace(',', '.'));
         const categoria = tr.children[4].textContent.toLowerCase();
+        const statusTxt = tr.children[7].textContent.toLowerCase();
 
         let ok = true;
         if (inicio && dataVal < inicio) ok = false;
@@ -548,12 +561,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!isNaN(min) && valor < min) ok = false;
         if (!isNaN(max) && valor > max) ok = false;
         if (cat && !categoria.includes(cat)) ok = false;
+        if (status && !statusTxt.includes(status)) ok = false;
         tr.style.display = ok ? '' : 'none';
       });
     });
   }
 
-  [filtroInicio, filtroFim, valorMin, valorMax, filtroCategoria].forEach(el => {
+  [filtroInicio, filtroFim, valorMin, valorMax, filtroCategoria, filtroStatus].forEach(el => {
     el?.addEventListener('input', filtrarExtras);
   });
   limpar?.addEventListener('click', e => {
@@ -563,6 +577,7 @@ document.addEventListener('DOMContentLoaded', () => {
     valorMin.value = '';
     valorMax.value = '';
     filtroCategoria.value = '';
+    filtroStatus.value = '';
     filtrarExtras();
   });
 
