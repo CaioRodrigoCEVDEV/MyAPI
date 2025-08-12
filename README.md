@@ -514,14 +514,34 @@ GRANT ALL ON TABLE public.vw_total_seguro TO postgres;
 ```
 
 ---
-# 💰 View Total receita
+# 💰 View Total receita Pendente
 
 ```sql
--- public.vw_total_conta_docd fonte
+-- public.vw_total_conta_docr source
+
+CREATE OR REPLACE VIEW public.vw_total_conta_docr
+AS SELECT vw_saldo_contas.usu,
+    coalesce(sum(doc.docv),0) AS total_conta_docr
+   FROM vw_saldo_contas
+     left JOIN doc ON doc.docusucod = vw_saldo_contas.usu AND doc.docsta = 'LA'::bpchar AND doc.docnatcod = 2 AND date_part('month'::text, doc.docdtpag) = date_part('month'::text, CURRENT_DATE)
+  GROUP BY vw_saldo_contas.usu, vw_saldo_contas.contas_saldo;
+
+-- Permissions
+
+ALTER TABLE public.vw_total_conta_docr OWNER TO postgres;
+GRANT ALL ON TABLE public.vw_total_conta_docr TO postgres;
+```
+
+---
+
+# 💰 View Total Despesa Pendente
+
+```sql
+-- public.vw_total_conta_docd source
 
 CREATE OR REPLACE VIEW public.vw_total_conta_docd
 AS SELECT vw_saldo_contas.usu,
-    sum(doc.docv) AS total_conta_docr
+    coalesce(sum(doc.docv),0) AS total_conta_docr
    FROM vw_saldo_contas
      JOIN doc ON doc.docusucod = vw_saldo_contas.usu AND doc.docsta = 'LA'::bpchar AND doc.docnatcod = 1 AND date_part('month'::text, doc.docdtpag) = date_part('month'::text, CURRENT_DATE)
   GROUP BY vw_saldo_contas.usu, vw_saldo_contas.contas_saldo;
@@ -530,26 +550,6 @@ AS SELECT vw_saldo_contas.usu,
 
 ALTER TABLE public.vw_total_conta_docd OWNER TO postgres;
 GRANT ALL ON TABLE public.vw_total_conta_docd TO postgres;
-```
-
----
-
-# 💰 View Total Despesa
-
-```sql
--- public.vw_total_conta_docr fonte
-
-CREATE OR REPLACE VIEW public.vw_total_conta_docr
-AS SELECT vw_saldo_contas.usu,
-    sum(doc.docv) AS total_conta_docr
-   FROM vw_saldo_contas
-     JOIN doc ON doc.docusucod = vw_saldo_contas.usu AND doc.docsta = 'LA'::bpchar AND doc.docnatcod = 2 AND date_part('month'::text, doc.docdtpag) = date_part('month'::text, CURRENT_DATE)
-  GROUP BY vw_saldo_contas.usu, vw_saldo_contas.contas_saldo;
-
--- Permissions
-
-ALTER TABLE public.vw_total_conta_docr OWNER TO postgres;
-GRANT ALL ON TABLE public.vw_total_conta_docr TO postgres;
 ```
 
 ---
