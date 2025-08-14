@@ -107,28 +107,46 @@ document
       console.error(err);
       return;
     }
+    const repeat = document.getElementById("repeat");
+    const repeatMonthsInput = document.getElementById("repeatMonths");
+    const totalMonths = repeat && repeat.checked ? parseInt(repeatMonthsInput.value, 10) || 1 : 1;
+    const baseObs = data.docobs || "";
 
-    fetch(`${BASE_URL}/doc`, {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((resposta) => {
-        atualizarTabelaDespesas(); // Atualiza a tabela sem recarregar a página
-        form.reset();
-      })
-      .catch((erro) => {
-        alert("Erro ao salvar os dados.");
-        console.error(erro);
-      });
+    try {
+      for (let i = 0; i < totalMonths; i++) {
+        const payload = { ...data };
+        const dataBase = new Date(data.docdtpag);
+        dataBase.setMonth(dataBase.getMonth() + i);
+        payload.docdtpag = dataBase.toISOString().split("T")[0];
+        if (i > 0) {
+          payload.docsta = "LA";
+        }
+        if (totalMonths > 1) {
+          const parcela = `Parcela ${i + 1}/${totalMonths}`;
+          payload.docobs = baseObs ? `${baseObs} - ${parcela}` : parcela;
+        }
 
-      alerta.style.display = "block";   
-      alerta.innerHTML = "Lançado com sucesso!"; 
+        await fetch(`${BASE_URL}/doc`, {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }).then((res) => res.json());
+      }
+      atualizarTabelaDespesas();
+      form.reset();
+      if (repeat) {
+        document.getElementById("repeatContainer").style.display = "none";
+      }
+      alerta.style.display = "block";
+      alerta.innerHTML = "Lançado com sucesso!";
       setTimeout(() => {
-          alerta.style.display = "none";
+        alerta.style.display = "none";
       }, 2000);
+    } catch (erro) {
+      alert("Erro ao salvar os dados.");
+      console.error(erro);
+    }
   });
 
 // Função para atualizar a tabela de despesas via AJAX
@@ -600,4 +618,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     })
     .catch(err => console.error('Erro carregando categorias', err));
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const repeat = document.getElementById('repeat');
+  const container = document.getElementById('repeatContainer');
+  if (repeat && container) {
+    repeat.addEventListener('change', () => {
+      container.style.display = repeat.checked ? 'block' : 'none';
+    });
+  }
 });
