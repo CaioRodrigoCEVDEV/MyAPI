@@ -86,7 +86,7 @@ app.use(express.static('public/'));
 const autenticarToken = require('./src/middleware/authMiddleware');
 const { error } = require('console');
 
-app.get('/login', (req, res) => {
+app.get(["/", "/login"], (req, res) => {
   res.sendFile(__dirname + '/public/login/index.html');
 });
 
