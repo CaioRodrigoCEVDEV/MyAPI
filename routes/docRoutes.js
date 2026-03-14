@@ -9,9 +9,12 @@ router.get('/docAnualRealizado/:id',autenticarToken, docController.listarDocsAnu
 router.get('/docAnualProvisionado/:id',autenticarToken, docController.listarDocsAnualProvisionado);
 router.get('/docPvsRatual/:id',autenticarToken, docController.listarDocsPvsRatual);
 router.get('/doc/receitas',autenticarToken, docController.listarDocsReceitas);
+router.get('/doc/receitas/month/',autenticarToken, docController.listarDocsReceitasMonth);
 router.get('/doc/despesas',autenticarToken, docController.listarDocsDespesas);
 router.get('/doc/despesas/:id',autenticarToken, docController.listarDocsDespesasUser);
+router.get('/doc/despesas/month/:id',autenticarToken, docController.listarDocsDespesasUserMonth);
 router.get('/doc/receitas/:id',autenticarToken, docController.listarDocsReceitasUser);
+router.get('/doc/receitas/month/:id',autenticarToken, docController.listarDocsReceitasUserMonth);
 router.get('/doc/contaDespesaPendente/:id',autenticarToken, docController.contaDespesaPendente);
 router.get('/doc/contaReceitaPendente/:id',autenticarToken, docController.contaReceitaPendente);
 router.get('/doc/GastosHoje/:id',autenticarToken, docController.GastosHoje);
