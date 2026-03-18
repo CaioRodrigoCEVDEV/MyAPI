@@ -159,7 +159,7 @@ exports.listarDocsDespesasUserMonth = async (req, res) => {
             and docusucod = $2 
             and docsta <> $3 
             and docdtpag ::date >= date_trunc('month',current_date)
-            and docdtpag ::date <  date_trunc('month',current_date) + interval '1 month';`, [natureza, id,ex]);
+            and docdtpag ::date <  date_trunc('month',current_date) + interval '1 month'  order by doccod desc;`, [natureza, id,ex]);
         res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);
