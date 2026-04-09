@@ -16,66 +16,6 @@
     <!--Fonte de icones \v/-->
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-        body.sb-nav-fixed {
-            min-height: 100vh;
-            background: linear-gradient(180deg, #0a1d40 0%, #12214f 55%, #171f2f 100%);
-        }
-
-       
-        .card {
-            border-radius: 1rem;
-        }
-
-        .card-header.bg-primary,
-        .card-header.bg-success {
-            border-top-left-radius: 1rem;
-            border-top-right-radius: 1rem;
-        }
-
-        .card-header.bg-primary {
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-        }
-
-        .card-header.bg-success {
-            background: linear-gradient(135deg, #16a34a, #22c55e);
-        }
-
-        .card .form-label {
-            font-weight: 600;
-        }
-
-        .table thead th {
-            letter-spacing: .04em;
-            font-size: .82rem;
-        }
-
-        .table tbody tr:hover {
-            background-color: rgba(13, 110, 253, 0.08);
-        }
-
-        .btn-outline-secondary {
-            border-color: rgba(255, 255, 255, 0.18);
-            color: #f8f9fa;
-        }
-
-        .btn-outline-secondary:hover {
-            background-color: rgba(255, 255, 255, 0.08);
-            color: #fff;
-        }
-
-        .modal-content {
-            border-radius: 1.1rem;
-        }
-
-        #repeatContainer.d-none {
-            display: none !important;
-        }
-
-        .text-light small {
-            opacity: 0.85;
-        }
-    </style>
 </head>
 
 <body class="sb-nav-fixed login-bg">
@@ -116,80 +56,59 @@
         <!-- Sidebar  >>>>>  html/sidebar.hmtl-->
         <div id="layoutSidenav_content">
             <main class="py-4">
-                <div class="container-fluid px-4">
-                    <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 mb-4">
-                        <div>
-                            <h1 class="h3 text-white mb-1">Lançamentos de Receita</h1>
-                            <p class="text-light small mb-0">Visualize e filtre todas as receitas de forma rápida e organizada.</p>
+                <div class="container-fluid dashboard-shell">
+                    <section class="page-hero page-hero-compact">
+                        <div class="page-hero-copy">
+                            <span class="eyebrow">Gestão de receitas</span>
+                            <h1 class="finance-title page-title-alt">Lançamentos de receita</h1>
+                            <p class="finance-subtitle">Acompanhe entradas previstas e recebidas com a mesma linguagem visual do restante do painel financeiro.</p>
                         </div>
-                        <button id="novoLancamento" class="btn btn-success shadow-sm">
-                            <i class="fas fa-plus me-2"></i> Nova Receita
-                        </button>
-                    </div>
+                        <div class="page-hero-actions">
+                            <button id="novoLancamento" class="btn btn-finance-primary">
+                                <i class="fas fa-plus me-2"></i>Nova receita
+                            </button>
+                        </div>
+                    </section>
 
-                    <div class="row g-3 mb-4">
-                        <div class="col-xl-3 col-sm-6">
-                            <div class="card shadow-sm border-0 h-100">
-                                <div class="card-body">
-                                    <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <span class="text-muted small text-uppercase">Lançamentos</span>
-                                        <i class="fas fa-list-check fa-lg text-primary"></i>
-                                    </div>
-                                    <h3 class="mb-0" id="saldo">0</h3>
-                                    <p class="small text-muted mb-0">Total de lançamentos</p>
-                                </div>
-                            </div>
+                    <section class="metrics-grid metrics-grid-compact">
+                        <div class="metric-card metric-card-primary">
+                            <div class="metric-icon"><i class="fas fa-list-check"></i></div>
+                            <div class="metric-label">Lançamentos</div>
+                            <div class="metric-value"><span id="saldo">0</span></div>
+                            <div class="metric-trend">Total de receitas no filtro atual</div>
                         </div>
-                        <div class="col-xl-3 col-sm-6">
-                            <div class="card shadow-sm border-0 h-100">
-                                <div class="card-body">
-                                    <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <span class="text-muted small text-uppercase">A receber</span>
-                                        <i class="fas fa-hand-holding-dollar fa-lg text-warning"></i>
-                                    </div>
-                                    <h3 class="mb-0">R$<span id="gastosNow">0.00</span></h3>
-                                    <p class="small text-muted mb-0">Total previsto</p>
-                                </div>
-                            </div>
+                        <div class="metric-card metric-card-warm">
+                            <div class="metric-icon"><i class="fas fa-hand-holding-dollar"></i></div>
+                            <div class="metric-label">Total previsto</div>
+                            <div class="metric-value">R$ <span id="gastosNow">0,00</span></div>
+                            <div class="metric-trend">Todas as entradas monitoradas</div>
                         </div>
-                        <div class="col-xl-3 col-sm-6">
-                            <div class="card shadow-sm border-0 h-100">
-                                <div class="card-body">
-                                    <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <span class="text-muted small text-uppercase">Pendentes</span>
-                                        <i class="fas fa-clock fa-lg text-danger"></i>
-                                    </div>
-                                    <h3 class="mb-0">R$<span id="despesaP">0.00</span></h3>
-                                    <p class="small text-muted mb-0">Receitas ainda não recebidas</p>
-                                </div>
-                            </div>
+                        <div class="metric-card metric-card-danger">
+                            <div class="metric-icon"><i class="fas fa-clock"></i></div>
+                            <div class="metric-label">Em aberto</div>
+                            <div class="metric-value">R$ <span id="despesaP">0,00</span></div>
+                            <div class="metric-trend">Receitas ainda não recebidas</div>
                         </div>
-                        <div class="col-xl-3 col-sm-6">
-                            <div class="card shadow-sm border-0 h-100">
-                                <div class="card-body">
-                                    <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <span class="text-muted small text-uppercase">Recebido</span>
-                                        <i class="fas fa-check-circle fa-lg text-success"></i>
-                                    </div>
-                                    <h3 class="mb-0">R$<span id="totalSeguro">0.00</span></h3>
-                                    <p class="small text-muted mb-0">Receitas já confirmadas</p>
-                                </div>
-                            </div>
+                        <div class="metric-card metric-card-success">
+                            <div class="metric-icon"><i class="fas fa-check-circle"></i></div>
+                            <div class="metric-label">Recebido</div>
+                            <div class="metric-value">R$ <span id="totalSeguro">0,00</span></div>
+                            <div class="metric-trend">Entradas já confirmadas</div>
                         </div>
-                    </div>
+                    </section>
 
-                    <div class="card shadow-sm mb-4">
-                        <div class="card-header bg-white border-0 d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2">
+                    <section class="finance-panel mb-4">
+                        <div class="finance-panel-header">
                             <div>
-                                <h6 class="mb-1">Filtros de Pesquisa</h6>
-                                <p class="small text-muted mb-0">Use critérios objetivos para refinar sua busca.</p>
+                                <h2>Filtros de pesquisa</h2>
+                                <p>Refine por período, valor, categoria, status ou termos livres.</p>
                             </div>
-                            <div class="text-end">
-                                <button type="button" class="btn btn-outline-secondary btn-sm me-2" id="limparFiltros">Limpar</button>
-                                <button type="button" class="btn btn-primary btn-sm" id="buscarFiltros"><i class="fa fa-search me-1"></i> Buscar</button>
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-finance-secondary btn-sm" id="limparFiltros">Limpar</button>
+                                <button type="button" class="btn btn-finance-primary btn-sm" id="buscarFiltros"><i class="fa fa-search me-1"></i>Buscar</button>
                             </div>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body p-0">
                             <div class="row g-3">
                                 <div class="col-lg-4">
                                     <label class="form-label">Período</label>
@@ -224,27 +143,27 @@
                                     <input id="buscaLancamento" class="form-control" placeholder="Buscar por texto ou observações" />
                                 </div>
                                 <div class="col-lg-4 d-flex align-items-end justify-content-end">
-                                    <button type="button" class="btn btn-primary w-100 d-md-none" id="buscarFiltrosMobile"><i class="fa fa-search me-1"></i> Buscar</button>
+                                    <button type="button" class="btn btn-finance-primary w-100 d-md-none" id="buscarFiltrosMobile"><i class="fa fa-search me-1"></i> Buscar</button>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
 
                     <div class="d-flex flex-wrap gap-2 mb-4">
-                        <button class="btn btn-outline-secondary btn-sm" onclick="toggleTable('abertos')">Mostrar/Ocultar Abertos</button>
-                        <button class="btn btn-outline-secondary btn-sm" onclick="toggleTable('pagos')">Mostrar/Ocultar Pagos</button>
+                        <button class="btn btn-finance-secondary btn-sm" onclick="toggleTable('abertos')">Mostrar/Ocultar Abertos</button>
+                        <button class="btn btn-finance-secondary btn-sm" onclick="toggleTable('pagos')">Mostrar/Ocultar Pagos</button>
                     </div>
 
                     <div class="row g-4">
                         <div class="col-12">
-                            <div class="card shadow-sm border-0">
-                                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                            <div class="card chart-card finance-list-card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
                                     <span>Receitas em aberto</span>
-                                    <span class="badge bg-light text-primary"><span id="corpoTabelaAbertosCount"></span></span>
+                                    <span class="badge finance-count-badge finance-count-badge-danger"><span id="corpoTabelaAbertosCount"></span></span>
                                 </div>
                                 <div id="tabelaAbertos" class="table-responsive">
-                                    <table class="table table-hover align-middle mb-0">
-                                        <thead class="table-light">
+                                    <table class="table modern-table finance-table finance-table-expense align-middle mb-0">
+                                        <thead>
                                             <tr>
                                                 <th>Data</th>
                                                 <th>Valor</th>
@@ -264,14 +183,14 @@
                         </div>
 
                         <div class="col-12">
-                            <div class="card shadow-sm border-0">
-                                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
-                                    <span>Receitas pagas</span>
-                                    <span class="badge bg-light text-success"><span id="corpoTabelaPagosCount"></span></span>
+                            <div class="card chart-card finance-list-card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <span>Receitas recebidas</span>
+                                    <span class="badge finance-count-badge finance-count-badge-success"><span id="corpoTabelaPagosCount"></span></span>
                                 </div>
                                 <div id="tabelaPagos" class="table-responsive">
-                                    <table class="table table-hover align-middle mb-0">
-                                        <thead class="table-light">
+                                    <table class="table modern-table finance-table finance-table-expense align-middle mb-0">
+                                        <thead>
                                             <tr>
                                                 <th>Data</th>
                                                 <th>Valor</th>
@@ -291,12 +210,15 @@
                         </div>
                     </div>
 
-                    <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
+                    <div class="modal fade finance-modal" id="modalEditar" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-lg">
-                            <div class="modal-content border-0 shadow">
-                                <form id="formEditar">
+                            <div class="modal-content">
+                                <form id="formEditar" class="finance-form">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="modalEditarLabel">Editar Lançamento</h5>
+                                        <div>
+                                            <span class="modal-eyebrow">Ajuste financeiro</span>
+                                            <h5 class="modal-title" id="modalEditarLabel">Editar Lançamento</h5>
+                                        </div>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
@@ -335,20 +257,23 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                        <button type="submit" class="btn btn-primary">Salvar</button>
+                                        <button type="button" class="btn btn-finance-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-finance-primary">Salvar</button>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
 
-                    <div class="modal fade" id="modalNovo" tabindex="-1" aria-labelledby="modalNovoLabel" aria-hidden="true">
+                    <div class="modal fade finance-modal" id="modalNovo" tabindex="-1" aria-labelledby="modalNovoLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-lg">
-                            <div class="modal-content border-0 shadow">
-                                <form id="meuFormulario">
+                            <div class="modal-content">
+                                <form id="meuFormulario" class="finance-form">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="modalNovoLabel">Novo Lançamento</h5>
+                                        <div>
+                                            <span class="modal-eyebrow">Novo lançamento</span>
+                                            <h5 class="modal-title" id="modalNovoLabel">Nova Receita</h5>
+                                        </div>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
@@ -407,8 +332,8 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                        <button class="btn btn-success" type="submit">Salvar</button>
+                                        <button type="button" class="btn btn-finance-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <button class="btn btn-finance-primary" type="submit">Salvar</button>
                                     </div>
                                 </form>
                             </div>

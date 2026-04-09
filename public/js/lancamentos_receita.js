@@ -1,5 +1,12 @@
 let dadosUserCache = null;
 
+function formatCurrency(value) {
+  return Number(value || 0).toLocaleString('pt-BR', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+}
+
 async function obterDadosUsuario() {
   if (dadosUserCache) return dadosUserCache;
   const userRes = await fetch('/api/dadosUserLogado');
@@ -16,37 +23,104 @@ function parseDataDoc(docdtpag) {
 function renderizarTabelaReceitas(dados) {
   const corpoAberto = document.getElementById("corpoTabelaAbertos");
   const corpoPago = document.getElementById("corpoTabelaPagos");
+  const countAbertos = document.getElementById("corpoTabelaAbertosCount");
+  const countPagos = document.getElementById("corpoTabelaPagosCount");
   corpoAberto.innerHTML = "";
   corpoPago.innerHTML = "";
 
+  const abertos = dados.filter((dado) => dado.docsta === "LA");
+  const pagos = dados.filter((dado) => dado.docsta !== "LA");
+
+  if (countAbertos) countAbertos.textContent = abertos.length;
+  if (countPagos) countPagos.textContent = pagos.length;
+
+  const total = dados.reduce((acc, dado) => acc + Number(String(dado.docv).replace(',', '.')), 0);
+  const totalAberto = abertos.reduce((acc, dado) => acc + Number(String(dado.docv).replace(',', '.')), 0);
+  const totalPago = pagos.reduce((acc, dado) => acc + Number(String(dado.docv).replace(',', '.')), 0);
+
+  const saldo = document.getElementById("saldo");
+  const gastosNow = document.getElementById("gastosNow");
+  const despesaP = document.getElementById("despesaP");
+  const totalSeguro = document.getElementById("totalSeguro");
+
+  if (saldo) saldo.textContent = dados.length;
+  if (gastosNow) gastosNow.textContent = formatCurrency(total);
+  if (despesaP) despesaP.textContent = formatCurrency(totalAberto);
+  if (totalSeguro) totalSeguro.textContent = formatCurrency(totalPago);
+
+  if (!dados.length) {
+    const emptyMarkup = `
+      <tr>
+        <td colspan="9">
+          <div class="empty-state-table">
+            <i class="fas fa-hand-holding-usd"></i>
+            <div>Nenhuma receita encontrada para os filtros aplicados.</div>
+          </div>
+        </td>
+      </tr>
+    `;
+    corpoAberto.innerHTML = emptyMarkup;
+    corpoPago.innerHTML = emptyMarkup;
+    return;
+  }
+
   dados.forEach((dado) => {
     const tr = document.createElement("tr");
-    tr.style.color = dado.docsta === "LA" ? "#856404" : "#155724";
     const docsta = dado.docsta === "LA" ? "Aberto" : "Pago";
     const dataFormatada = dado.docdtpag ? dado.docdtpag.split("T")[0] : "";
     const partes = dataFormatada.split("-");
     const dataFormatada1 = partes.length === 3 ? `${partes[2]}-${partes[1]}-${partes[0]}` : "";
     tr.innerHTML = `
-      <td>${dataFormatada1}</td>
-      <td>${dado.docv}</td>
+      <td class="finance-cell-date">${dataFormatada1}</td>
+      <td class="finance-cell-value">R$ ${formatCurrency(String(dado.docv).replace(',', '.'))}</td>
       <td>${dado.tcdes}</td>
-      <td>${dado.natdes}</td>
+      <td class="finance-cell-muted">${dado.natdes}</td>
       <td>${dado.catdes}</td>
       <td>${dado.contades}</td>
-      <td>${dado.docobs || ''}</td>
+      <td class="finance-cell-muted">${dado.docobs || 'Sem observações'}</td>
       <td>
-        ${dado.docsta === "LA" ? '<i class="fa fa-spinner fa-spin fa-1x fa-fw"></i>' : '<i class="fa fa-check-square"></i>'}
-        ${docsta}
+        <span class="finance-status-badge ${dado.docsta === "LA" ? 'finance-status-open' : 'finance-status-paid'}">
+          ${dado.docsta === "LA" ? '<i class="fa fa-clock-o"></i>' : '<i class="fa fa-check-circle"></i>'}
+          ${docsta}
+        </span>
       </td>
       <td>
-        ${dado.docsta === "LA" ? `<button class="btn btn-success btn-sm" onclick="marcarRecebido(${dado.doccod})" title="Recebido"><i class="fa fa-check"></i></button>` : ''}
-        <button class="btn btn-warning btn-sm" onclick="abrirEditar(${dado.doccod})" title="Editar"><i class="fa fa-edit"></i></button>
-        <button class="btn btn-danger btn-sm" onclick="deletar(${dado.doccod})" title="Deletar"><i class="fa fa-trash"></i></button>
+        <div class="finance-actions">
+          ${dado.docsta === "LA" ? `<button class="btn-finance-icon btn-finance-pay" onclick="marcarRecebido(${dado.doccod})" title="Recebido"><i class="fa fa-check"></i></button>` : ''}
+          <button class="btn-finance-icon btn-finance-edit" onclick="abrirEditar(${dado.doccod})" title="Editar"><i class="fa fa-edit"></i></button>
+          <button class="btn-finance-icon btn-finance-delete" onclick="deletar(${dado.doccod})" title="Deletar"><i class="fa fa-trash"></i></button>
+        </div>
       </td>
     `;
     if (dado.docsta === "LA") corpoAberto.appendChild(tr);
     else corpoPago.appendChild(tr);
   });
+
+  if (!abertos.length) {
+    corpoAberto.innerHTML = `
+      <tr>
+        <td colspan="9">
+          <div class="empty-state-table">
+            <i class="fas fa-check-circle"></i>
+            <div>Nenhuma receita em aberto encontrada.</div>
+          </div>
+        </td>
+      </tr>
+    `;
+  }
+
+  if (!pagos.length) {
+    corpoPago.innerHTML = `
+      <tr>
+        <td colspan="9">
+          <div class="empty-state-table">
+            <i class="fas fa-receipt"></i>
+            <div>Nenhuma receita recebida encontrada.</div>
+          </div>
+        </td>
+      </tr>
+    `;
+  }
 }
 
 function aplicarFiltrosNosDados(dados) {
