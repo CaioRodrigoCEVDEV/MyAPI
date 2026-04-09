@@ -17,19 +17,14 @@ fetch('/api/dadosUserLogado')
         datasets: [{
           label: 'Despesas',
           data: valores,
-          backgroundColor: '#1B6B93'
+          backgroundColor: labels.map((label, index) => window.getStatusColor(label, index)),
+          borderWidth: 0,
+          maxBarThickness: 42,
         }]
       },
-      options: {
+      options: Object.assign({}, window.buildCartesianOptions(), {
         legend: { display: false },
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
-            }
-          }]
-        }
-      }
+      })
     });
   })
   .catch(err => console.error('Erro ao carregar grafico barra:', err));
@@ -56,19 +51,14 @@ fetch('/api/dadosUserLogado')
         datasets: [{
           label: 'Receitas',
           data: valores,
-          backgroundColor: '#1B6B93'
+          backgroundColor: labels.map((label, index) => window.getStatusColor(label, index)),
+          borderWidth: 0,
+          maxBarThickness: 42,
         }]
       },
-      options: {
+      options: Object.assign({}, window.buildCartesianOptions(), {
         legend: { display: false },
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
-            }
-          }]
-        }
-      }
+      })
     });
   })
   .catch(err => console.error('Erro ao carregar grafico barra:', err));
