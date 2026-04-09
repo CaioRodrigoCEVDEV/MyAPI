@@ -55,57 +55,62 @@
          <!-- Sidebar  >>>>>  html/sidebar.hmtl-->
         <div id="layoutSidenav_content">
             <main>
-                <div class="row">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h3> <i class="fa-solid fa-list-ul"></i></i>Extrato de movimentação</h3>
+                <div class="container-fluid dashboard-shell">
+                    <section class="page-hero page-hero-compact">
+                        <div class="page-hero-copy">
+                            <span class="eyebrow">Acompanhamento</span>
+                            <h1 class="finance-title page-title-alt">Extrato de movimentação</h1>
+                            <p class="finance-subtitle">Consulte o histórico completo de entradas e saídas com busca rápida e leitura financeira consistente.</p>
                         </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <input id="buscaRegistro" class="form-control mb-3" style="max-width:200px;" placeholder="Buscar">
-                        <div class="table-responsive">
-                        <table class="table table-striped table-hover table-bordered modern-table">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Status</th>
-                                    <th>Cob</th>
-                                    <th>Natureza</th>
-                                    <th>Valor</th>
-                                    <th>Obs</th>
-                                </tr>
-                            </thead>
-                            <tbody id="corpoTabela">
-                                <!-- Os dados serão inseridos aqui dinamicamente -->
-                                <!-- Exemplo de linha de tabela -->
-                                 <tr>
-                                    
-                                </tr>
-                            </tbody>
-                        </table>
-                        </div>
+                    </section>
 
-                        <!-- Paginação -->
-                        <div>
-                            <ul class="pagination justify-content-center">
-                                <!-- Botão "Anterior" -->
-                                <li class="page-item ">
-                                    <a class="page-link" href="">Anterior</a>
-                                </li>
-                                <!-- Números das páginas -->
-                                <li class="page-item ">
-                                    <a class="page-link" href="">
-                                    </a>
-                                </li>
-                                <!-- Botão "Próximo" -->
-                                <li class="page-item">
-                                    <a class="page-link" href="">Próximo</a>
-                                </li>
-                            </ul>
+                    <section class="metrics-grid metrics-grid-compact">
+                        <div class="metric-card metric-card-primary">
+                            <div class="metric-icon"><i class="fas fa-list-ul"></i></div>
+                            <div class="metric-label">Registros</div>
+                            <div class="metric-value"><span id="extratoQuantidade">0</span></div>
+                            <div class="metric-trend">Total exibido no extrato</div>
                         </div>
-                    </div>
+                        <div class="metric-card metric-card-success">
+                            <div class="metric-icon"><i class="fas fa-arrow-trend-up"></i></div>
+                            <div class="metric-label">Receitas</div>
+                            <div class="metric-value"><span id="extratoReceitas">0</span></div>
+                            <div class="metric-trend">Movimentações de entrada</div>
+                        </div>
+                        <div class="metric-card metric-card-danger">
+                            <div class="metric-icon"><i class="fas fa-arrow-trend-down"></i></div>
+                            <div class="metric-label">Despesas</div>
+                            <div class="metric-value"><span id="extratoDespesas">0</span></div>
+                            <div class="metric-trend">Movimentações de saída</div>
+                        </div>
+                    </section>
+
+                    <section class="finance-panel">
+                        <div class="finance-panel-header">
+                            <div>
+                                <h2>Histórico financeiro</h2>
+                                <p>Pesquise por cobrança, natureza, observação ou valor.</p>
+                            </div>
+                            <div class="extrato-search">
+                                <input id="buscaRegistro" class="form-control" placeholder="Buscar no extrato">
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table modern-table finance-table">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Status</th>
+                                        <th>Cobrança</th>
+                                        <th>Natureza</th>
+                                        <th>Valor</th>
+                                        <th>Obs</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="corpoTabela"></tbody>
+                            </table>
+                        </div>
+                    </section>
                 </div>
         </div>
     </div>

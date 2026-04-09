@@ -24,6 +24,7 @@ document.getElementById("meuFormulario").addEventListener("submit", function (e)
     const form = e.target;
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
+    const feedback = document.getElementById("perfilFeedback");
 
     fetch('/api/dadosUserLogado', {
         credentials: 'include'
@@ -40,12 +41,22 @@ document.getElementById("meuFormulario").addEventListener("submit", function (e)
         })
         .then(res => res.json())
         .then(resposta => {
-            alert("Dados salvos com sucesso!");
+            if (feedback) {
+                feedback.className = "alert alert-success mt-3";
+                feedback.style.display = "block";
+                feedback.textContent = "Dados salvos com sucesso!";
+            }
             console.log(resposta);
-            location.reload();
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
         })
         .catch(erro => {
-            alert("Erro ao salvar os dados.");
+            if (feedback) {
+                feedback.className = "alert alert-danger mt-3";
+                feedback.style.display = "block";
+                feedback.textContent = "Erro ao salvar os dados.";
+            }
             console.error(erro);
         });
 });

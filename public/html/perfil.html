@@ -42,39 +42,71 @@
         <div id="sidebar-container"></div>
         <div id="layoutSidenav_content">
             <main>
-                <div class="limiter">
-                    <div class="container-login100">
-                        <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-                            <form id="meuFormulario" class="login100-form validate-form">
-                                <span class="login100-form-title p-b-49">
-                                    <img src="../img/login-image.png" alt="" width="70" height="70">
-                                    Perfil
-                                </span>
-                                <div id="cod"></div>
-                                <div class="wrap-input100 m-b-23" data-validate="Por favor insira o nome">
-                                    <label class="label-input100" for="nome">Nome</label>
-                                    <input id="nome" class="input100" type="text" name="usunome" placeholder="Digite seu nome" required>
-                                    <span class="focus-input100" data-symbol="&#xf206;"></span>
-                                </div>
-                                <div class="wrap-input100 m-b-23">
-                                    <label class="label-input100" for="email">Email</label>
-                                    <input id="email" class="input100" type="email" name="usuemail" placeholder="Seu email" readonly style="cursor: not-allowed;">
-                                    <span class="focus-input100" data-symbol="&#xf15a;"></span>
-                                </div>
-                                <div class="wrap-input100" data-validate="Por favor insira a senha">
-                                    <label class="label-input100" for="ususenha">Senha</label>
-                                    <input id="ususenha" class="input100" type="password" name="ususenha" placeholder="Digite a nova senha" required>
-                                    <span class="focus-input100" data-symbol="&#xf190;"></span>
-                                </div>
-                                <div class="container-login100-form-btn m-t-30">
-                                    <div class="wrap-login100-form-btn">
-                                        <div class="login100-form-bgbtn"></div>
-                                        <button id="salvar" type="submit" class="login100-form-btn">
-                                            Salvar<div id="c-loader" class="c-loader"></div>
-                                        </button>
+                <div class="container-fluid dashboard-shell">
+                    <section class="page-hero page-hero-compact">
+                        <div class="page-hero-copy">
+                            <span class="eyebrow">Conta do usuário</span>
+                            <h1 class="finance-title page-title-alt">Perfil</h1>
+                            <p class="finance-subtitle">Atualize seus dados com o mesmo padrão visual do restante do ambiente financeiro.</p>
+                        </div>
+                    </section>
+
+                    <section class="metrics-grid metrics-grid-compact">
+                        <div class="metric-card metric-card-primary">
+                            <div class="metric-icon"><i class="fas fa-user-shield"></i></div>
+                            <div class="metric-label">Segurança</div>
+                            <div class="metric-value">Ativa</div>
+                            <div class="metric-trend">Reforce sua conta com senha atualizada</div>
+                        </div>
+                        <div class="metric-card metric-card-neutral">
+                            <div class="metric-icon"><i class="fas fa-envelope"></i></div>
+                            <div class="metric-label">Email</div>
+                            <div class="metric-value">Protegido</div>
+                            <div class="metric-trend">Identificador principal da conta</div>
+                        </div>
+                        <div class="metric-card metric-card-success">
+                            <div class="metric-icon"><i class="fas fa-gear"></i></div>
+                            <div class="metric-label">Configuração</div>
+                            <div class="metric-value">Disponível</div>
+                            <div class="metric-trend">Dados pessoais e acesso</div>
+                        </div>
+                    </section>
+
+                    <div class="limiter">
+                        <div class="container-login100">
+                            <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54 profile-card-shell">
+                                <form id="meuFormulario" class="login100-form validate-form">
+                                    <span class="login100-form-title p-b-49">
+                                        <img src="../img/login-image.png" alt="" width="70" height="70">
+                                        Perfil
+                                    </span>
+                                    <div id="cod"></div>
+                                    <div class="wrap-input100 m-b-23" data-validate="Por favor insira o nome">
+                                        <label class="label-input100" for="nome">Nome</label>
+                                        <input id="nome" class="input100" type="text" name="usunome" placeholder="Digite seu nome" required>
+                                        <span class="focus-input100" data-symbol="&#xf206;"></span>
                                     </div>
-                                </div>
-                            </form>
+                                    <div class="wrap-input100 m-b-23">
+                                        <label class="label-input100" for="email">Email</label>
+                                        <input id="email" class="input100" type="email" name="usuemail" placeholder="Seu email" readonly style="cursor: not-allowed;">
+                                        <span class="focus-input100" data-symbol="&#xf15a;"></span>
+                                    </div>
+                                    <div class="wrap-input100" data-validate="Por favor insira a senha">
+                                        <label class="label-input100" for="ususenha">Senha</label>
+                                        <input id="ususenha" class="input100" type="password" name="ususenha" placeholder="Digite a nova senha" required>
+                                        <span class="focus-input100" data-symbol="&#xf190;"></span>
+                                    </div>
+                                    <div class="container-login100-form-btn m-t-30">
+                                        <div class="wrap-login100-form-btn">
+                                            <div class="login100-form-bgbtn"></div>
+                                            <button id="salvar" type="submit" class="login100-form-btn">
+                                                Salvar<div id="c-loader" class="c-loader"></div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div id="perfilFeedback" class="alert alert-success mt-3" style="display:none;"></div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

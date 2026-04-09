@@ -539,3 +539,123 @@ iframe {
   background-position: center;
   background-size: cover;
 }
+
+/* =========================
+   Perfil no padrao financeiro
+   ========================= */
+
+.limiter {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.container-login100 {
+  min-height: auto;
+  padding: 0.5rem 0 2rem;
+  align-items: flex-start;
+  background: transparent;
+}
+
+.wrap-login100.profile-card-shell {
+  width: min(100%, 720px);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 251, 253, 0.98) 100%);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
+  padding: 2rem !important;
+}
+
+.login100-form-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: #102437;
+  padding-bottom: 1.5rem;
+}
+
+.login100-form-title img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+}
+
+.wrap-input100 {
+  margin-bottom: 1rem;
+}
+
+.label-input100 {
+  display: block;
+  margin-bottom: 0.45rem;
+  padding-left: 0;
+  color: #334155;
+  font-weight: 600;
+  font-size: 0.98rem;
+}
+
+.wrap-login100 .input100 {
+  height: auto;
+  min-height: 58px;
+  padding: 0.95rem 1.05rem !important;
+  border-radius: 1rem !important;
+  border: 1px solid rgba(148, 163, 184, 0.22) !important;
+  background: #ffffff;
+  color: #0f172a;
+  font-size: 1.02rem;
+  font-family: Poppins-Medium, sans-serif;
+}
+
+.wrap-login100 .input100[readonly] {
+  background: rgba(241, 245, 249, 0.85);
+  color: #475569;
+}
+
+.wrap-login100 .input100:focus {
+  border-color: #14b8a6 !important;
+  box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.12) !important;
+}
+
+.focus-input100 {
+  display: none !important;
+}
+
+.container-login100-form-btn {
+  margin-top: 1.5rem;
+}
+
+.wrap-login100-form-btn {
+  border-radius: 1rem;
+  box-shadow: 0 18px 40px rgba(20, 184, 166, 0.2);
+}
+
+.login100-form-bgbtn {
+  width: 100%;
+  left: 0;
+  background: linear-gradient(135deg, #0f766e 0%, #14b8a6 55%, #22c55e 100%);
+}
+
+.login100-form-btn {
+  min-height: 56px;
+  border-radius: 1rem;
+  font-size: 0.98rem;
+  letter-spacing: 0.04em;
+  font-family: Poppins-SemiBold, sans-serif;
+}
+
+#perfilFeedback {
+  border-radius: 1rem;
+  margin-top: 1rem !important;
+}
+
+@media (max-width: 767.98px) {
+  .wrap-login100.profile-card-shell {
+    padding: 1.25rem !important;
+  }
+
+  .login100-form-title {
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: center;
+  }
+}
