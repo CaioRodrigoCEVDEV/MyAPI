@@ -1,56 +1,83 @@
-document.addEventListener("DOMContentLoaded", function () {
-  fetch('/api/dadosUserLogado')
-    .then(res => res.json())
-    .then(dados => {
+let dadosUserCache = null;
 
-      return fetch(`${BASE_URL}/doc/despesas/${dados.usucod}`)
-    })
-    .then((res) => res.json())
-    .then((dados) => {
-      const corpoTabelaPendentes = document.getElementById("corpoTabelaPendentes");
-      const corpoTabelaPagas = document.getElementById("corpoTabelaPagas");
-      corpoTabelaPendentes.innerHTML = "";
-      corpoTabelaPagas.innerHTML = "";
-      dados.forEach((dado) => {
-        const tr = document.createElement("tr");
-        if (dado.docsta === "LA") {
-          tr.style.color = "#856404";
-        } else {
-          tr.style.color = "#155724";
-        }
-        const docsta = dado.docsta === "LA" ? "Aberto" : "Pago";
-        const dataFormatada = dado.docdtpag
-          ? dado.docdtpag.split("T")[0] 
-          : null;
-        const partes = dataFormatada.split("-"); 
-        const dataFormatada1 = `${partes[2]}-${partes[1]}-${partes[0]}`;
-        tr.innerHTML = `
-                        <td>${dataFormatada1}</td>
-                        <td>${dado.docv}</td>
-                        <td>${dado.tcdes}</td>
-                        <td>${dado.natdes}</td>
-                        <td>${dado.catdes}</td>
-                        <td>${dado.contades}</td>
-                        <td>${dado.docobs}</td>
-                        <td>
-                            ${dado.docsta === "LA" ? '<i class="fa fa-spinner fa-spin fa-1x fa-fw"></i>' : '<i class="fa fa-check-square"></i>'}
-                            ${docsta}
-                        </td>
-                        <td>
-                            ${dado.docsta === "LA" ? `<button class="btn btn-success btn-sm" onclick="marcarPago(${dado.doccod})" title="Pago"><i class="fa fa-check"></i></button>` : ''}
-                            <button class="btn btn-warning btn-sm" onclick="abrirEditar(${dado.doccod})" title="Editar"><i class="fa fa-edit"></i></button>
-                            <button class="btn btn-danger btn-sm" onclick="deletar(${dado.doccod})" title="Deletar"><i class="fa fa-trash"></i></button>
-                        </td>
-                    `;
-        if (dado.docsta === "LA") {
-          corpoTabelaPendentes.appendChild(tr);
-        } else {
-          corpoTabelaPagas.appendChild(tr);
-        }
-      });
-    })
-    .catch((erro) => console.error(erro));
-});
+async function obterDadosUsuario() {
+  if (dadosUserCache) return dadosUserCache;
+  const userRes = await fetch('/api/dadosUserLogado');
+  dadosUserCache = await userRes.json();
+  return dadosUserCache;
+}
+
+function parseDataDoc(docdtpag) {
+  if (!docdtpag) return null;
+  const data = docdtpag.split("T")[0];
+  return new Date(`${data}T00:00:00`);
+}
+
+function renderizarTabelaDespesas(dados) {
+  const corpoTabelaPendentes = document.getElementById("corpoTabelaPendentes");
+  const corpoTabelaPagas = document.getElementById("corpoTabelaPagas");
+  corpoTabelaPendentes.innerHTML = "";
+  corpoTabelaPagas.innerHTML = "";
+
+  dados.forEach((dado) => {
+    const tr = document.createElement("tr");
+    tr.style.color = dado.docsta === "LA" ? "#856404" : "#155724";
+    const docsta = dado.docsta === "LA" ? "Aberto" : "Pago";
+    const dataFormatada = dado.docdtpag ? dado.docdtpag.split("T")[0] : "";
+    const partes = dataFormatada.split("-");
+    const dataFormatada1 = partes.length === 3 ? `${partes[2]}-${partes[1]}-${partes[0]}` : "";
+    tr.innerHTML = `
+      <td>${dataFormatada1}</td>
+      <td>${dado.docv}</td>
+      <td>${dado.tcdes}</td>
+      <td>${dado.natdes}</td>
+      <td>${dado.catdes}</td>
+      <td>${dado.contades}</td>
+      <td>${dado.docobs || ''}</td>
+      <td>
+        ${dado.docsta === "LA" ? '<i class="fa fa-spinner fa-spin fa-1x fa-fw"></i>' : '<i class="fa fa-check-square"></i>'}
+        ${docsta}
+      </td>
+      <td>
+        ${dado.docsta === "LA" ? `<button class="btn btn-success btn-sm" onclick="marcarPago(${dado.doccod})" title="Pago"><i class="fa fa-check"></i></button>` : ''}
+        <button class="btn btn-warning btn-sm" onclick="abrirEditar(${dado.doccod})" title="Editar"><i class="fa fa-edit"></i></button>
+        <button class="btn btn-danger btn-sm" onclick="deletar(${dado.doccod})" title="Deletar"><i class="fa fa-trash"></i></button>
+      </td>
+    `;
+    if (dado.docsta === "LA") corpoTabelaPendentes.appendChild(tr);
+    else corpoTabelaPagas.appendChild(tr);
+  });
+}
+
+function aplicarFiltrosNosDados(dados) {
+  const termo = (document.getElementById('buscaLancamento')?.value || '').trim().toLowerCase();
+  const dataInicio = document.getElementById('dataInicio')?.value;
+  const dataFim = document.getElementById('dataFim')?.value;
+  const valorMin = parseFloat((document.getElementById('valorMin')?.value || '').replace(',', '.'));
+  const valorMax = parseFloat((document.getElementById('valorMax')?.value || '').replace(',', '.'));
+  const categoria = (document.getElementById('categoriaFiltro')?.value || '').toLowerCase();
+  const status = (document.getElementById('statusFiltro')?.value || '').toLowerCase();
+
+  const inicio = dataInicio ? new Date(`${dataInicio}T00:00:00`) : null;
+  const fim = dataFim ? new Date(`${dataFim}T23:59:59`) : null;
+
+  return dados.filter((dado) => {
+    const dataDoc = parseDataDoc(dado.docdtpag);
+    const valorDoc = parseFloat(String(dado.docv).replace(',', '.'));
+    const categoriaDoc = (dado.catdes || '').toLowerCase();
+    const statusDoc = dado.docsta === 'LA' ? 'aberto' : 'pago';
+    const textoLinha = `${dado.docv} ${dado.tcdes} ${dado.natdes} ${dado.catdes} ${dado.contades} ${dado.docobs || ''}`.toLowerCase();
+
+    if (termo && !textoLinha.includes(termo)) return false;
+    if (inicio && dataDoc && dataDoc < inicio) return false;
+    if (fim && dataDoc && dataDoc > fim) return false;
+    if (!isNaN(valorMin) && valorDoc < valorMin) return false;
+    if (!isNaN(valorMax) && valorDoc > valorMax) return false;
+    if (categoria && !categoriaDoc.includes(categoria)) return false;
+    if (status && statusDoc !== status) return false;
+    return true;
+  });
+}
 // Deletar
 window.deletar = function (id) {
   if (!confirm('Confirma a exclusão deste lançamento?')) return;
@@ -65,10 +92,7 @@ window.deletar = function (id) {
     })
     .then(() => {
       alert("Registro deletado com sucesso!");
-      // Atualiza a tabela após a exclusão
-      document.getElementById("corpoTabelaPendentes").innerHTML = "";
-      document.getElementById("corpoTabelaPagas").innerHTML = "";
-      location.reload();
+      atualizarTabelaDespesas();
     })
     .catch((erro) => {
       alert("Erro ao deletar o registro.");
@@ -149,51 +173,14 @@ document
     }
   });
 
-// Função para atualizar a tabela de despesas via AJAX
+// Atualiza a tabela somente quando o usuário buscar
 async function atualizarTabelaDespesas() {
   try {
-    const userRes = await fetch('/api/dadosUserLogado');
-    const dadosUser = await userRes.json();
+    const dadosUser = await obterDadosUsuario();
     const despesasRes = await fetch(`${BASE_URL}/doc/despesas/${dadosUser.usucod}`);
     const dados = await despesasRes.json();
-
-    const corpoTabelaPendentes = document.getElementById("corpoTabelaPendentes");
-    const corpoTabelaPagas = document.getElementById("corpoTabelaPagas");
-    corpoTabelaPendentes.innerHTML = "";
-    corpoTabelaPagas.innerHTML = "";
-    dados.forEach((dado) => {
-      const tr = document.createElement("tr");
-      tr.style.color = dado.docsta === "LA" ? "#856404" : "#155724";
-      const docsta = dado.docsta === "LA" ? "Aberto" : "Pago";
-      const dataFormatada = dado.docdtpag
-          ? dado.docdtpag.split("T")[0] 
-          : null;
-        const partes = dataFormatada.split("-"); 
-        const dataFormatada1 = `${partes[2]}-${partes[1]}-${partes[0]}`;
-        tr.innerHTML = `
-        <td>${dataFormatada1}</td> 
-        <td>${dado.docv}</td>
-        <td>${dado.tcdes}</td>
-        <td>${dado.natdes}</td>
-        <td>${dado.catdes}</td>
-        <td>${dado.contades}</td>
-        <td>${dado.docobs}</td>
-        <td>
-          ${dado.docsta === "LA" ? '<i class="fa fa-spinner fa-spin fa-1x fa-fw"></i>' : '<i class="fa fa-check-square"></i>'}
-          ${docsta}
-        </td>
-        <td>
-          ${dado.docsta === "LA" ? `<button class="btn btn-success btn-sm" onclick="marcarPago(${dado.doccod})" title="Pago"><i class="fa fa-check"></i></button>` : ''}
-          <button class="btn btn-warning btn-sm" onclick="abrirEditar(${dado.doccod})" title="Editar"><i class="fa fa-edit"></i></button>
-          <button class="btn btn-danger btn-sm" onclick="deletar(${dado.doccod})" title="Deletar"><i class="fa fa-trash"></i></button>
-        </td>
-      `;
-      if (dado.docsta === "LA") {
-        corpoTabelaPendentes.appendChild(tr);
-      } else {
-        corpoTabelaPagas.appendChild(tr);
-      }
-    });
+    const dadosFiltrados = aplicarFiltrosNosDados(dados);
+    renderizarTabelaDespesas(dadosFiltrados);
   } catch (erro) {
     console.error("Erro ao atualizar tabela de despesas:", erro);
   }
@@ -382,221 +369,49 @@ window.marcarPago = function(id) {
   .catch(err => { alert('Erro ao atualizar status.'); console.error(err); });
 };
 
-// Toggle do formulário e busca no grid
+// Comportamento da tela e gatilho de busca
 document.addEventListener('DOMContentLoaded', () => {
   const btnNovo = document.getElementById('novoLancamento');
   const modalEl = document.getElementById('modalNovo');
   const modalNovo = modalEl ? new bootstrap.Modal(modalEl) : null;
-  btnNovo?.addEventListener('click', () => {
-    modalNovo?.show();
-  });
-
-  const tables = [
-    document.querySelector('#tabelaPendentes table'),
-    document.querySelector('#tabelaPagas table')
-  ];
-  const filtros = new Map();
-  const headerMap = new Map();
-
-  function atualizarLabel(table, indice, texto) {
-    const map = headerMap.get(table);
-    if (!map || !map[indice]) return;
-    const th = map[indice];
-    let label = th.querySelector('.filter-label');
-    if (!label) {
-      label = document.createElement('div');
-      label.className = 'filter-label text-primary small';
-      th.appendChild(label);
-    }
-    if (texto) {
-      label.textContent = texto;
-      label.style.display = 'block';
-    } else {
-      label.style.display = 'none';
-    }
-  }
-
-  function coletarValoresUnicos(table, indice) {
-    const valores = new Set();
-    table.querySelectorAll('tbody tr').forEach(tr => {
-      const td = tr.children[indice];
-      if (td) valores.add(td.textContent.trim());
-    });
-    return Array.from(valores);
-  }
-
-  function atualizarSelect(table, indice, select) {
-    select.innerHTML = '<option value="">Todos</option>';
-    coletarValoresUnicos(table, indice).forEach(val => {
-      const opt = document.createElement('option');
-      opt.value = val.toLowerCase();
-      opt.textContent = val;
-      select.appendChild(opt);
-    });
-  }
-
-  function aplicarFiltros(table) {
-    const map = filtros.get(table);
-    if (!map) return;
-    table.querySelectorAll('tbody tr').forEach(tr => {
-      let visivel = true;
-      for (const chave in map) {
-        const valor = map[chave];
-        if (chave === 'global') {
-          if (!tr.textContent.toLowerCase().includes(valor)) {
-            visivel = false;
-            break;
-          }
-        } else {
-          const td = tr.children[chave];
-          if (!td || !td.textContent.toLowerCase().includes(valor)) {
-            visivel = false;
-            break;
-          }
-        }
-      }
-      tr.style.display = visivel ? '' : 'none';
-    });
-  }
-
-  let dropdownAtual = null;
-
-  function fecharDropdown() {
-    if (dropdownAtual) {
-      document.removeEventListener('click', dropdownAtual.handler);
-      dropdownAtual.remove();
-      dropdownAtual = null;
-    }
-  }
-
-  function mostrarDropdown(th, table, indice) {
-    fecharDropdown();
-    const rect = th.getBoundingClientRect();
-    const dropdown = document.createElement('div');
-    dropdown.style.position = 'absolute';
-    dropdown.style.left = `${rect.left + window.pageXOffset}px`;
-    dropdown.style.top = `${rect.bottom + window.pageYOffset}px`;
-    dropdown.style.minWidth = `${rect.width}px`;
-    dropdown.style.zIndex = '1000';
-
-    const select = document.createElement('select');
-    select.className = 'form-select form-select-sm column-filter';
-    atualizarSelect(table, indice, select);
-    const map = filtros.get(table);
-    if (map && map[indice]) select.value = map[indice];
-    select.addEventListener('change', () => {
-      const val = select.value;
-      if (val) {
-        map[indice] = val.toLowerCase();
-        atualizarLabel(table, indice, select.options[select.selectedIndex].textContent);
-      } else {
-        delete map[indice];
-        atualizarLabel(table, indice, '');
-      }
-      aplicarFiltros(table);
-      fecharDropdown();
-    });
-
-    dropdown.appendChild(select);
-    document.body.appendChild(dropdown);
-    select.focus();
-
-    const fecharSeFora = (e) => {
-      if (!dropdown.contains(e.target) && e.target !== th) {
-        fecharDropdown();
-      }
-    };
-    dropdown.handler = fecharSeFora;
-    document.addEventListener('click', fecharSeFora);
-    dropdownAtual = dropdown;
-  }
-
-  function adicionarFiltrosColuna(table) {
-    if (!table) return;
-    filtros.set(table, {});
-    const map = {};
-    const thead = table.querySelector('thead');
-    const headerRow = thead.querySelector('tr');
-    [...headerRow.children].forEach((th, idx) => {
-      th.style.cursor = 'pointer';
-      th.addEventListener('click', () => mostrarDropdown(th, table, idx));
-      map[idx] = th;
-    });
-    headerMap.set(table, map);
-  }
-
-  tables.forEach(t => adicionarFiltrosColuna(t));
-
+  const btnBuscar = document.getElementById('buscarFiltros');
+  const limpar = document.getElementById('limparFiltros');
   const busca = document.getElementById('buscaLancamento');
-  busca?.addEventListener('input', () => {
-    const val = busca.value.trim().toLowerCase();
-    tables.forEach(t => {
-      const map = filtros.get(t);
-      if (!map) return;
-      if (val) map['global'] = val; else delete map['global'];
-      aplicarFiltros(t);
-    });
-  });
-
   const filtroInicio = document.getElementById('dataInicio');
   const filtroFim = document.getElementById('dataFim');
   const valorMin = document.getElementById('valorMin');
   const valorMax = document.getElementById('valorMax');
   const filtroCategoria = document.getElementById('categoriaFiltro');
   const filtroStatus = document.getElementById('statusFiltro');
-  const limpar = document.getElementById('limparFiltros');
+
+  btnNovo?.addEventListener('click', () => modalNovo?.show());
+  btnBuscar?.addEventListener('click', (e) => {
+    e.preventDefault();
+    atualizarTabelaDespesas();
+  });
+
+  busca?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      atualizarTabelaDespesas();
+    }
+  });
 
   const agora = new Date();
-  const inicioMes = new Date(agora.getFullYear(), agora.getMonth(), 1)
-    .toISOString()
-    .split('T')[0];
-  const fimMes = new Date(agora.getFullYear(), agora.getMonth() + 1, 0)
-    .toISOString()
-    .split('T')[0];
+  const inicioMes = new Date(agora.getFullYear(), agora.getMonth(), 1).toISOString().split('T')[0];
+  const fimMes = new Date(agora.getFullYear(), agora.getMonth() + 1, 0).toISOString().split('T')[0];
   if (filtroInicio) filtroInicio.value = inicioMes;
   if (filtroFim) filtroFim.value = fimMes;
 
-  function filtrarExtras() {
-    const inicio = filtroInicio.value ? new Date(filtroInicio.value) : null;
-    const fim = filtroFim.value ? new Date(filtroFim.value) : null;
-    const min = parseFloat(valorMin.value.replace(',', '.'));
-    const max = parseFloat(valorMax.value.replace(',', '.'));
-    const cat = filtroCategoria.value.toLowerCase();
-    const status = filtroStatus.value.toLowerCase();
-
-    tables.forEach(table => {
-      table.querySelectorAll('tbody tr').forEach(tr => {
-        const dataTxt = tr.children[0].textContent.trim();
-        const partes = dataTxt.split('-');
-        const dataVal = new Date(`${partes[2]}-${partes[1]}-${partes[0]}`);
-        const valor = parseFloat(tr.children[1].textContent.replace(',', '.'));
-        const categoria = tr.children[4].textContent.toLowerCase();
-        const statusTxt = tr.children[7].textContent.toLowerCase();
-
-        let ok = true;
-        if (inicio && dataVal < inicio) ok = false;
-        if (fim && dataVal > fim) ok = false;
-        if (!isNaN(min) && valor < min) ok = false;
-        if (!isNaN(max) && valor > max) ok = false;
-        if (cat && !categoria.includes(cat)) ok = false;
-        if (status && !statusTxt.includes(status)) ok = false;
-        tr.style.display = ok ? '' : 'none';
-      });
-    });
-  }
-
-  [filtroInicio, filtroFim, valorMin, valorMax, filtroCategoria, filtroStatus].forEach(el => {
-    el?.addEventListener('input', filtrarExtras);
-  });
-  limpar?.addEventListener('click', e => {
+  limpar?.addEventListener('click', (e) => {
     e.preventDefault();
-    filtroInicio.value = '';
-    filtroFim.value = '';
-    valorMin.value = '';
-    valorMax.value = '';
-    filtroCategoria.value = '';
-    filtroStatus.value = '';
-    filtrarExtras();
+    if (filtroInicio) filtroInicio.value = inicioMes;
+    if (filtroFim) filtroFim.value = fimMes;
+    if (valorMin) valorMin.value = '';
+    if (valorMax) valorMax.value = '';
+    if (filtroCategoria) filtroCategoria.value = '';
+    if (filtroStatus) filtroStatus.value = '';
+    if (busca) busca.value = '';
   });
 
   fetch('/api/dadosUserLogado')
@@ -605,6 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(res => res.json())
     .then(data => {
       if (filtroCategoria) {
+        filtroCategoria.innerHTML = '';
         const opt = document.createElement('option');
         opt.value = '';
         opt.textContent = 'Todas';

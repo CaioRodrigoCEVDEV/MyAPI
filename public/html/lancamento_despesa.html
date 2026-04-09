@@ -16,6 +16,34 @@
     <!--Fonte de icones \v/-->
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .resumo-card {
+            border: 0;
+            border-radius: 14px;
+            box-shadow: 0 10px 24px rgba(31, 41, 55, 0.10);
+            backdrop-filter: blur(2px);
+        }
+        .resumo-card strong {
+            font-size: 1.45rem;
+            font-weight: 700;
+        }
+        .filtros-card {
+            border: 0;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(17, 24, 39, 0.08);
+        }
+        .filtros-toolbar {
+            display: flex;
+            gap: 8px;
+            align-items: end;
+            justify-content: end;
+        }
+        .tabela-card {
+            border: 0;
+            border-radius: 14px;
+            box-shadow: 0 8px 24px rgba(17, 24, 39, 0.08);
+        }
+    </style>
 </head>
 
 <body class="sb-nav-fixed login-bg">
@@ -58,35 +86,39 @@
                 <div style="margin: auto;" class="row justify-content-center">
                     
                     <div class="col-xl-3 col-md-6">
-                        <div class="alert alert-primary text-dark position-relative mb-4" role="alert">
-                            Total de lançamentos: <span id="saldo">0</span>
+                        <div class="alert alert-primary text-dark position-relative mb-4 resumo-card" role="alert">
+                            <div class="small text-uppercase">Total de lançamentos</div>
+                            <strong id="saldo">0</strong>
                         </div>
                     </div>
                     <div class="col-xl-3 col-md-6">
-                        <div class="alert alert-warning text-dark position-relative mb-4" role="alert">
-                            Total a Pagar: R$<span id="gastosNow">0.00</span>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-3 col-md-6">
-                        <div class="alert alert-danger text-dark position-relative mb-4" role="alert">
-                            Total Pendente: R$<span id="despesaP">0.00</span>
+                        <div class="alert alert-warning text-dark position-relative mb-4 resumo-card" role="alert">
+                            <div class="small text-uppercase">Total a pagar</div>
+                            <strong>R$<span id="gastosNow">0.00</span></strong>
                         </div>
                     </div>
 
                     <div class="col-xl-3 col-md-6">
-                        <div class="alert alert-success text-dark position-relative mb-4" role="alert">
-                            A Pagar: R$<span id="totalSeguro">0.00</span>
+                        <div class="alert alert-danger text-dark position-relative mb-4 resumo-card" role="alert">
+                            <div class="small text-uppercase">Total pendente</div>
+                            <strong>R$<span id="despesaP">0.00</span></strong>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6">
+                        <div class="alert alert-success text-dark position-relative mb-4 resumo-card" role="alert">
+                            <div class="small text-uppercase">Pago</div>
+                            <strong>R$<span id="totalSeguro">0.00</span></strong>
                         </div>
                     </div>
                 </div>
                 <div class="container-fluid">
-                    <div class="card">
+                    <div class="card filtros-card">
                         <div class="card-body">
                             <div id="botaonovo">
                         <button id="novoLancamento" class="btn btn-primary">Nova Despesa</button>
                     </div>
-                            <label style="margin-left: 0.5%;">Filtros de Pesquisa</label>
+                            <label style="margin-left: 0.5%;" class="fw-semibold">Filtros de Pesquisa</label>
                             <div class="container-fluid p-0" id="filtrosContainer">
                                 <div class="row g-2">
                                     <div class="col-md-3">
@@ -121,10 +153,19 @@
                                         <button class="btn btn-secondary w-100" id="limparFiltros">Limpar</button>
                                     </div>
                                 </div>
-                                <input id="buscaLancamento" class="form-control mt-2" placeholder="Buscar">
+                                <div class="row g-2 mt-1">
+                                    <div class="col-md-9">
+                                        <input id="buscaLancamento" class="form-control" placeholder="Buscar por texto">
+                                    </div>
+                                    <div class="col-md-3 filtros-toolbar">
+                                        <button class="btn btn-primary w-100" id="buscarFiltros">
+                                            <i class="fa fa-search me-1"></i> Buscar
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div id="tabelaPendentes" class="table-responsive">
+                            <div id="tabelaPendentes" class="table-responsive tabela-card mt-3 p-2">
                                 <h5>Despesas Pendentes</h5>
                                 <table class="table  table-hover">
                                     <thead>
@@ -145,7 +186,7 @@
                                 </table>
                             </div>
 
-                            <div id="tabelaPagas" class="table-responsive mt-4">
+                            <div id="tabelaPagas" class="table-responsive mt-4 tabela-card p-2">
                                 <h5>Despesas Pagas</h5>
                                 <table class="table  table-hover">
                                     <thead>
