@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .then(res => res.json())
     .then(dados => {
 
-      return fetch(`${BASE_URL}/doc/despesas/month/${dados.usucod}`)
+      return fetch(`${BASE_URL}/doc/despesas/${dados.usucod}`)
     })
     .then((res) => res.json())
     .then((dados) => {
@@ -154,7 +154,7 @@ async function atualizarTabelaDespesas() {
   try {
     const userRes = await fetch('/api/dadosUserLogado');
     const dadosUser = await userRes.json();
-    const despesasRes = await fetch(`${BASE_URL}/doc/despesas/month/${dadosUser.usucod}`);
+    const despesasRes = await fetch(`${BASE_URL}/doc/despesas/${dadosUser.usucod}`);
     const dados = await despesasRes.json();
 
     const corpoTabelaPendentes = document.getElementById("corpoTabelaPendentes");
