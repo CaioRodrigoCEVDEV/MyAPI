@@ -211,14 +211,60 @@ exports.listarDocsReceitasUserMonth = async (req, res) => {
 exports.listarDocsReceitasUser = async (req, res) => {
     const { id } = req.params;
     try {
-        const natureza = "Receita"
+        const natureza = "Receita";
         const ex = "EX";
-        const result = await pool.query('select docusucod,doccod, docsta, tcdes,docdtlan,docdtpag ::date, natdes, docv, docobs,contades,catdes from doc ' +
-            'join natureza on natcod = docnatcod ' +
-            'join tc on tccod = doctccod ' +
-            'join conta on contacod = doccontacod ' +
-            'left join categoria on catcod = doccatcod ' +
-            'where natdes = $1 and docusucod = $2 and docsta <> $3 order by doccod desc', [natureza, id,ex]);
+        const { dataInicio, dataFim, valorMin, valorMax, categoria, status, busca } = req.query;
+        const params = [natureza, id, ex];
+        const filtros = [];
+
+        if (dataInicio) {
+            params.push(dataInicio);
+            filtros.push(`docdtpag::date >= $${params.length}`);
+        }
+        if (dataFim) {
+            params.push(dataFim);
+            filtros.push(`docdtpag::date <= $${params.length}`);
+        }
+        if (valorMin) {
+            params.push(valorMin);
+            filtros.push(`docv >= $${params.length}`);
+        }
+        if (valorMax) {
+            params.push(valorMax);
+            filtros.push(`docv <= $${params.length}`);
+        }
+        if (categoria) {
+            params.push(`%${categoria}%`);
+            filtros.push(`lower(coalesce(catdes, '')) like lower($${params.length})`);
+        }
+        if (status) {
+            const statusDoc = status.toLowerCase() === 'aberto' ? 'LA' : status.toLowerCase() === 'pago' ? 'BA' : '';
+            if (statusDoc) {
+                params.push(statusDoc);
+                filtros.push(`docsta = $${params.length}`);
+            }
+        }
+        if (busca) {
+            params.push(`%${busca}%`);
+            filtros.push(`(
+                cast(docv as text) ilike $${params.length}
+                or coalesce(tcdes, '') ilike $${params.length}
+                or coalesce(natdes, '') ilike $${params.length}
+                or coalesce(catdes, '') ilike $${params.length}
+                or coalesce(contades, '') ilike $${params.length}
+                or coalesce(docobs, '') ilike $${params.length}
+            )`);
+        }
+
+        const whereFiltros = filtros.length ? ` and ${filtros.join(' and ')}` : '';
+        const query = `select docusucod,doccod, docsta, tcdes,docdtlan,docdtpag::date, natdes, docv, docobs,contades,catdes from doc
+            join natureza on natcod = docnatcod
+            join tc on tccod = doctccod
+            join conta on contacod = doccontacod
+            left join categoria on catcod = doccatcod
+            where natdes = $1 and docusucod = $2 and docsta <> $3${whereFiltros}
+            order by doccod desc`;
+        const result = await pool.query(query, params);
         res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);
