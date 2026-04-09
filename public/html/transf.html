@@ -55,70 +55,110 @@
          <!-- Sidebar  >>>>>  html/sidebar.hmtl-->
         <div id="layoutSidenav_content">
             <main>
-                <div class="row">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h3> <i class="fa-solid fa-list-ul"></i></i><!--Aqui o nome da pagina--> Transferência entre contas
-                            </h3>
+                <div class="container-fluid dashboard-shell">
+                    <section class="page-hero page-hero-compact">
+                        <div class="page-hero-copy">
+                            <span class="eyebrow">Movimentação interna</span>
+                            <h1 class="finance-title page-title-alt">Transferência entre contas</h1>
+                            <p class="finance-subtitle">Movimente recursos entre contas com rastreabilidade, clareza de origem e destino e o mesmo padrão visual do seu painel financeiro.</p>
                         </div>
-                    </div>
-                </div>
+                        <div class="page-hero-actions">
+                            <button class="btn btn-finance-primary" type="submit" form="meuFormulario">
+                                <i class="fas fa-right-left me-2"></i>Registrar transferência
+                            </button>
+                        </div>
+                    </section>
 
-                <div class="card">
-                    <div class="card-body">
-                        <!--Aqui o conteudo da Pagina-->
-                         <form id="meuFormulario">
-                                        <input id="usucod" type="hidden" name="docusucod" value="">
-                                        <input id="docdtlan" type="hidden" name="docdtlan" value="">
-                                        <input id="docnatcod" type="hidden" name="docnatcod" value="">
+                    <section class="metrics-grid metrics-grid-compact">
+                        <div class="metric-card metric-card-primary">
+                            <div class="metric-icon"><i class="fas fa-arrow-up-right-from-square"></i></div>
+                            <div class="metric-label">Conta de origem</div>
+                            <div class="metric-value">Saída controlada</div>
+                            <div class="metric-trend">Defina de onde o recurso será movimentado</div>
+                        </div>
+                        <div class="metric-card metric-card-success">
+                            <div class="metric-icon"><i class="fas fa-arrow-down"></i></div>
+                            <div class="metric-label">Conta de destino</div>
+                            <div class="metric-value">Entrada rastreada</div>
+                            <div class="metric-trend">Garanta o crédito correto no encerramento da operação</div>
+                        </div>
+                        <div class="metric-card metric-card-neutral">
+                            <div class="metric-icon"><i class="fas fa-shield-halved"></i></div>
+                            <div class="metric-label">Conferência</div>
+                            <div class="metric-value">Movimento interno</div>
+                            <div class="metric-trend">Use observações para registrar motivo ou contexto da transferência</div>
+                        </div>
+                    </section>
 
+                    <section class="finance-panel">
+                        <div class="finance-panel-header">
+                            <div>
+                                <h2>Nova transferência</h2>
+                                <p>Preencha os dados da movimentação para atualizar suas contas com segurança.</p>
+                            </div>
+                        </div>
 
-                                        <div class="form-group">
-                                            <label>Valor:</label>
-                                            <input id="docv" type="text" name="docv" class="form-control" required
-                                                placeholder="R$ 0,00">
-                                        </div>
+                        <form id="meuFormulario" class="finance-form">
+                            <input id="usucod" type="hidden" name="docusucod" value="">
+                            <input id="docdtlan" type="hidden" name="docdtlan" value="">
+                            <input id="docnatcod" type="hidden" name="docnatcod" value="">
 
-                                        <div class="form-group">
-                                            <label>Data</label>
-                                            
-                                            <div class="form-group">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Valor</label>
+                                    <input id="docv" type="text" name="docv" class="form-control" required placeholder="R$ 0,00">
+                                </div>
 
-                                                <input id="docdtpag" type="date" name="docdtpag" class="form-control"
-                                                    required>
-                                            </div>
-                                        </div>
+                                <div class="form-group">
+                                    <label>Data</label>
+                                    <input id="docdtpag" type="date" name="docdtpag" class="form-control" required>
+                                </div>
 
-                                        <div class="form-group">
-                                            <label>Conta origem:</label>
-                                            <select id="contacod" name="doccontacod" class="form-control" required>
-                                                <option value="" hidden>Selecione</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Conta destino:</label>
-                                            <select id="contacoddest" name="contacoddest" class="form-control" required>
-                                                <option value="" hidden>Selecione</option>
-                                            </select>
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <label>Observações (opcional):</label>
-                                            <textarea name="docobs" rows="2" class="form-control"
-                                                placeholder="Informações complementares"></textarea>
-                                        </div>
+                                <div class="form-group">
+                                    <label>Conta origem</label>
+                                    <select id="contacod" name="doccontacod" class="form-control" required>
+                                        <option value="" hidden>Selecione</option>
+                                    </select>
+                                </div>
 
-                                        
+                                <div class="form-group">
+                                    <label>Conta destino</label>
+                                    <select id="contacoddest" name="contacoddest" class="form-control" required>
+                                        <option value="" hidden>Selecione</option>
+                                    </select>
+                                </div>
 
-                                        <div class="form-group">
-                                            <button class="btn btn-success" type="submit">Salvar</button>
-                                        </div>
+                                <div class="form-group form-group-full">
+                                    <label>Observações</label>
+                                    <textarea name="docobs" rows="3" class="form-control" placeholder="Informações complementares"></textarea>
+                                </div>
+                            </div>
 
-                                        <br>
-                                        <div class="alert alert-success" id="alerta-sucess" style="display: none;">
-                                        </div>
-                                    </form>
-                    </div>
+                            <div class="transfer-divider">
+                                <span>Fluxo da operação</span>
+                            </div>
+
+                            <div class="transfer-preview">
+                                <div class="transfer-step">
+                                    <span class="transfer-step-label">Origem</span>
+                                    <strong id="previewOrigem">Selecione a conta de origem</strong>
+                                </div>
+                                <div class="transfer-arrow">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
+                                <div class="transfer-step">
+                                    <span class="transfer-step-label">Destino</span>
+                                    <strong id="previewDestino">Selecione a conta de destino</strong>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button class="btn btn-finance-primary" type="submit">Salvar transferência</button>
+                            </div>
+
+                            <div class="alert alert-success mt-3" id="alerta-sucess" style="display: none;"></div>
+                        </form>
+                    </section>
                 </div>
 
 

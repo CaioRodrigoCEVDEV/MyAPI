@@ -1,6 +1,3 @@
-
-
-
 // pollar filtros conta origem e destino
 document.addEventListener("DOMContentLoaded", function () {
   fetch('/api/dadosUserLogado')
@@ -38,6 +35,20 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+function atualizarPreviewTransferencia() {
+  const origem = document.getElementById("contacod");
+  const destino = document.getElementById("contacoddest");
+  const previewOrigem = document.getElementById("previewOrigem");
+  const previewDestino = document.getElementById("previewDestino");
+
+  if (previewOrigem) {
+    previewOrigem.textContent = origem?.selectedOptions?.[0]?.textContent || "Selecione a conta de origem";
+  }
+
+  if (previewDestino) {
+    previewDestino.textContent = destino?.selectedOptions?.[0]?.textContent || "Selecione a conta de destino";
+  }
+}
 
 document
   .getElementById("meuFormulario").addEventListener("submit", async function (e) {
@@ -47,6 +58,16 @@ document
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
     const alerta = document.getElementById("alerta-sucess");
+
+    if (data.doccontacod === data.contacoddest) {
+      alerta.className = "alert alert-danger mt-3";
+      alerta.style.display = "block";
+      alerta.innerHTML = "Selecione contas diferentes para origem e destino.";
+      setTimeout(() => {
+        alerta.style.display = "none";
+      }, 2500);
+      return;
+    }
 
     try {
       const userRes = await fetch('/api/dadosUserLogado');
@@ -65,6 +86,8 @@ document
       });
 
       form.reset();
+      atualizarPreviewTransferencia();
+      alerta.className = "alert alert-success mt-3";
       alerta.style.display = "block";
       alerta.innerHTML = "Lançado com sucesso!";
       setTimeout(() => {
@@ -75,3 +98,12 @@ document
       console.error(erro);
     }
   });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const origem = document.getElementById("contacod");
+  const destino = document.getElementById("contacoddest");
+
+  origem?.addEventListener("change", atualizarPreviewTransferencia);
+  destino?.addEventListener("change", atualizarPreviewTransferencia);
+  atualizarPreviewTransferencia();
+});
