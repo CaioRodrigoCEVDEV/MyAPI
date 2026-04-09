@@ -1,3 +1,20 @@
+function atualizarCampo(nome, valor) {
+    const elementos = [];
+    const porId = document.getElementById(nome);
+
+    if (porId) {
+        elementos.push(porId);
+    }
+
+    document.querySelectorAll(`[data-money="${nome}"]`).forEach((elemento) => {
+        elementos.push(elemento);
+    });
+
+    elementos.forEach((elemento) => {
+        elemento.innerText = valor;
+    });
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     fetch('/api/dadosUserLogado')
         .then(res => res.json())
@@ -7,21 +24,19 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then(res => res.json())
         .then(dados => {
-            const saldo = document.getElementById("saldo");
-
             if (dados.length > 0 && dados[0].contas_saldo) {
                 const valor = parseFloat(dados[0].contas_saldo);
-                saldo.innerText = valor.toLocaleString('pt-BR', {
+                atualizarCampo("saldo", valor.toLocaleString('pt-BR', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
-                });
+                }));
             } else {
-                saldo.innerText = "0,00";
+                atualizarCampo("saldo", "0,00");
             }
         })
         .catch(erro => {
             console.error("Erro ao buscar saldo:", erro);
-            document.getElementById("saldo").innerText = "Erro";
+            atualizarCampo("saldo", "Erro");
         });
 });
 
@@ -49,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(erro => {
             console.error("Erro ao buscar saldo:", erro);
-            document.getElementById("saldo").innerText = "Erro";
+            atualizarCampo("receitaP", "Erro");
         });
 });
 
@@ -76,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(erro => {
             console.error("Erro ao buscar saldo:", erro);
-            document.getElementById("saldo").innerText = "Erro";
+            atualizarCampo("despesaP", "Erro");
         });
 });
 
@@ -105,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(erro => {
             console.error("Erro ao buscar saldo:", erro);
-            document.getElementById("saldo").innerText = "Erro";
+            atualizarCampo("gastosNow", "Erro");
         });
 });
 
@@ -132,6 +147,6 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(erro => {
             console.error("Erro ao buscar saldo:", erro);
-            document.getElementById("saldo").innerText = "Erro";
+            atualizarCampo("totalSeguro", "Erro");
         });
 });

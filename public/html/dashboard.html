@@ -62,165 +62,180 @@
         </nav>
         <div id="layoutSidenav_content">
             <main>
-                <div class="container-fluid px-2">
-                    <h1 id="bemvindo" class="mt-2 text-dark">Dashboard</h1><br>
-                   <!--  <ol class="breadcrumb mb-4 text-dark">
-                        <li class="breadcrumb-item active">Dashboard
-
-                            <label class="text-dark">mês:</label>
-                            <select id="mes" name="mes" class="form-control text-dark" required>
-                                <option value="" hidden class="text-dark">Selecione</option>
-                                <option value="" >Janeiro</option>
-                                <option value="" >Fevereiro</option>
-                                <option value="" >Março</option>
-                                <option value="" >Abril</option>
-                                <option value="" >Maio</option>
-                                <option value="" >Junho</option>
-                                <option value="" >Julho</option>
-                                <option value="" >Agosto</option>
-                                <option value="" >Setembro</option>
-                                <option value="" >Outubro</option>
-                                <option value="" >Novembro</option>
-                                <option value="" >Dezembro</option>                                
-                            </select>
-                        </li>
-                    
-                    </ol>
-                    -->
-                    <div class="row justify-content-center">
-                        <div class="col-xl-4 col-md-6">
-                            <div class="alert alert-primary text-dark position-relative mb-4" role="alert">
-                                <i class="fas fa-wallet me-1 text-primary fs-5"></i>
-                                Saldo: R$<span id="saldo">0.00</span>
-                                <a class="stretched-link" href="contas"></a>
+                <div class="container-fluid dashboard-shell">
+                    <section class="finance-hero">
+                        <div class="finance-hero-copy">
+                            <span class="eyebrow">Painel Financeiro</span>
+                            <h1 id="bemvindo" class="finance-title">Visão geral da sua operação</h1>
+                            <p class="finance-subtitle">Acompanhe caixa, obrigações, recebimentos e desempenho do mês em uma única tela.</p>
+                        </div>
+                        <div class="finance-hero-panel">
+                            <div class="hero-panel-label">Saldo consolidado</div>
+                            <div class="hero-panel-value">R$<span id="saldo">0.00</span></div>
+                            <div class="hero-panel-meta">
+                                <span class="hero-chip chip-positive">Capital disponível</span>
+                                <a class="hero-link" href="contas">Ver contas</a>
                             </div>
                         </div>
-                        <div class="col-xl-4 col-md-6">
-                            <div class="alert alert-warning text-dark position-relative mb-4" role="alert">
-                                <i class="fas fa-money-bill-wave me-1 text-warning fs-5"></i>
-                                Gastos hoje: R$<span id="gastosNow">0.00</span>
-                            </div>
+                    </section>
+
+                    <section class="metrics-grid">
+                        <a class="metric-card metric-card-primary" href="contas">
+                            <div class="metric-icon"><i class="fas fa-wallet"></i></div>
+                            <div class="metric-label">Saldo disponível</div>
+                            <div class="metric-value">R$<span data-money="saldo">0.00</span></div>
+                            <div class="metric-trend">Base para movimentação e reservas</div>
+                        </a>
+
+                        <div class="metric-card metric-card-warm">
+                            <div class="metric-icon"><i class="fas fa-money-bill-wave"></i></div>
+                            <div class="metric-label">Saídas de hoje</div>
+                            <div class="metric-value">R$<span id="gastosNow">0.00</span></div>
+                            <div class="metric-trend">Monitoramento diário do caixa</div>
                         </div>
 
-                        <div class="col-xl-4 col-md-6">
-                            <div class="alert alert-success text-dark position-relative mb-4" role="alert">
-                                <i class="fas fa-hand-holding-usd me-1 text-success fs-5"></i>
-                                Receitas a receber: R$<span id="receitaP">0.00</span>
-                                <a class="stretched-link" href="lancamento_receita"></a>
-                            </div>
+                        <a class="metric-card metric-card-success" href="lancamento_receita">
+                            <div class="metric-icon"><i class="fas fa-hand-holding-usd"></i></div>
+                            <div class="metric-label">Receitas a receber</div>
+                            <div class="metric-value">R$<span id="receitaP">0.00</span></div>
+                            <div class="metric-trend">Valores provisionados para entrada</div>
+                        </a>
+
+                        <a class="metric-card metric-card-danger" href="lancamento_despesa">
+                            <div class="metric-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                            <div class="metric-label">Despesas a pagar</div>
+                            <div class="metric-value">R$<span id="despesaP">0.00</span></div>
+                            <div class="metric-trend">Compromissos pendentes no período</div>
+                        </a>
+
+                        <div class="metric-card metric-card-neutral">
+                            <div class="metric-icon"><i class="fas fa-credit-card"></i></div>
+                            <div class="metric-label">Crédito monitorado</div>
+                            <div class="metric-value">Em análise</div>
+                            <div class="metric-trend">Espaço preparado para ampliar o painel</div>
                         </div>
-                    </div>
-                    <div class="row justify-content-center">
-                        <div class="col-xl-4 col-md-6">
-                            <div class="alert alert-danger text-dark position-relative mb-4" role="alert">
-                                <i class="fas fa-file-invoice-dollar me-1 text-danger fs-5"></i>
-                                Despesas a pagar: R$<span id="despesaP">0.00</span>
-                                <a class="stretched-link" href="lancamento_despesa"></a>
-                            </div>
+
+                        <div class="metric-card metric-card-safe">
+                            <div class="metric-icon"><i class="fas fa-shield-alt"></i></div>
+                            <div class="metric-label">Total seguro</div>
+                            <div class="metric-value">R$<span id="totalSeguro">0.00</span></div>
+                            <div class="metric-trend">Reserva protegida e previsibilidade</div>
                         </div>
-                        <div class="col-xl-4 col-md-6">
-                            <div class="alert alert-warning text-dark position-relative mb-4" role="alert">
-                                <i class="fas fa-credit-card me-1 text-warning fs-5"></i>
-                                Gastos no crédito hoje: R$<span id="gastosNow">0.00</span>
-                            </div>
+                    </section>
+
+                    <section class="insights-strip">
+                        <div class="insight-card">
+                            <span class="insight-label">Foco do dia</span>
+                            <strong>Equilibrar pagamentos pendentes com entradas previstas.</strong>
                         </div>
-                        <div class="col-xl-4 col-md-6">
-                            <div class="alert alert-info text-dark position-relative mb-4" role="alert">
-                                <i class="fas fa-shield-alt me-1 text-info fs-5"></i>
-                                Total seguro: R$<span id="totalSeguro">0.00</span>
-                            </div>
+                        <div class="insight-card">
+                            <span class="insight-label">Leitura rápida</span>
+                            <strong>Use os gráficos abaixo para identificar concentração de despesas e receitas.</strong>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xl-6">
-                            <div class="card chart-card mb-4">
-                                <div class="card-header">
-                                    <i class="fas fa-chart-pie me-1"></i>
-                                    Despesas pagas
-                                    <span class="chart-total float-end"></span>
-                                </div>
-                                <div class="card-body"><canvas id="myPieChartDepBA" width="100%" height="50"></canvas>
-                                </div>
-                            </div>
-                            
+                    </section>
+
+                    <section class="charts-section">
+                        <div class="section-heading">
+                            <h2>Distribuição por categoria</h2>
+                            <p>Compare o que já aconteceu com o que ainda está provisionado.</p>
                         </div>
-                        <div class="col-xl-6">
-                            <div class="card chart-card mb-4">
-                                <div class="card-header">
-                                    <i class="fas fa-chart-pie me-1"></i>
-                                    Despesas pendentes
-                                    <span class="chart-total float-end"></span>
-                                </div>
-                                <div class="card-body"><canvas id="myPieChartDep" width="100%" height="50"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-6">
-                           <div class="card chart-card mb-4">
-                                <div class="card-header">
-                                    <i class="fas fa-chart-pie me-1"></i>
-                                    Receitas recebidas
-                                    <span class="chart-total float-end"></span>
-                                </div>
-                                <div class="card-body"><canvas id="myPieChartRec" width="100%" height="50"></canvas>
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <div class="card chart-card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-pie me-1"></i>
+                                        Despesas pagas
+                                        <span class="chart-total float-end">Realizado</span>
+                                    </div>
+                                    <div class="card-body"><canvas id="myPieChartDepBA" width="100%" height="50"></canvas>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-xl-6">
-                             <div class="card chart-card mb-4">
-                                <div class="card-header">
-                                    <i class="fas fa-chart-pie me-1"></i>
-                                    Receitas pendentes
-                                    <span class="chart-total float-end"></span>
-                                </div>
-                                <div class="card-body"><canvas id="myPieChartRecLA" width="100%" height="50"></canvas>
+                            <div class="col-xl-6">
+                                <div class="card chart-card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-pie me-1"></i>
+                                        Despesas pendentes
+                                        <span class="chart-total float-end">A pagar</span>
+                                    </div>
+                                    <div class="card-body"><canvas id="myPieChartDep" width="100%" height="50"></canvas>
+                                    </div>
                                 </div>
                             </div>
-                            
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xl-6">
-                            <div class="card chart-card mb-4">
-                                <div class="card-header">
-                                    <i class="fas fa-chart-bar me-1"></i>
-                                    Receitas vs Despesas | Realizado
+                            <div class="col-xl-6">
+                                <div class="card chart-card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-pie me-1"></i>
+                                        Receitas recebidas
+                                        <span class="chart-total float-end">Realizado</span>
+                                    </div>
+                                    <div class="card-body"><canvas id="myPieChartRec" width="100%" height="50"></canvas>
+                                    </div>
                                 </div>
-                                <div class="card-body"><canvas id="barChartReceitasDespesasRealizado" width="100%"
-                                        height="40"></canvas></div>
                             </div>
-                        </div>
-                        <div class="col-xl-6">
-                            <div class="card chart-card mb-4">
-                                <div class="card-header">
-                                    <i class="fas fa-chart-line me-1"></i>
-                                    Receitas vs Despesas | Provisionado
-                                </div>
-                                <div class="card-body"><canvas id="lineChartReceitasDespesasProvisionado" width="100%"
-                                        height="40"></canvas></div>
-                            </div>
-                        </div>
-                        <div class="col-xl-6">
-                            <div class="card chart-card mb-4">
-                                <div class="card-header">
-                                    <i class="fas fa-chart-bar me-1"></i>
-                                    Despesas por Status
-                                </div>
-                                <div class="card-body"><canvas id="barChartPvsR" width="100%" height="40"></canvas>
+                            <div class="col-xl-6">
+                                <div class="card chart-card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-pie me-1"></i>
+                                        Receitas pendentes
+                                        <span class="chart-total float-end">A receber</span>
+                                    </div>
+                                    <div class="card-body"><canvas id="myPieChartRecLA" width="100%" height="50"></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-6">
-                            <div class="card chart-card mb-4">
-                                <div class="card-header">
-                                    <i class="fas fa-chart-bar me-1"></i>
-                                    Receitas por Status
+                    </section>
+
+                    <section class="charts-section">
+                        <div class="section-heading">
+                            <h2>Performance financeira</h2>
+                            <p>Leitura comparativa entre entradas, saídas e status operacional.</p>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <div class="card chart-card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-bar me-1"></i>
+                                        Receitas vs Despesas | Realizado
+                                    </div>
+                                    <div class="card-body"><canvas id="barChartReceitasDespesasRealizado" width="100%"
+                                            height="40"></canvas></div>
                                 </div>
-                                <div class="card-body"><canvas id="ReceitasLABA" width="100%" height="40"></canvas>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="card chart-card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-line me-1"></i>
+                                        Receitas vs Despesas | Provisionado
+                                    </div>
+                                    <div class="card-body"><canvas id="lineChartReceitasDespesasProvisionado" width="100%"
+                                            height="40"></canvas></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="card chart-card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-bar me-1"></i>
+                                        Despesas por Status
+                                    </div>
+                                    <div class="card-body"><canvas id="barChartPvsR" width="100%" height="40"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="card chart-card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-bar me-1"></i>
+                                        Receitas por Status
+                                    </div>
+                                    <div class="card-body"><canvas id="ReceitasLABA" width="100%" height="40"></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
+                </div>
             </main>
 
         </div>

@@ -1,6 +1,10 @@
 body.login-bg {
-    background: #ffffff;
+    background:
+        radial-gradient(circle at top left, rgba(16, 185, 129, 0.12), transparent 30%),
+        radial-gradient(circle at top right, rgba(14, 116, 144, 0.18), transparent 28%),
+        linear-gradient(180deg, #f5f8fb 0%, #edf3f8 100%);
     font-family: 'Poppins-Regular', sans-serif;
+    color: #102437;
 }
 
 /* Estilo moderno para tabelas */
@@ -108,17 +112,25 @@ form.form-inline .form-group {
 .chart-card {
     border: none;
     background-color: #ffffff;
-    border-radius: 0.75rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 1.1rem;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+    overflow: hidden;
 }
 .chart-card .card-header {
-    background: var(--bs-light-blue);
+    background: linear-gradient(135deg, #0f3d5e 0%, #166b8a 100%);
     color: #fff;
     font-weight: 500;
     border-bottom: none;
+    padding: 1rem 1.25rem;
+    letter-spacing: 0.01em;
+}
+
+.chart-card .card-body {
+    padding: 1.25rem;
 }
 .chart-total {
     font-weight: bold;
+    opacity: 0.85;
 }
 
 /* Expand layouts to full width */
@@ -144,4 +156,288 @@ form.form-inline .form-group {
 .navbar-dark .dropdown-menu-dark .dropdown-item:focus {
     color: #fff;
     background-color: rgba(255, 255, 255, 0.15);
+}
+
+.dashboard-shell {
+    padding: 1.5rem;
+}
+
+.finance-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.7fr) minmax(280px, 0.9fr);
+    gap: 1.5rem;
+    align-items: stretch;
+    margin-bottom: 1.5rem;
+}
+
+.finance-hero-copy,
+.finance-hero-panel,
+.metric-card,
+.insight-card {
+    border-radius: 1.25rem;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+}
+
+.finance-hero-copy {
+    padding: 2rem;
+    background:
+        linear-gradient(135deg, rgba(5, 34, 57, 0.96) 0%, rgba(14, 116, 144, 0.9) 100%),
+        #0f172a;
+    color: #f8fafc;
+    position: relative;
+    overflow: hidden;
+}
+
+.finance-hero-copy::after {
+    content: "";
+    position: absolute;
+    inset: auto -3rem -3rem auto;
+    width: 14rem;
+    height: 14rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+}
+
+.finance-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.05;
+    margin-bottom: 0.75rem;
+    color: #ffffff;
+}
+
+.finance-subtitle {
+    max-width: 44rem;
+    color: rgba(241, 245, 249, 0.86);
+    font-size: 1rem;
+    margin: 0;
+}
+
+.finance-hero-panel {
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbfd 100%);
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid rgba(15, 23, 42, 0.05);
+}
+
+.hero-panel-label {
+    font-size: 0.86rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #52718a;
+}
+
+.hero-panel-value {
+    font-size: clamp(2rem, 3vw, 2.7rem);
+    line-height: 1;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0.75rem 0 1rem;
+}
+
+.hero-panel-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.hero-chip {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+}
+
+.chip-positive {
+    background: rgba(16, 185, 129, 0.14);
+    color: #047857;
+}
+
+.hero-link {
+    color: #0f5f7f;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.hero-link:hover {
+    text-decoration: underline;
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.metric-card {
+    grid-column: span 4;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: #ffffff;
+    padding: 1.25rem;
+    border: 1px solid rgba(148, 163, 184, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 26px 45px rgba(15, 23, 42, 0.1);
+    color: inherit;
+}
+
+.metric-card-primary {
+    background: linear-gradient(135deg, #0f3d5e 0%, #166b8a 100%);
+    color: #ffffff;
+}
+
+.metric-card-success {
+    background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+    color: #ffffff;
+}
+
+.metric-card-danger {
+    background: linear-gradient(135deg, #9f1239 0%, #e11d48 100%);
+    color: #ffffff;
+}
+
+.metric-card-warm {
+    background: linear-gradient(135deg, #b45309 0%, #f59e0b 100%);
+    color: #ffffff;
+}
+
+.metric-card-safe {
+    background: linear-gradient(135deg, #1d4ed8 0%, #60a5fa 100%);
+    color: #ffffff;
+}
+
+.metric-card-neutral {
+    background: linear-gradient(135deg, #1f2937 0%, #4b5563 100%);
+    color: #ffffff;
+}
+
+.metric-icon {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.14);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.metric-label {
+    font-size: 0.92rem;
+    opacity: 0.86;
+    margin-bottom: 0.5rem;
+}
+
+.metric-value {
+    font-size: clamp(1.5rem, 2.5vw, 2.15rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+}
+
+.metric-trend {
+    font-size: 0.88rem;
+    opacity: 0.82;
+}
+
+.insights-strip {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.insight-card {
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(8px);
+    padding: 1rem 1.25rem;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.insight-label {
+    display: block;
+    color: #0f5f7f;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.35rem;
+}
+
+.charts-section {
+    margin-bottom: 1.5rem;
+}
+
+.section-heading {
+    margin-bottom: 1rem;
+}
+
+.section-heading h2 {
+    font-size: 1.3rem;
+    margin: 0 0 0.25rem;
+    color: #0f172a;
+}
+
+.section-heading p {
+    margin: 0;
+    color: #5b7287;
+}
+
+@media (max-width: 1199.98px) {
+    .metric-card {
+        grid-column: span 6;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .finance-hero {
+        grid-template-columns: 1fr;
+    }
+
+    .insights-strip {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .dashboard-shell {
+        padding: 1rem;
+    }
+
+    .metric-card {
+        grid-column: span 12;
+    }
+
+    .finance-hero-copy,
+    .finance-hero-panel {
+        padding: 1.25rem;
+    }
+
+    .hero-panel-meta {
+        align-items: flex-start;
+        flex-direction: column;
+    }
 }
