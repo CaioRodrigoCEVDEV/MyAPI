@@ -1,3 +1,8 @@
+function renderCobrancaSummary(cobrancas) {
+    const total = document.getElementById("cobrancaQuantidade");
+    if (total) total.textContent = cobrancas.length;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
  fetch('/api/dadosUserLogado')
     .then(res => res.json())
@@ -9,14 +14,31 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(dados => {
             const corpoTabela = document.getElementById("corpoTabela");
             corpoTabela.innerHTML = ""; // Limpa o conteúdo atual da tabela
+            renderCobrancaSummary(dados);
+
+            if (!dados.length) {
+                corpoTabela.innerHTML = `
+                    <tr>
+                        <td colspan="2">
+                            <div class="empty-state-table">
+                                <i class="fas fa-money-bill-transfer"></i>
+                                <div>Nenhum tipo de cobrança cadastrado.</div>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
 
             dados.forEach(dado => {
                 const tr = document.createElement("tr");
                 tr.innerHTML = `
-                        <td>${dado.tcdes}</td>
+                        <td><span class="account-name">${dado.tcdes}</span></td>
                         <td>
-                            <button class="btn btn-danger btn-sm" onclick="deletar(${dado.tccod})">Deletar</button>
-                            <button class="btn btn-warning btn-sm" onclick="editar(${dado.tccod})">Editar</button>  
+                            <div class="account-actions">
+                                <button class="btn-finance-icon btn-finance-delete" onclick="deletar(${dado.tccod})" title="Deletar"><i class="fa fa-trash"></i></button>
+                                <button class="btn-finance-icon btn-finance-edit" onclick="editar(${dado.tccod}, this)">Editar</button>
+                            </div>
                         </td>
 
                     `;
@@ -54,10 +76,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
     // Função para editar um registro direto na tabela pois o botão de editar está na tabela    
-    window.editar = function (id) {
-        const tr = event.target.closest("tr");
-        const descricaoCell = tr.querySelector("td:nth-child(2)");
-        const valorAtual = descricaoCell.textContent;
+    window.editar = function (id, button) {
+        const tr = button.closest("tr");
+        const descricaoCell = tr.querySelector("td:first-child");
+        const valorAtual = descricaoCell.textContent.trim();
 
         // Cria um input para edição inline
         const input = document.createElement("input");

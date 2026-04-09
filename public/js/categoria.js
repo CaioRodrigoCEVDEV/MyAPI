@@ -1,3 +1,13 @@
+function renderCategoriaSummary(categorias) {
+  const total = document.getElementById("categoriaQuantidade");
+  const receitas = document.getElementById("categoriaReceitaQuantidade");
+  const despesas = document.getElementById("categoriaDespesaQuantidade");
+
+  if (total) total.textContent = categorias.length;
+  if (receitas) receitas.textContent = categorias.filter((item) => item.cattipo === "R").length;
+  if (despesas) despesas.textContent = categorias.filter((item) => item.cattipo === "D").length;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
 fetch('/api/dadosUserLogado')
     .then(res => res.json())
@@ -9,17 +19,34 @@ fetch('/api/dadosUserLogado')
     .then((dados) => {
       const corpoTabela = document.getElementById("corpoTabela");
       corpoTabela.innerHTML = ""; // Limpa o conteúdo atual da tabela
+      renderCategoriaSummary(dados);
+
+      if (!dados.length) {
+        corpoTabela.innerHTML = `
+          <tr>
+            <td colspan="4">
+              <div class="empty-state-table">
+                <i class="fas fa-tags"></i>
+                <div>Nenhuma categoria cadastrada até o momento.</div>
+              </div>
+            </td>
+          </tr>
+        `;
+        return;
+      }
 
       dados.forEach((dado) => {
         const tr = document.createElement("tr");
         const tipo = dado.cattipo === "R" ? "Receita" : "Despesa";
         tr.innerHTML = `
                         <td>${dado.catcod}</td>
-                        <td>${dado.catdes}</td>
-                        <td>${tipo}</td>
+                        <td><span class="account-name">${dado.catdes}</span></td>
+                        <td><span class="finance-badge ${dado.cattipo === "R" ? "finance-badge-income" : "finance-badge-expense"}">${tipo}</span></td>
                         <td>
-                            <button class="btn btn-warning btn-sm" onclick="editar(${dado.catcod})">Editar</button>
-                            <button class="btn btn-danger btn-sm" onclick="deletar(${dado.catcod})">Deletar</button>
+                            <div class="account-actions">
+                              <button class="btn-finance-icon btn-finance-edit" onclick="editar(${dado.catcod})" title="Editar"><i class="fa fa-edit"></i></button>
+                              <button class="btn-finance-icon btn-finance-delete" onclick="deletar(${dado.catcod})" title="Deletar"><i class="fa fa-trash"></i></button>
+                            </div>
                         </td>
 
                     `;
