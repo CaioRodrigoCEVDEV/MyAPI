@@ -9,6 +9,83 @@ function showToast(message, type = 'success') {
   toast.show();
 }
 
+function formatCurrency(value) {
+  return Number(value || 0).toLocaleString('pt-BR', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+}
+
+function updateContaSummary(contas) {
+  const quantidade = document.getElementById('contaQuantidade');
+  const saldoTotal = document.getElementById('contaSaldoTotal');
+  const tiposQuantidade = document.getElementById('contaTiposQuantidade');
+
+  if (quantidade) quantidade.textContent = contas.length;
+  if (saldoTotal) {
+    const total = contas.reduce((acc, conta) => acc + Number(conta.contavltotal || 0), 0);
+    saldoTotal.textContent = formatCurrency(total);
+  }
+  if (tiposQuantidade) {
+    const tipos = new Set(contas.map((conta) => conta.contatipodes || conta.contatipo || 'Outro'));
+    tiposQuantidade.textContent = tipos.size;
+  }
+}
+
+function renderEmptyState() {
+  const corpoTabela = document.getElementById("corpoTabela");
+  if (!corpoTabela) return;
+
+  corpoTabela.innerHTML = `
+    <tr class="empty-state-row">
+      <td colspan="4">
+        <div class="empty-state">
+          <i class="fas fa-wallet"></i>
+          <div>Nenhuma conta cadastrada até agora.</div>
+        </div>
+      </td>
+    </tr>
+  `;
+}
+
+function renderContasTable(contas) {
+  const corpoTabela = document.getElementById("corpoTabela");
+  if (!corpoTabela) return;
+
+  corpoTabela.innerHTML = "";
+
+  if (!contas.length) {
+    renderEmptyState();
+    updateContaSummary([]);
+    return;
+  }
+
+  contas.forEach((dado) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>
+        <span class="account-name">${dado.contades}</span>
+        <span class="account-meta">Conta #${dado.contacod}</span>
+      </td>
+      <td><span class="account-type-badge">${dado.contatipodes || 'Outro'}</span></td>
+      <td><span class="account-balance">R$ ${formatCurrency(dado.contavltotal)}</span></td>
+      <td>
+        <div class="account-actions">
+          <button class="btn-finance-icon btn-finance-edit" onclick="abrirEditar(${dado.contacod})" title="Editar">
+            <i class="fa fa-edit"></i>
+          </button>
+          <button class="btn-finance-icon btn-finance-delete" onclick="deletar(${dado.contacod})" title="Deletar">
+            <i class="fa fa-trash"></i>
+          </button>
+        </div>
+      </td>
+    `;
+    corpoTabela.appendChild(tr);
+  });
+
+  updateContaSummary(contas);
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   fetch('/api/dadosUserLogado')
     .then(res => res.json())
@@ -18,29 +95,12 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .then(res => res.json())
     .then(dados => {
-        const corpoTabela = document.getElementById("corpoTabela");
-        if (!corpoTabela) return; // Se não existir tabela, nada a fazer
-        corpoTabela.innerHTML = ""; // Limpa o conteúdo atual da tabela
-
-        dados.forEach(dado => {
-            const tr = document.createElement("tr");
-            tr.innerHTML = `
-            <td>${dado.contades}</td>
-            <td> R$ ${dado.contavltotal}</td>
-            <td>
-                <button class="btn btn-warning btn-sm" onclick="abrirEditar(${dado.contacod})" title="Editar">
-                  <i class="fa fa-edit"></i>
-                </button>
-                <button class="btn btn-danger btn-sm" onclick="deletar(${dado.contacod})" title="Deletar">
-                  <i class="fa fa-trash"></i>
-                </button>
-            </td>
-
-        `;
-            corpoTabela.appendChild(tr);
-        });
+        renderContasTable(dados);
     })
-    .catch(erro => console.error(erro));
+    .catch(erro => {
+      console.error(erro);
+      renderEmptyState();
+    });
 });
        
 // document.addEventListener("DOMContentLoaded", function () {
@@ -115,26 +175,7 @@ function atualizarTabela() {
     .then(dados => fetch(`${BASE_URL}/conta/${dados.usucod}`))
     .then(res => res.json())
     .then(dados => {
-      const corpoTabela = document.getElementById("corpoTabela");
-      if (!corpoTabela) return;
-      corpoTabela.innerHTML = "";
-      dados.forEach(dado => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${dado.contades}</td>
-          <td>${dado.contatipodes}</td>
-          <td>${dado.contavltotal}</td>
-          <td>
-            <button class="btn btn-warning btn-sm" onclick="abrirEditar(${dado.contacod})" title="Editar">
-              <i class="fa fa-edit"></i>
-            </button>
-            <button class="btn btn-danger btn-sm" onclick="deletar(${dado.contacod})" title="Deletar">
-              <i class="fa fa-trash"></i>
-            </button>
-          </td>
-        `;
-        corpoTabela.appendChild(tr);
-      });
+      renderContasTable(dados);
     })
     .catch(erro => console.error(erro));
 }
@@ -257,4 +298,3 @@ document.addEventListener('DOMContentLoaded', () => {
     modalNovaConta?.show();
   };
 });
-
