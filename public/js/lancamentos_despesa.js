@@ -1,5 +1,12 @@
 let dadosUserCache = null;
 
+function formatCurrency(value) {
+  return Number(value || 0).toLocaleString('pt-BR', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+}
+
 async function obterDadosUsuario() {
   if (dadosUserCache) return dadosUserCache;
   const userRes = await fetch('/api/dadosUserLogado');
@@ -16,37 +23,104 @@ function parseDataDoc(docdtpag) {
 function renderizarTabelaDespesas(dados) {
   const corpoTabelaPendentes = document.getElementById("corpoTabelaPendentes");
   const corpoTabelaPagas = document.getElementById("corpoTabelaPagas");
+  const countPendentes = document.getElementById("corpoTabelaPendentesCount");
+  const countPagas = document.getElementById("corpoTabelaPagasCount");
   corpoTabelaPendentes.innerHTML = "";
   corpoTabelaPagas.innerHTML = "";
 
+  const pendentes = dados.filter((dado) => dado.docsta === "LA");
+  const pagas = dados.filter((dado) => dado.docsta !== "LA");
+
+  if (countPendentes) countPendentes.textContent = pendentes.length;
+  if (countPagas) countPagas.textContent = pagas.length;
+
+  const total = dados.reduce((acc, dado) => acc + Number(String(dado.docv).replace(',', '.')), 0);
+  const totalPendente = pendentes.reduce((acc, dado) => acc + Number(String(dado.docv).replace(',', '.')), 0);
+  const totalPago = pagas.reduce((acc, dado) => acc + Number(String(dado.docv).replace(',', '.')), 0);
+
+  const saldo = document.getElementById("saldo");
+  const gastosNow = document.getElementById("gastosNow");
+  const despesaP = document.getElementById("despesaP");
+  const totalSeguro = document.getElementById("totalSeguro");
+
+  if (saldo) saldo.textContent = dados.length;
+  if (gastosNow) gastosNow.textContent = formatCurrency(total);
+  if (despesaP) despesaP.textContent = formatCurrency(totalPendente);
+  if (totalSeguro) totalSeguro.textContent = formatCurrency(totalPago);
+
+  if (!dados.length) {
+    const emptyMarkup = `
+      <tr>
+        <td colspan="9">
+          <div class="empty-state-table">
+            <i class="fas fa-file-invoice-dollar"></i>
+            <div>Nenhuma despesa encontrada para os filtros aplicados.</div>
+          </div>
+        </td>
+      </tr>
+    `;
+    corpoTabelaPendentes.innerHTML = emptyMarkup;
+    corpoTabelaPagas.innerHTML = emptyMarkup;
+    return;
+  }
+
   dados.forEach((dado) => {
     const tr = document.createElement("tr");
-    tr.style.color = dado.docsta === "LA" ? "#856404" : "#155724";
     const docsta = dado.docsta === "LA" ? "Aberto" : "Pago";
     const dataFormatada = dado.docdtpag ? dado.docdtpag.split("T")[0] : "";
     const partes = dataFormatada.split("-");
     const dataFormatada1 = partes.length === 3 ? `${partes[2]}-${partes[1]}-${partes[0]}` : "";
     tr.innerHTML = `
-      <td>${dataFormatada1}</td>
-      <td>${dado.docv}</td>
+      <td class="finance-cell-date">${dataFormatada1}</td>
+      <td class="finance-cell-value">R$ ${formatCurrency(String(dado.docv).replace(',', '.'))}</td>
       <td>${dado.tcdes}</td>
-      <td>${dado.natdes}</td>
+      <td class="finance-cell-muted">${dado.natdes}</td>
       <td>${dado.catdes}</td>
       <td>${dado.contades}</td>
-      <td>${dado.docobs || ''}</td>
+      <td class="finance-cell-muted">${dado.docobs || 'Sem observações'}</td>
       <td>
-        ${dado.docsta === "LA" ? '<i class="fa fa-spinner fa-spin fa-1x fa-fw"></i>' : '<i class="fa fa-check-square"></i>'}
-        ${docsta}
+        <span class="finance-status-badge ${dado.docsta === "LA" ? 'finance-status-open' : 'finance-status-paid'}">
+          ${dado.docsta === "LA" ? '<i class="fa fa-clock-o"></i>' : '<i class="fa fa-check-circle"></i>'}
+          ${docsta}
+        </span>
       </td>
       <td>
-        ${dado.docsta === "LA" ? `<button class="btn btn-success btn-sm" onclick="marcarPago(${dado.doccod})" title="Pago"><i class="fa fa-check"></i></button>` : ''}
-        <button class="btn btn-warning btn-sm" onclick="abrirEditar(${dado.doccod})" title="Editar"><i class="fa fa-edit"></i></button>
-        <button class="btn btn-danger btn-sm" onclick="deletar(${dado.doccod})" title="Deletar"><i class="fa fa-trash"></i></button>
+        <div class="finance-actions">
+          ${dado.docsta === "LA" ? `<button class="btn-finance-icon btn-finance-pay" onclick="marcarPago(${dado.doccod})" title="Pago"><i class="fa fa-check"></i></button>` : ''}
+          <button class="btn-finance-icon btn-finance-edit" onclick="abrirEditar(${dado.doccod})" title="Editar"><i class="fa fa-edit"></i></button>
+          <button class="btn-finance-icon btn-finance-delete" onclick="deletar(${dado.doccod})" title="Deletar"><i class="fa fa-trash"></i></button>
+        </div>
       </td>
     `;
     if (dado.docsta === "LA") corpoTabelaPendentes.appendChild(tr);
     else corpoTabelaPagas.appendChild(tr);
   });
+
+  if (!pendentes.length) {
+    corpoTabelaPendentes.innerHTML = `
+      <tr>
+        <td colspan="9">
+          <div class="empty-state-table">
+            <i class="fas fa-check-circle"></i>
+            <div>Nenhuma despesa pendente encontrada.</div>
+          </div>
+        </td>
+      </tr>
+    `;
+  }
+
+  if (!pagas.length) {
+    corpoTabelaPagas.innerHTML = `
+      <tr>
+        <td colspan="9">
+          <div class="empty-state-table">
+            <i class="fas fa-receipt"></i>
+            <div>Nenhuma despesa paga encontrada.</div>
+          </div>
+        </td>
+      </tr>
+    `;
+  }
 }
 
 function aplicarFiltrosNosDados(dados) {

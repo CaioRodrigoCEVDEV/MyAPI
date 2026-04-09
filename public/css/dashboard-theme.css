@@ -365,6 +365,90 @@ form.form-inline .form-group {
     margin-bottom: 0.75rem;
 }
 
+.finance-list-card .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.finance-count-badge {
+    border-radius: 999px;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.finance-count-badge-danger {
+    background: rgba(255, 255, 255, 0.92);
+    color: #be123c;
+}
+
+.finance-count-badge-success {
+    background: rgba(255, 255, 255, 0.92);
+    color: #0f766e;
+}
+
+.finance-table-expense tbody tr:hover {
+    background: rgba(15, 95, 127, 0.05);
+}
+
+.finance-cell-date {
+    color: #475569;
+    white-space: nowrap;
+}
+
+.finance-cell-value {
+    font-weight: 700;
+    color: #0f172a;
+    white-space: nowrap;
+}
+
+.finance-cell-muted {
+    color: #64748b;
+}
+
+.finance-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border-radius: 999px;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.finance-status-open {
+    background: rgba(245, 158, 11, 0.14);
+    color: #b45309;
+}
+
+.finance-status-paid {
+    background: rgba(16, 185, 129, 0.14);
+    color: #047857;
+}
+
+.finance-actions {
+    display: flex;
+    gap: 0.45rem;
+    justify-content: flex-end;
+}
+
+.btn-finance-pay {
+    background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+}
+
+.empty-state-table {
+    padding: 2rem 1rem;
+    text-align: center;
+    color: #64748b;
+}
+
+.empty-state-table i {
+    font-size: 1.4rem;
+    color: #0f5f7f;
+    margin-bottom: 0.75rem;
+}
+
 .chart-body {
     position: relative;
 }
