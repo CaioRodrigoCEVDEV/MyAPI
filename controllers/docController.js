@@ -37,7 +37,8 @@ exports.criarDoc = async (req, res) => {
 };
 
 exports.listarDocs = async (req, res) => {
-    const { id } = req.params;
+    //const { id } = req.params;
+    const id = req.token.usucod;
     try {
         const result = await pool.query("select doccod, docsta, case when tcdes is null then '' else tcdes end as tcdes,  natdes, docv, docobs,contades,case when catdes is null then '' else catdes end as catdes from doc join natureza on natcod = docnatcod " +
             "left join tc on tccod = doctccod " +
@@ -52,7 +53,8 @@ exports.listarDocs = async (req, res) => {
 
 
 exports.listarDocsAnualRealizado = async (req, res) => {
-    const { id } = req.params;
+    //const { id } = req.params;
+    const id = req.token.usucod;
     try {
         const result = await pool.query('select * from vw_receita_vs_despesa_anual_realizado where docusucod = $1', [id]);
         res.status(200).json(result.rows);
@@ -65,7 +67,8 @@ exports.listarDocsAnualRealizado = async (req, res) => {
 
 
 exports.listarDocsAnualProvisionado = async (req, res) => {
-    const { id } = req.params;
+    //const { id } = req.params;
+    const id = req.token.usucod;
     try {
         const result = await pool.query('select * from vw_receita_vs_despesa_anual_provisionado where docusucod = $1', [id]);
         res.status(200).json(result.rows);
@@ -77,7 +80,8 @@ exports.listarDocsAnualProvisionado = async (req, res) => {
 
 
 exports.listarDocsPvsRatual = async (req, res) => {
-    const { id } = req.params;
+    //const { id } = req.params;
+    const id = req.token.usucod;
     const sta = ['LA', 'BA'];
     try {
         const result = await pool.query('select * from vw_orcado_vs_realizado_atual where docusucod = $1 and docsta = ANY($2)', [id, sta]);
@@ -439,7 +443,8 @@ exports.atualizarStatus = async (req, res) => {
 
 
 exports.contaDespesaPendente = async (req, res) => {
-    const {id} = req.params;
+    //const {id} = req.params;
+    const id = req.token.usucod;
     try {
         const result = await pool.query('select total as total_pendente_atual from vw_despesa_pendente_atual  where docusucod = $1', [id]);
         res.status(200).json(result.rows);
@@ -450,7 +455,8 @@ exports.contaDespesaPendente = async (req, res) => {
 };
 
 exports.contaReceitaPendente = async (req, res) => {
-    const {id} = req.params;
+    //const {id} = req.params;
+    const id = req.token.usucod;
     try {
         const result = await pool.query('select total from vw_receitas_pendentes_mes_atual where docusucod = $1', [id]);
         res.status(200).json(result.rows);
@@ -462,7 +468,8 @@ exports.contaReceitaPendente = async (req, res) => {
 
 
 exports.GastosHoje = async (req, res) => {
-    let { id } = req.params;
+    //let { id } = req.params;
+    const id = req.token.usucod;
 
     try {
         const result = await pool.query(`
@@ -484,7 +491,8 @@ exports.GastosHoje = async (req, res) => {
 };
 
 exports.TotalSeguro = async (req, res) => {
-    const {id} = req.params;
+    //const {id} = req.params;
+    const id = req.token.usucod;
     try {
         const result = await pool.query('select * from vw_total_seguro where usu = $1', [id]);
         res.status(200).json(result.rows);
@@ -495,7 +503,8 @@ exports.TotalSeguro = async (req, res) => {
 };
 
 exports.desepesasPorStatus = async (req, res) => {
-    const {id} = req.params;
+    //const {id} = req.params;
+    const id = req.token.usucod;
     try {
         const result = await pool.query('select * from vw_despesas_sta where  docusucod = $1', [id]);
         res.status(200).json(result.rows);
@@ -506,7 +515,8 @@ exports.desepesasPorStatus = async (req, res) => {
 };
 
 exports.receitasPorStatus = async (req, res) => {
-    const {id} = req.params;
+    //const {id} = req.params;
+    const id = req.token.usucod;
     try {
         const result = await pool.query('select * from vw_receitas_sta where  docusucod = $1', [id]);
         res.status(200).json(result.rows);

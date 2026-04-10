@@ -3,9 +3,10 @@ const router = express.Router();
 const contaController = require('../controllers/contaController');
 const autenticarToken = require('../src/middleware/authMiddleware');
 
-router.get('/contas/:id', autenticarToken,contaController.listarContas);
-router.get('/conta/:id', autenticarToken,contaController.listarContasUser);
-router.get('/contaSaldo/:id', autenticarToken,contaController.contaSaldo);
+router.get('/contaSaldo', autenticarToken,contaController.contaSaldo);
+router.get('/conta', autenticarToken,contaController.listarContasUser);
+
+router.get('/contas', autenticarToken,contaController.listarContas);
 router.post('/conta', autenticarToken,contaController.Insertconta);
 router.delete('/conta/:id', autenticarToken,contaController.deletarConta);
 router.put('/conta/:id', autenticarToken,contaController.editarConta);

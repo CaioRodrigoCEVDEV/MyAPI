@@ -229,12 +229,7 @@ async function atualizarTabelaDespesas() {
 
 // Quando o DOM estiver carregado listar as cobranças no options
 document.addEventListener("DOMContentLoaded", function () {
-  fetch('/api/dadosUserLogado')
-    .then(res => res.json())
-    .then(dados => {
-
-      return fetch(`${BASE_URL}/tc/${dados.usucod}`)
-    })
+   fetch(`${BASE_URL}/tc`)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Erro ao buscar os dados");
@@ -257,12 +252,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 // Quando o DOM estiver carregado listar as contas no options contas
 document.addEventListener("DOMContentLoaded", function () {
-  fetch('/api/dadosUserLogado')
-    .then(res => res.json())
-    .then(dados => {
-
-      return fetch(`${BASE_URL}/contas/${dados.usucod}`)
-    })
+  fetch(`${BASE_URL}/contas`)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Erro ao buscar os dados");
@@ -285,12 +275,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 // listagem de categorias
 document.addEventListener("DOMContentLoaded", function () {
-  fetch('/api/dadosUserLogado')
-    .then(res => res.json())
-    .then(dados => {
-
-      return fetch(`${BASE_URL}/catTodosDespesa/${dados.usucod}`)
-    })
+  fetch(`${BASE_URL}/catTodosDespesa`)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Erro ao buscar os dados");
@@ -314,9 +299,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Carregar opções nos selects do modal de edição
 document.addEventListener("DOMContentLoaded", function () {
-  fetch('/api/dadosUserLogado')
-    .then(res => res.json())
-    .then(dados => fetch(`${BASE_URL}/tc/${dados.usucod}`))
+  fetch(`${BASE_URL}/tc`)
     .then(res => res.json())
     .then(data => {
       const select = document.getElementById('edit_tccod');
@@ -327,9 +310,7 @@ document.addEventListener("DOMContentLoaded", function () {
         select.appendChild(opt);
       });
     });
-  fetch('/api/dadosUserLogado')
-    .then(res => res.json())
-    .then(dados => fetch(`${BASE_URL}/contas/${dados.usucod}`))
+  fetch(`${BASE_URL}/contas`)
     .then(res => res.json())
     .then(data => {
       const select = document.getElementById('edit_contacod');
@@ -340,9 +321,7 @@ document.addEventListener("DOMContentLoaded", function () {
         select.appendChild(opt);
       });
     });
-  fetch('/api/dadosUserLogado')
-    .then(res => res.json())
-    .then(dados => fetch(`${BASE_URL}/catTodosDespesa/${dados.usucod}`))
+  fetch(`${BASE_URL}/catTodosDespesa`)
     .then(res => res.json())
     .then(data => {
       const select = document.getElementById('edit_catcod');
@@ -455,9 +434,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (busca) busca.value = '';
   });
 
-  fetch('/api/dadosUserLogado')
-    .then(res => res.json())
-    .then(dados => fetch(`${BASE_URL}/catTodosDespesa/${dados.usucod}`))
+  fetch(`${BASE_URL}/catTodosDespesa`)
     .then(res => res.json())
     .then(data => {
       if (filtroCategoria) {

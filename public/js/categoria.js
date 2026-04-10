@@ -9,12 +9,7 @@ function renderCategoriaSummary(categorias) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-fetch('/api/dadosUserLogado')
-    .then(res => res.json())
-    .then(dados => {
-      
-      return fetch(`${BASE_URL}/catTodos/${dados.usucod}`)
-    })
+fetch(`${BASE_URL}/catTodos`)
     .then((res) => res.json())
     .then((dados) => {
       const corpoTabela = document.getElementById("corpoTabela");

@@ -13,7 +13,8 @@ exports.InsertCategoria = async (req, res) => {
 
 
 exports.listarcatTodos = async (req, res) => {
-    const { id } = req.params;
+    //const { id } = req.params;
+    const id = req.token.usucod;
     try {
         const result = await pool.query('select catcod,catdes,cattipo from categoria where catusucod = $1 order by catcod', [id]);
         res.status(200).json(result.rows);
@@ -24,7 +25,8 @@ exports.listarcatTodos = async (req, res) => {
 };
 
 exports.listarcatTodosReceita = async (req, res) => {
-    const { id } = req.params;
+   // const { id } = req.params;
+    const id = req.token.usucod;
     const R = "R";
     try {
         const result = await pool.query('select catcod,catdes,cattipo from categoria where cattipo = $1 and catusucod = $2 order by catcod', [R,id]);
@@ -36,7 +38,8 @@ exports.listarcatTodosReceita = async (req, res) => {
 };
 
 exports.listarcatTodosDespesa = async (req, res) => {
-    const { id } = req.params;
+    //const { id } = req.params;
+    const id = req.token.usucod;
     const D = "D";
     try {
         const result = await pool.query('select catcod,catdes,cattipo from categoria where cattipo = $1 and catusucod = $2 order by catcod', [D,id]);
@@ -50,7 +53,8 @@ exports.listarcatTodosDespesa = async (req, res) => {
 
 
 exports.listarCategoriaReceitaBA = async (req, res) => {
-    const { id } = req.params;
+    //const { id } = req.params;
+    const id = req.token.usucod;
     try {
         const r = "R"
         const BA = "BA"
@@ -84,7 +88,8 @@ exports.listarCat = async (req, res) => {
 };
 
 exports.listarCategoriaDespesaLA = async (req, res) => {
-    const { id } = req.params;
+    //const { id } = req.params;
+    const id = req.token.usucod;
     try {
         const d = "D"
         const LA = "LA"
@@ -120,7 +125,8 @@ exports.deletarCategoria = async (req, res) => {
 };
 
 exports.editarCategoria = async (req, res) => {
-    const { id } = req.params;
+    //const { id } = req.params;
+    const id = req.params.id;
     const { catdes } = req.body;
     try {
         const result = await pool.query('update categoria set catdes = $1 WHERE catcod = $2 RETURNING *', [catdes, id]);
@@ -137,7 +143,8 @@ exports.editarCategoria = async (req, res) => {
 
 
 exports.listarCategoriaReceitaLA = async (req, res) => {
-    const { id } = req.params;
+    //const { id } = req.params;
+    const id = req.token.usucod;
     try {
         const r = "R"
         const LA = "LA"
@@ -162,7 +169,8 @@ exports.listarCategoriaReceitaLA = async (req, res) => {
 
 
 exports.listarCategoriaDespesaBA = async (req, res) => {
-    const { id } = req.params;
+    //const { id } = req.params;
+    const id = req.token.usucod;
     try {
         const d = "D"
         const BA = "BA"

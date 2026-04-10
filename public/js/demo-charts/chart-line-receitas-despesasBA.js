@@ -1,6 +1,4 @@
-fetch('/api/dadosUserLogado')
-  .then(res => res.json())
-  .then(user => fetch(`${BASE_URL}/docAnualRealizado/${user.usucod}`))
+fetch(`${BASE_URL}/docAnualRealizado`)
   .then(res => res.json())
   .then(data => {
     const mesesSet = new Set(data.map(d => d.mes));

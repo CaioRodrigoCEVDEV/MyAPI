@@ -25,7 +25,8 @@ exports.listarConta = async (req, res) => {
 
 
 exports.listarContas = async (req, res) => {
-    const {id} = req.params;
+    //const {id} = req.params;
+    const id = req.token.usucod;
     try {
         const result = await pool.query('select contacod,contades,contatipodes,contavltotal FROM conta join contatipo on contatipocod = contatipo where contausucod = $1', [id]);
         res.status(200).json(result.rows);
@@ -37,7 +38,8 @@ exports.listarContas = async (req, res) => {
 
 
 exports.listarContasUser = async (req, res) => {
-    const {id} = req.params;
+    //const {id} = req.params;
+    const id = req.token.usucod;
     try {
         const result = await pool.query('select contacod,contades,contatipodes,contavltotal FROM conta join contatipo on contatipocod = contatipo where contausucod = $1', [id]);
         res.status(200).json(result.rows);
@@ -90,7 +92,8 @@ exports.editarConta = async (req, res) => {
 
 
 exports.contaSaldo = async (req, res) => {
-    const {id} = req.params;
+    //const {id} = req.params;
+    const id = req.token.usucod;
     try {
         const result = await pool.query('select contas_saldo from vw_saldo_contas where usu = $1', [id]);
         res.status(200).json(result.rows);

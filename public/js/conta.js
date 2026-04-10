@@ -87,12 +87,7 @@ function renderContasTable(contas) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  fetch('/api/dadosUserLogado')
-    .then(res => res.json())
-    .then(dados => {
-      
-      return fetch(`${BASE_URL}/conta/${dados.usucod}`)
-    })
+  fetch(`${BASE_URL}/conta`)
     .then(res => res.json())
     .then(dados => {
         renderContasTable(dados);
@@ -170,9 +165,7 @@ if (formElem) formElem.addEventListener("submit", function (e) {
 
 // Função para atualizar a tabela via AJAX
 function atualizarTabela() {
-  fetch('/api/dadosUserLogado')
-    .then(res => res.json())
-    .then(dados => fetch(`${BASE_URL}/conta/${dados.usucod}`))
+  fetch(`${BASE_URL}/conta`)
     .then(res => res.json())
     .then(dados => {
       renderContasTable(dados);

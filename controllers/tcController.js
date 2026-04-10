@@ -12,7 +12,8 @@ exports.InsertTC = async (req, res) => {
 }
 
 exports.listarTCs = async (req, res) => {
-    const { id } = req.params;
+    //const { id } = req.params;
+    const id = req.token.usucod;
     try {
         const result = await pool.query('SELECT tccod, tcdes FROM tc where tcusucod = $1', [id]);
         res.status(200).json(result.rows);

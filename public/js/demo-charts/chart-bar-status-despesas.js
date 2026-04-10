@@ -1,6 +1,4 @@
-fetch('/api/dadosUserLogado')
-  .then(res => res.json())
-  .then(user => fetch(`${BASE_URL}/docPvsRatual/${user.usucod}`))
+fetch(`${BASE_URL}/docPvsRatual`)
   .then(res => res.json())
   .then(data => {
     const totals = {};
@@ -32,9 +30,7 @@ fetch('/api/dadosUserLogado')
 
 
 
-  fetch('/api/dadosUserLogado')
-  .then(res => res.json())
-  .then(user => fetch(`${BASE_URL}/doc/receitasPorSta/${user.usucod}`))
+  fetch(`${BASE_URL}/doc/receitasPorSta`)
   .then(res => res.json())
   .then(data => {
     const totals = {};

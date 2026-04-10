@@ -1,11 +1,6 @@
 // pollar filtros conta origem e destino
 document.addEventListener("DOMContentLoaded", function () {
-  fetch('/api/dadosUserLogado')
-    .then(res => res.json())
-    .then(dados => {
-
-      return fetch(`${BASE_URL}/contas/${dados.usucod}`)
-    })
+  fetch(`${BASE_URL}/contas`)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Erro ao buscar os dados");

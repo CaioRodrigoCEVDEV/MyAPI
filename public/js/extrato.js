@@ -9,11 +9,7 @@ function renderExtratoResumo(dados) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  fetch('/api/dadosUserLogado')
-    .then(res => res.json())
-    .then(dados => {
-      return fetch(`${BASE_URL}/doc/${dados.usucod}`)
-    })
+  fetch(`${BASE_URL}/doc`)
     .then((res) => res.json())
     .then((dados) => {
       const corpoTabela = document.getElementById("corpoTabela");

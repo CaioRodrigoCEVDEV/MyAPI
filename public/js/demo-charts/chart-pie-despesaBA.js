@@ -4,7 +4,7 @@ fetch('/api/dadosUserLogado')
     .then(res => res.json())
     .then(dados => {
       
-      return fetch(`${BASE_URL}/catDespesaBA/${dados.usucod}`)
+      return fetch(`${BASE_URL}/catDespesaBA`)
     })
   .then((response) => response.json())
   .then((data) => {

@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  fetch('/api/dadosUserLogado')
-    .then(res => res.json())
-    .then(user => fetch(`${BASE_URL}/cartao/${user.usucod}`))
+  fetch(`${BASE_URL}/cartao/${user.usucod}`)
     .then(res => res.json())
     .then(cartoes => preencherTabela(cartoes))
     .catch(err => console.error(err));

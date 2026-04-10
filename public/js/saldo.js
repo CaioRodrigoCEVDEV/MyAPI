@@ -16,12 +16,7 @@ function atualizarCampo(nome, valor) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    fetch('/api/dadosUserLogado')
-        .then(res => res.json())
-        .then(dados => {
-
-            return fetch(`${BASE_URL}/contaSaldo/${dados.usucod}`)
-        })
+    fetch(`${BASE_URL}/contaSaldo`)
         .then(res => res.json())
         .then(dados => {
             if (dados.length > 0 && dados[0].contas_saldo) {
@@ -42,12 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    fetch('/api/dadosUserLogado')
-        .then(res => res.json())
-        .then(dados => {
-
-            return fetch(`${BASE_URL}/doc/contaReceitaPendente/${dados.usucod}`)
-        })
+    fetch(`${BASE_URL}/doc/contaReceitaPendente`)
         .then(res => res.json())
         .then(dados => {
             const saldo = document.getElementById("receitaP");
@@ -69,12 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-    fetch('/api/dadosUserLogado')
-        .then(res => res.json())
-        .then(dados => {
-
-            return fetch(`${BASE_URL}/doc/contaDespesaPendente/${dados.usucod}`)
-        })
+    fetch(`${BASE_URL}/doc/contaDespesaPendente`)
         .then(res => res.json())
         .then(dados => {
             const saldo = document.getElementById("despesaP");
@@ -98,12 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    fetch('/api/dadosUserLogado')
-        .then(res => res.json())
-        .then(dados => {
-
-            return fetch(`${BASE_URL}/doc/GastosHoje/${dados.usucod}`)
-        })
+    fetch(`${BASE_URL}/doc/GastosHoje`)
         .then(res => res.json())
         .then(dados => {
             const saldo = document.getElementById("gastosNow");
@@ -125,12 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-    fetch('/api/dadosUserLogado')
-        .then(res => res.json())
-        .then(dados => {
-
-            return fetch(`${BASE_URL}/doc/totalSeguro/${dados.usucod}`)
-        })
+    fetch(`${BASE_URL}/doc/totalSeguro`)
         .then(res => res.json())
         .then(dados => {
             const saldo = document.getElementById("totalSeguro");

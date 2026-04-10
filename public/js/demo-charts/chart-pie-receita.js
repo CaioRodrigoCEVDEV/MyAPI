@@ -1,11 +1,6 @@
 var ctxRec = document.getElementById("myPieChartRec");
 
-fetch('/api/dadosUserLogado')
-    .then(res => res.json())
-    .then(dados => {
-      
-      return fetch(`${BASE_URL}/catReceita/${dados.usucod}`)
-    })
+fetch(`${BASE_URL}/catReceita`)
   .then((response) => response.json())
   .then((data) => {
     const labels = data.map((item) => item.catdes);
