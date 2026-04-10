@@ -21,18 +21,14 @@ function parseDataDoc(docdtpag) {
 }
 
 function renderizarTabelaReceitas(dados) {
-  const corpoAberto = document.getElementById("corpoTabelaAbertos");
-  const corpoPago = document.getElementById("corpoTabelaPagos");
-  const countAbertos = document.getElementById("corpoTabelaAbertosCount");
-  const countPagos = document.getElementById("corpoTabelaPagosCount");
-  corpoAberto.innerHTML = "";
-  corpoPago.innerHTML = "";
+  const corpoTabela = document.getElementById("corpoTabela");
+  const countTabela = document.getElementById("corpoTabelaCount");
+  corpoTabela.innerHTML = "";
 
   const abertos = dados.filter((dado) => dado.docsta === "LA");
   const pagos = dados.filter((dado) => dado.docsta !== "LA");
 
-  if (countAbertos) countAbertos.textContent = abertos.length;
-  if (countPagos) countPagos.textContent = pagos.length;
+  if (countTabela) countTabela.textContent = dados.length;
 
   const total = dados.reduce((acc, dado) => acc + Number(String(dado.docv).replace(',', '.')), 0);
   const totalAberto = abertos.reduce((acc, dado) => acc + Number(String(dado.docv).replace(',', '.')), 0);
@@ -49,7 +45,7 @@ function renderizarTabelaReceitas(dados) {
   if (totalSeguro) totalSeguro.textContent = formatCurrency(totalPago);
 
   if (!dados.length) {
-    const emptyMarkup = `
+    corpoTabela.innerHTML = `
       <tr>
         <td colspan="9">
           <div class="empty-state-table">
@@ -59,8 +55,6 @@ function renderizarTabelaReceitas(dados) {
         </td>
       </tr>
     `;
-    corpoAberto.innerHTML = emptyMarkup;
-    corpoPago.innerHTML = emptyMarkup;
     return;
   }
 
@@ -92,35 +86,8 @@ function renderizarTabelaReceitas(dados) {
         </div>
       </td>
     `;
-    if (dado.docsta === "LA") corpoAberto.appendChild(tr);
-    else corpoPago.appendChild(tr);
+    corpoTabela.appendChild(tr);
   });
-
-  if (!abertos.length) {
-    corpoAberto.innerHTML = `
-      <tr>
-        <td colspan="9">
-          <div class="empty-state-table">
-            <i class="fas fa-check-circle"></i>
-            <div>Nenhuma receita em aberto encontrada.</div>
-          </div>
-        </td>
-      </tr>
-    `;
-  }
-
-  if (!pagos.length) {
-    corpoPago.innerHTML = `
-      <tr>
-        <td colspan="9">
-          <div class="empty-state-table">
-            <i class="fas fa-receipt"></i>
-            <div>Nenhuma receita recebida encontrada.</div>
-          </div>
-        </td>
-      </tr>
-    `;
-  }
 }
 
 function aplicarFiltrosNosDados(dados) {

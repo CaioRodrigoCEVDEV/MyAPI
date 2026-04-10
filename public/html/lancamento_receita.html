@@ -149,19 +149,14 @@
                         </div>
                     </section>
 
-                    <div class="d-flex flex-wrap gap-2 mb-4">
-                        <button class="btn btn-finance-secondary btn-sm" onclick="toggleTable('abertos')">Mostrar/Ocultar Abertos</button>
-                        <button class="btn btn-finance-secondary btn-sm" onclick="toggleTable('pagos')">Mostrar/Ocultar Pagos</button>
-                    </div>
-
                     <div class="row g-4">
                         <div class="col-12">
                             <div class="card chart-card finance-list-card">
                                 <div class="card-header d-flex justify-content-between align-items-center">
-                                    <span>Receitas em aberto</span>
-                                    <span class="badge finance-count-badge finance-count-badge-danger"><span id="corpoTabelaAbertosCount"></span></span>
+                                    <span>Lançamentos de receita</span>
+                                    <span class="badge finance-count-badge finance-count-badge-success"><span id="corpoTabelaCount"></span></span>
                                 </div>
-                                <div id="tabelaAbertos" class="table-responsive">
+                                <div class="table-responsive">
                                     <table class="table modern-table finance-table finance-table-expense align-middle mb-0">
                                         <thead>
                                             <tr>
@@ -176,34 +171,7 @@
                                                 <th>Ações</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="corpoTabelaAbertos"></tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="card chart-card finance-list-card">
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <span>Receitas recebidas</span>
-                                    <span class="badge finance-count-badge finance-count-badge-success"><span id="corpoTabelaPagosCount"></span></span>
-                                </div>
-                                <div id="tabelaPagos" class="table-responsive">
-                                    <table class="table modern-table finance-table finance-table-expense align-middle mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th>Data</th>
-                                                <th>Valor</th>
-                                                <th>Cobrança</th>
-                                                <th>Natureza</th>
-                                                <th>Categoria</th>
-                                                <th>Conta</th>
-                                                <th>Observações</th>
-                                                <th>Status</th>
-                                                <th>Ações</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="corpoTabelaPagos"></tbody>
+                                        <tbody id="corpoTabela"></tbody>
                                     </table>
                                 </div>
                             </div>
@@ -360,11 +328,6 @@
             }
         });
 
-        window.toggleTable = function(tipo) {
-            const id = tipo === 'abertos' ? 'tabelaAbertos' : 'tabelaPagos';
-            const div = document.getElementById(id);
-            div.style.display = div.style.display === 'none' ? '' : 'none';
-        }
     </script>
     <!--Bootstrap Scripts-->
     <script src="../js/scripts.js"></script>

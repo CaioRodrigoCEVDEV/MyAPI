@@ -21,18 +21,14 @@ function parseDataDoc(docdtpag) {
 }
 
 function renderizarTabelaDespesas(dados) {
-  const corpoTabelaPendentes = document.getElementById("corpoTabelaPendentes");
-  const corpoTabelaPagas = document.getElementById("corpoTabelaPagas");
-  const countPendentes = document.getElementById("corpoTabelaPendentesCount");
-  const countPagas = document.getElementById("corpoTabelaPagasCount");
-  corpoTabelaPendentes.innerHTML = "";
-  corpoTabelaPagas.innerHTML = "";
+  const corpoTabela = document.getElementById("corpoTabela");
+  const countTabela = document.getElementById("corpoTabelaCount");
+  corpoTabela.innerHTML = "";
 
   const pendentes = dados.filter((dado) => dado.docsta === "LA");
   const pagas = dados.filter((dado) => dado.docsta !== "LA");
 
-  if (countPendentes) countPendentes.textContent = pendentes.length;
-  if (countPagas) countPagas.textContent = pagas.length;
+  if (countTabela) countTabela.textContent = dados.length;
 
   const total = dados.reduce((acc, dado) => acc + Number(String(dado.docv).replace(',', '.')), 0);
   const totalPendente = pendentes.reduce((acc, dado) => acc + Number(String(dado.docv).replace(',', '.')), 0);
@@ -49,7 +45,7 @@ function renderizarTabelaDespesas(dados) {
   if (totalSeguro) totalSeguro.textContent = formatCurrency(totalPago);
 
   if (!dados.length) {
-    const emptyMarkup = `
+    corpoTabela.innerHTML = `
       <tr>
         <td colspan="9">
           <div class="empty-state-table">
@@ -59,8 +55,6 @@ function renderizarTabelaDespesas(dados) {
         </td>
       </tr>
     `;
-    corpoTabelaPendentes.innerHTML = emptyMarkup;
-    corpoTabelaPagas.innerHTML = emptyMarkup;
     return;
   }
 
@@ -92,35 +86,8 @@ function renderizarTabelaDespesas(dados) {
         </div>
       </td>
     `;
-    if (dado.docsta === "LA") corpoTabelaPendentes.appendChild(tr);
-    else corpoTabelaPagas.appendChild(tr);
+    corpoTabela.appendChild(tr);
   });
-
-  if (!pendentes.length) {
-    corpoTabelaPendentes.innerHTML = `
-      <tr>
-        <td colspan="9">
-          <div class="empty-state-table">
-            <i class="fas fa-check-circle"></i>
-            <div>Nenhuma despesa pendente encontrada.</div>
-          </div>
-        </td>
-      </tr>
-    `;
-  }
-
-  if (!pagas.length) {
-    corpoTabelaPagas.innerHTML = `
-      <tr>
-        <td colspan="9">
-          <div class="empty-state-table">
-            <i class="fas fa-receipt"></i>
-            <div>Nenhuma despesa paga encontrada.</div>
-          </div>
-        </td>
-      </tr>
-    `;
-  }
 }
 
 function aplicarFiltrosNosDados(dados) {

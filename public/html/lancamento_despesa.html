@@ -145,19 +145,14 @@
                         </div>
                     </section>
 
-                    <div class="d-flex flex-wrap gap-2 mb-4">
-                        <button class="btn btn-finance-secondary btn-sm" onclick="toggleTable('pendentes')">Mostrar/Ocultar Pendentes</button>
-                        <button class="btn btn-finance-secondary btn-sm" onclick="toggleTable('pagas')">Mostrar/Ocultar Pagas</button>
-                    </div>
-
                     <div class="row g-4">
                         <div class="col-12">
                             <div class="card chart-card finance-list-card">
                                 <div class="card-header d-flex justify-content-between align-items-center">
-                                    <span>Despesas pendentes</span>
-                                    <span class="badge finance-count-badge finance-count-badge-danger"><span id="corpoTabelaPendentesCount"></span></span>
+                                    <span>Lançamentos de despesa</span>
+                                    <span class="badge finance-count-badge finance-count-badge-danger"><span id="corpoTabelaCount"></span></span>
                                 </div>
-                                <div id="tabelaPendentes" class="table-responsive">
+                                <div class="table-responsive">
                                     <table class="table modern-table finance-table finance-table-expense align-middle mb-0">
                                         <thead>
                                             <tr>
@@ -172,34 +167,7 @@
                                                 <th>Ações</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="corpoTabelaPendentes"></tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="card chart-card finance-list-card">
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <span>Despesas pagas</span>
-                                    <span class="badge finance-count-badge finance-count-badge-success"><span id="corpoTabelaPagasCount"></span></span>
-                                </div>
-                                <div id="tabelaPagas" class="table-responsive">
-                                    <table class="table modern-table finance-table finance-table-expense align-middle mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th>Data</th>
-                                                <th>Valor</th>
-                                                <th>Cobrança</th>
-                                                <th>Natureza</th>
-                                                <th>Categoria</th>
-                                                <th>Conta</th>
-                                                <th>Observações</th>
-                                                <th>Status</th>
-                                                <th>Ações</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="corpoTabelaPagas"></tbody>
+                                        <tbody id="corpoTabela"></tbody>
                                     </table>
                                 </div>
                             </div>
@@ -355,13 +323,6 @@
             }
         });
 
-        window.toggleTable = function(tipo) {
-            const id = tipo === 'pendentes' ? 'tabelaPendentes' : 'tabelaPagas';
-            const div = document.getElementById(id);
-            if (div) {
-                div.style.display = div.style.display === 'none' ? '' : 'none';
-            }
-        }
     </script>
 
     <!--Bootstrap Scripts-->
