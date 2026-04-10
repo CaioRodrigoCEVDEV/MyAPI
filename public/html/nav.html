@@ -4,24 +4,32 @@
     
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-medium-blue-rgb">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="dash">
-            <img src="../img/logo-tamanho-normal.png" width="30" height="30" alt="">
-            Ulife UCtrl
+        <a class="navbar-brand ps-3 topnav-brand" href="dash">
+            <span class="topnav-brand-mark">
+                <img src="../img/logo-tamanho-normal.png" width="30" height="30" alt="">
+            </span>
+            <span class="topnav-brand-copy">
+                <strong>Ulife UCtrl</strong>
+                <small>Finance workspace</small>
+            </span>
         </a>
         <!-- Sidebar Toggle-->
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0 topnav-toggle" id="sidebarToggle" href="#!">
             <i class="fas fa-bars"></i>
         </button>
         <!-- Navbar Search-->
-             <div class="ms-auto ">
-                    <label style="color: aliceblue; font-size: small;" id="cronometro"></label>
+             <div class="ms-auto topnav-status-wrap">
+                    <div class="topnav-status-pill">
+                        <span class="topnav-status-label">Sessão</span>
+                        <label id="cronometro"></label>
+                    </div>
              </div>
         <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
         </form>
         <!-- Navbar esquerda usuario configs-->
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                <a class="nav-link dropdown-toggle topnav-user" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="#!">Configurações</a></li>
