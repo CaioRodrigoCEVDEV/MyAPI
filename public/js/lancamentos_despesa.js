@@ -395,6 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalEl = document.getElementById('modalNovo');
   const modalNovo = modalEl ? new bootstrap.Modal(modalEl) : null;
   const btnBuscar = document.getElementById('buscarFiltros');
+  const btnBuscarMobile = document.getElementById('buscarFiltrosMobile');
   const limpar = document.getElementById('limparFiltros');
   const busca = document.getElementById('buscaLancamento');
   const filtroInicio = document.getElementById('dataInicio');
@@ -406,6 +407,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   btnNovo?.addEventListener('click', () => modalNovo?.show());
   btnBuscar?.addEventListener('click', (e) => {
+    e.preventDefault();
+    atualizarTabelaDespesas();
+  });
+  btnBuscarMobile?.addEventListener('click', (e) => {
     e.preventDefault();
     atualizarTabelaDespesas();
   });
