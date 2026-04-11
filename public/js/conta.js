@@ -97,26 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
       renderEmptyState();
     });
 });
-       
-// document.addEventListener("DOMContentLoaded", function () {
-//     fetch(`${BASE_URL}/conta`)
-//         .then(response => response.json())
-//         .then(data => {
-//             const select = document.getElementById("tipoConta");
-
-//             data.forEach(item => {
-//                 const option = document.createElement("option");
-//                 option.value = item.tccod;
-//                 option.textContent = item.tcdes;
-//                 select.appendChild(option);
-//             });
-//         })
-//         .catch(error => {
-//             console.error("Erro ao carregar tipos de cobrança:", error);
-//         });
-// });
-// post
-
+ // Função para buscar os dados da conta e preencher o formulário em editar.html
 const formElem = document.getElementById("meuFormulario");
 if (formElem) formElem.addEventListener("submit", function (e) {
   e.preventDefault();
@@ -154,8 +135,9 @@ if (formElem) formElem.addEventListener("submit", function (e) {
       alerta.innerHTML = contacod ? "Editado com sucesso!" : "Lançado com sucesso!";
       setTimeout(() => {
         alerta.style.display = "none";
-        window.location.href = "/gerenciarContas";
-      }, 1000);
+        //window.location.href = "/gerenciarContas";
+        formElem.querySelector('.btn-close')?.click();
+        }, 1000);
     })
     .catch(erro => {
       showToast("Erro ao salvar os dados.", "danger");
@@ -197,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (res.status === 200) {
           return res.json().then(data => {
             showToast(data.message || "Excluido com sucesso!", "success");
-            setTimeout(() => location.reload(), 3000);
+            setTimeout(() => location.reload(), 500);
           });
         }
 
@@ -253,7 +235,7 @@ function carregarContaParaEdicao(id) {
       const contatipoElem = document.querySelector('select[name="contatipo"]');
       if (contatipoElem) contatipoElem.value = conta.contatipo || "";
 
-      const contasomatotalElem = document.querySelector('input[name="contasomatotal"]');
+      const contasomatotalElem = document.querySelector('select[name="contasomatotal"]');
       if (contasomatotalElem) contasomatotalElem.value = conta.contasomatotal || "";
 
       if (conta.contausucod) {
