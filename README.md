@@ -210,6 +210,7 @@ create table public.conta (
 	contades varchar,
 	contatipo int,
 	contavltotal numeric(14, 2),
+  contasomatotal varchar(1) default 'S',
 	CONSTRAINT pk_conta PRIMARY KEY (contacod),
 	CONSTRAINT fk_contatipo FOREIGN KEY (contatipo) REFERENCES public.contatipo(contatipocod)
 );
@@ -219,6 +220,7 @@ create table public.conta (
 - **contades**: Descrição (ex: "CAIXA","CARTEIRA","BANCO INTER").
 - **contatipo**: Tipo da conta (ex: "1","2","3","4" ou "5").
 - **contavltotal**: Saldo total da conta (ex: "36000.00").
+- **contasomatotal **: Se o saldo sera somado ao total das contas no dash (S ou N)
 
 
 ### 🔐 Permissões:
@@ -425,6 +427,7 @@ CREATE OR REPLACE VIEW public.vw_saldo_contas
 AS SELECT c.contausucod AS usu,
     COALESCE(sum(c.contavltotal), 0::numeric) AS contas_saldo
    FROM conta c
+   where contasomatotal = 'S'
   GROUP BY c.contausucod;
 
 -- Permissions

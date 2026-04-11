@@ -52,7 +52,7 @@ exports.listarContasUser = async (req, res) => {
 exports.listarContasId = async (req, res) => {
     const {id} = req.params;
     try {
-        const result = await pool.query('select contacod,contades,contatipo,contatipodes,contavltotal FROM conta join contatipo on contatipocod = contatipo where contacod = $1', [id]);
+        const result = await pool.query('select contacod,contades,contatipo,contatipodes,contavltotal,contasomatotal FROM conta join contatipo on contatipocod = contatipo where contacod = $1', [id]);
         res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);
@@ -77,8 +77,9 @@ exports.editarConta = async (req, res) => {
     const { id } = req.params;
     const { contades } = req.body;
     const { contavltotal } = req.body;
+    const { contasomatotal } = req.body;
     try {
-        const result = await pool.query('UPDATE conta SET contades = $1 , contavltotal = $2 WHERE contacod = $3 RETURNING *', [contades,contavltotal, id]);
+        const result = await pool.query('UPDATE conta SET contades = $1 , contavltotal = $2, contasomatotal = $3 WHERE contacod = $4 RETURNING *', [contades,contavltotal,contasomatotal, id]);
         if (result.rowCount === 0) {
             return res.status(404).json({ error: 'Conta não encontrada' });
         }

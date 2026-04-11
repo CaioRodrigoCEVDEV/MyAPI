@@ -253,6 +253,9 @@ function carregarContaParaEdicao(id) {
       const contatipoElem = document.querySelector('select[name="contatipo"]');
       if (contatipoElem) contatipoElem.value = conta.contatipo || "";
 
+      const contasomatotalElem = document.querySelector('input[name="contasomatotal"]');
+      if (contasomatotalElem) contasomatotalElem.value = conta.contasomatotal || "";
+
       if (conta.contausucod) {
         const usucodElem = document.getElementById("usucod");
         if (usucodElem) usucodElem.value = conta.contausucod;
