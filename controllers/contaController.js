@@ -1,10 +1,10 @@
 const pool = require('../db/db.js');
 
 exports.Insertconta = async (req, res) => {
-    const {contausucod, contades,contatipo,contavltotal } = req.body;
+    const {contausucod, contades,contatipo,contavltotal,contasomatotal } = req.body;
     const valor = parseFloat(contavltotal.replace(',','.'));
     try {
-        const result = await pool.query('insert into conta (contausucod,contades,contatipo,contavltotal) values ($1, $2, $3, $4) RETURNING *', [contausucod,contades,contatipo,valor]);
+        const result = await pool.query('insert into conta (contausucod,contades,contatipo,contavltotal,contasomatotal) values ($1, $2, $3, $4, $5) RETURNING *', [contausucod,contades,contatipo,valor,contasomatotal]);
         res.status(201).json(result.rows[0]);
     } catch (error) {
         console.error(error);
@@ -14,7 +14,7 @@ exports.Insertconta = async (req, res) => {
 
 exports.listarConta = async (req, res) => {
     try {
-        const result = await pool.query('select contacod,contades,contatipo,contavltotal from conta');
+        const result = await pool.query('select contacod,contades,contatipo,contavltotal,contasomatotal from conta');
         res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);
@@ -28,7 +28,7 @@ exports.listarContas = async (req, res) => {
     //const {id} = req.params;
     const id = req.token.usucod;
     try {
-        const result = await pool.query('select contacod,contades,contatipodes,contavltotal FROM conta join contatipo on contatipocod = contatipo where contausucod = $1 order by conta.contavltotal desc', [id]);
+        const result = await pool.query('select contacod,contades,contatipodes,contavltotal,contasomatotal FROM conta join contatipo on contatipocod = contatipo where contausucod = $1 order by conta.contavltotal desc', [id]);
         res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);
@@ -41,7 +41,7 @@ exports.listarContasUser = async (req, res) => {
     //const {id} = req.params;
     const id = req.token.usucod;
     try {
-        const result = await pool.query('select contacod,contades,contatipodes,contavltotal FROM conta join contatipo on contatipocod = contatipo where contausucod = $1 order by conta.contavltotal desc', [id]);
+        const result = await pool.query('select contacod,contades,contatipodes,contavltotal,contasomatotal FROM conta join contatipo on contatipocod = contatipo where contausucod = $1 order by conta.contavltotal desc', [id]);
         res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);
@@ -52,7 +52,19 @@ exports.listarContasUser = async (req, res) => {
 exports.listarContasId = async (req, res) => {
     const {id} = req.params;
     try {
-        const result = await pool.query('select contacod,contades,contatipo,contatipodes,contavltotal,contasomatotal FROM conta join contatipo on contatipocod = contatipo where contacod = $1', [id]);
+        const result = await pool.query(
+            `select 
+                contacod,
+                contades,
+                contatipo,
+                contatipodes,
+                contavltotal,
+                contasomatotal 
+                FROM conta 
+                join contatipo on contatipocod = contatipo 
+                where contacod = $1
+                and contausucod = $2`, [id, req.token.usucod]);
+
         res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);
@@ -78,8 +90,9 @@ exports.editarConta = async (req, res) => {
     const { contades } = req.body;
     const { contavltotal } = req.body;
     const { contasomatotal } = req.body;
+    const { contatipo } = req.body;
     try {
-        const result = await pool.query('UPDATE conta SET contades = $1 , contavltotal = $2, contasomatotal = $3 WHERE contacod = $4 RETURNING *', [contades,contavltotal,contasomatotal, id]);
+        const result = await pool.query('UPDATE conta SET contades = $1 , contavltotal = $2, contasomatotal = $3, contatipo = $4 WHERE contacod = $5 and contausucod = $6 RETURNING *', [contades,contavltotal,contasomatotal, contatipo, id, req.token.usucod]);
         if (result.rowCount === 0) {
             return res.status(404).json({ error: 'Conta não encontrada' });
         }
