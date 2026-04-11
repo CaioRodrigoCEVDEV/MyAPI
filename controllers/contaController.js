@@ -28,7 +28,7 @@ exports.listarContas = async (req, res) => {
     //const {id} = req.params;
     const id = req.token.usucod;
     try {
-        const result = await pool.query('select contacod,contades,contatipodes,contavltotal FROM conta join contatipo on contatipocod = contatipo where contausucod = $1', [id]);
+        const result = await pool.query('select contacod,contades,contatipodes,contavltotal FROM conta join contatipo on contatipocod = contatipo where contausucod = $1 order by conta.contavltotal desc', [id]);
         res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);
@@ -41,7 +41,7 @@ exports.listarContasUser = async (req, res) => {
     //const {id} = req.params;
     const id = req.token.usucod;
     try {
-        const result = await pool.query('select contacod,contades,contatipodes,contavltotal FROM conta join contatipo on contatipocod = contatipo where contausucod = $1', [id]);
+        const result = await pool.query('select contacod,contades,contatipodes,contavltotal FROM conta join contatipo on contatipocod = contatipo where contausucod = $1 order by conta.contavltotal desc', [id]);
         res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);
