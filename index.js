@@ -218,14 +218,6 @@ app.get('/config.js', (req, res) => {
   res.send(`const BASE_URL = '${process.env.BASE_URL}';`);
 });
 // Rota para obter o nome do usuário logado
-app.get('/api/NomeUsuarioLogado', (req, res) => {
-  const nomeUsuario = req.cookies.usunome;
-  if (nomeUsuario) {
-    res.json({ nome: nomeUsuario });
-  } else {
-    res.status(401).json({ nome: null });
-  }
-});
 app.get('/api/dadosUserLogado', autenticarToken, (req, res) => {
   if (req.token) {
     const { usunome, usuemail, usucod } = req.token;
