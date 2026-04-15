@@ -43,7 +43,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 app.use(logger('dev'));
 
+// Configuração para servir arquivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'dist')));
 
 app.get('/teste', (req, res) => {
   res.json({ message: 'Rota de teste funcionando!' });
@@ -81,11 +83,11 @@ app.use(docRoutes);
 app.use(tcRoutes);
 app.use('/', loginRoutes);
 
-app.use(express.static('public/'));
-
+// Middleware para autenticar o token JWT
 const autenticarToken = require('./src/middleware/authMiddleware');
 const { error } = require('console');
 
+// Rotas para servir os arquivos HTML
 app.get(["/"], (req, res) => {
   res.redirect('/login');
 });
@@ -239,11 +241,9 @@ app.get('/auth/sair', (req, res) => {
 });
 
 // tratamento 404 not found  >>>
-app.use(express.static(path.join(__dirname, 'dist')));
 app.use((req, res, next) => {
   res.status(404).sendFile(path.join(__dirname, 'dist/404.html'));
 });
-// tratamento 404 not found <<<<
 
 // tratamento de erros
 app.use(function (req, res, next) {
